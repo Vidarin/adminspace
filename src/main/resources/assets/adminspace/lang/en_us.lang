@@ -1,0 +1,6 @@
+container.void_chest=Chest
+
+tile.void_tile.name=Noise Gem Tile
+tile.void_err_tile.name=Error Containment
+
+tile.void_glass.name=Experiment Glass

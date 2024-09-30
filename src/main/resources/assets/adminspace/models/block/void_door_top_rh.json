@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top_rh",
+    "textures": {
+        "bottom": "adminspace:blocks/door_void_lower",
+        "top": "adminspace:blocks/door_void_upper"
+    }
+}
