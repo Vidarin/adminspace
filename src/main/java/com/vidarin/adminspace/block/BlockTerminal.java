@@ -3,9 +3,8 @@ package com.vidarin.adminspace.block;
 import com.vidarin.adminspace.gui.GuiNums;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.registers.BlockRegister;
+import com.vidarin.adminspace.util.TerminalCommandHandler;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,11 +14,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockTerminal extends BlockBase {
-    public static final PropertyBool IS_MAIN = PropertyBool.create("isMain");
+    private final TerminalCommandHandler commandHandler = new TerminalCommandHandler();
 
     public BlockTerminal() {
         super("terminal", Material.IRON);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(IS_MAIN, false));
+    }
+
+    public TerminalCommandHandler getCommandHandler() {
+        return commandHandler;
     }
 
     @Override
@@ -33,10 +35,5 @@ public class BlockTerminal extends BlockBase {
             player.openGui(Adminspace.instance, GuiNums.GUI_TERMINAL, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, IS_MAIN);
     }
 }

@@ -6,8 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+
+import java.util.Objects;
 
 public class BlockBase extends Block {
     public BlockBase(String name) {
@@ -28,6 +29,6 @@ public class BlockBase extends Block {
         this.setCreativeTab(tab);
 
         BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(this.getRegistryName()));
+        ItemRegister.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 }
