@@ -27,4 +27,9 @@ public class BlockTransparent extends BlockBase{
     public boolean isFullCube(IBlockState state) {
         return false;
     }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
 }

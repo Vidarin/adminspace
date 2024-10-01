@@ -25,14 +25,10 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         switch (id) {
             case GuiNums.GUI_TERMINAL:
-                return new GuiTerminal(Objects.requireNonNull(world.getBlockState(new BlockPos(x, y, z))), player);
+                return new GuiTerminal(Objects.requireNonNull(world.getBlockState(new BlockPos(x, y, z))), player, world);
             case GuiNums.GUI_VOID_CHEST:
                 return new GuiVoidChest(player.inventory, (TileEntityVoidChest) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
         }
         return null;
-    }
-
-    public static void registerGuis() {
-
     }
 }

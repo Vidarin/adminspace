@@ -33,11 +33,9 @@ public class ModelVoidChest extends ModelBase {
         this.chestBelow.rotationPointY = 6.0F;
         this.chestBelow.rotationPointZ = 1.0F;
     }
-
-    public void renderBlock() {
+    public void renderAll() {
         this.chestKnob.render(0.0625f);
         this.chestLid.render(0.0625f);
         this.chestBelow.render(0.0625f);
-        this.chestKnob.rotateAngleX = this.chestLid.rotateAngleX;
     }
 }
