@@ -2,9 +2,7 @@ package com.vidarin.adminspace.gui.guis;
 
 import com.vidarin.adminspace.block.BlockTerminal;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -20,8 +18,6 @@ public class GuiTerminal extends GuiScreen {
 
     private final BlockTerminal terminal;
 
-    private FontRenderer fontRendererObj;
-
     public GuiTerminal(IBlockState state, EntityPlayer player) {
         this.terminal = (BlockTerminal) state.getBlock();
     }
@@ -32,7 +28,7 @@ public class GuiTerminal extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.executeBtn = new GuiButton(0, this.width / 2, this.height / 4, "Execute");
-        this.input = new GuiTextField(1, this.fontRendererObj, this.width / 2 - 150, 50, 300, 20);
+        this.input = new GuiTextField(1, this.fontRenderer, this.width / 2 - 150, 50, 300, 20);
         this.input.setMaxStringLength(32767);
         this.input.setFocused(true);
         this.executeBtn.enabled = false;
@@ -87,7 +83,7 @@ public class GuiTerminal extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "Input RAW Command", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, "Input RAW Command", this.width / 2, 20, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
