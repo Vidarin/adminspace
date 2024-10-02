@@ -25,6 +25,9 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
+
 public class BlockVoidChest extends BlockContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public BlockVoidChest(String name) {
@@ -46,10 +49,11 @@ public class BlockVoidChest extends BlockContainer {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 
         BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(this.getRegistryName()));
+        ItemRegister.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             player.openGui(Adminspace.instance, GuiNums.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -59,6 +63,7 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos, this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 
@@ -72,6 +77,7 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (!worldIn.isRemote)
@@ -106,11 +112,12 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
-    public boolean isFullCube(IBlockState p_149686_1_) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
@@ -145,6 +152,6 @@ public class BlockVoidChest extends BlockContainer {
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return ((EnumFacing)state.getValue(FACING)).getIndex();
+        return state.getValue(FACING).getIndex();
     }
 }

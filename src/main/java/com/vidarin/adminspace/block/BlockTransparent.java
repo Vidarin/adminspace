@@ -1,9 +1,15 @@
 package com.vidarin.adminspace.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class BlockTransparent extends BlockBase{
     public BlockTransparent(String name) {
@@ -24,11 +30,23 @@ public class BlockTransparent extends BlockBase{
     }
 
     @Override
+    @ParametersAreNonnullByDefault
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
+        IBlockState iblockstate = access.getBlockState(pos.offset(side));
+        Block block = iblockstate.getBlock();
+        boolean result = blockState == iblockstate || block == this;
+
+        return !result;
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
