@@ -49,7 +49,7 @@ public class BlockVoidChest extends BlockContainer {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 
         BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemRegister.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 
     @Override

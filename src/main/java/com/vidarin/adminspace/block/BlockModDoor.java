@@ -21,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class BlockModDoor extends BlockDoor {
@@ -42,7 +43,7 @@ public class BlockModDoor extends BlockDoor {
         this.setCreativeTab(tab);
 
         BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add((Item) new ItemDoor((Block) this).setRegistryName(this.getRegistryName()));
+        ItemRegister.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 
     private SoundEvent getDoorCloseSound()
@@ -108,7 +109,7 @@ public class BlockModDoor extends BlockDoor {
                 worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, open), 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
                 SoundType soundType = this.getSoundType();
-                worldIn.playSound((EntityPlayer) null, pos, open ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
+                worldIn.playSound(null, pos, open ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
             }
         }
     }
@@ -168,12 +169,12 @@ public class BlockModDoor extends BlockDoor {
                 {
                     worldIn.setBlockState(blockpos1, iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
 
-                    if (flag != ((Boolean)state.getValue(OPEN)).booleanValue())
+                    if (flag != state.getValue(OPEN).booleanValue())
                     {
                         worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(flag)), 2);
                         worldIn.markBlockRangeForRenderUpdate(pos, pos);
                         SoundType soundType = this.getSoundType();
-                        worldIn.playSound((EntityPlayer) null, pos, flag ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
+                        worldIn.playSound(null, pos, flag ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
                     }
                 }
             }

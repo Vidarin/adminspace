@@ -1,33 +1,99 @@
 package com.vidarin.adminspace.util;
 
-import com.vidarin.adminspace.block.BlockTerminal;
+import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
+import com.vidarin.adminspace.util.terminalcommands.TermError;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class TerminalCommandHandler {
-    private Logger logger;
 
     private EntityPlayer player;
     private World world;
-    private BlockTerminal terminal;
+    private TileEntityTerminal terminal;
 
-    public void sendCommandParams(EntityPlayer player, World world, BlockTerminal terminal) {
+    private String commandStored = "";
+
+    private int permLevel;
+
+    private String commandArgs;
+
+    public void sendCommandParams(EntityPlayer player, World world, TileEntityTerminal terminal) {
         this.player = player;
         this.world = world;
         this.terminal = terminal;
+        this.permLevel = terminal.permLevel;
     }
 
-    public void runCommand(String command) {
-        switch (command) {
-            case "test":
-                logger.log(Level.DEBUG, "this is a test message. i made it this long so it will be easy to find in the super bloated minecraft log, if this appears in a release version, you should open a github issue.");
-            case "iamadataminerandilovetotrystupidthingsifindinthecode":
-                logger.log(Level.INFO, "ok");
+    public void runCommand(String command) throws ClassNotFoundException {
+        this.commandStored = command;
+        String path = "";
+        String commandArgs = "";
+        try {
+            path = command.split("#")[0];
+            commandArgs = command.split("#")[1];
         }
+        catch (ArrayIndexOutOfBoundsException ignore) {}
+
+        String classPath = "com.vidarin.adminspace.util.terminalcommands." + path;
+
+        Class<?> cls;
+        try {
+            cls = Class.forName(classPath);
+        }
+        catch (ClassNotFoundException e) {
+            cls = TermError.class;
+        }
+
+        try {
+            Constructor<?> constructor = cls.getConstructor(TerminalCommandHandler.class, String.class);
+            constructor.newInstance(this, commandArgs);
+        }
+        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.commandArgs = commandArgs;
+    }
+
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        compound.setString("Command", this.commandStored);
+
+        return compound;
+    }
+
+    public void readDataFromNBT(NBTTagCompound data) {
+        this.commandStored = data.getString("Command");
+    }
+
+    public String getCommandStored() {
+        return this.commandStored;
+    }
+
+    public void setCommandStored(String command) {
+        this.commandStored = command;
+    }
+
+    public EntityPlayer getPlayer() {
+        return this.player;
+    }
+
+    public World getWorld() {
+        return this.world;
+    }
+
+    public TileEntityTerminal getTerminal() {
+        return this.terminal;
+    }
+
+    public int getPermLevel() {
+        return this.permLevel;
+    }
+
+    public String getCommandArgs() {
+        return this.commandArgs;
     }
 }

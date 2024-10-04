@@ -4,3 +4,17 @@ tile.void_tile.name=Noise Gem Tile
 tile.void_err_tile.name=Error Containment
 
 tile.void_glass.name=Experiment Glass
+
+item.null.name=Noise Gem Door
+
+tile.trigger.name=Invisible Trigger
+
+tile.terminal.name=Terminal
+tile.main_terminal.name=Terminal (main)
+
+tile.void_chest.name=Noise Gem Chest
+
+tile.void_creep.name=Void Creep
+tile.void_corruption.name=Void Corruption
+
+tile.void_lamp.name=Brightness Block

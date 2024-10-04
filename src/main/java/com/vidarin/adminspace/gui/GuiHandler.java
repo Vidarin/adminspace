@@ -1,5 +1,7 @@
 package com.vidarin.adminspace.gui;
 
+import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
+import com.vidarin.adminspace.gui.containers.ContainerDummy;
 import com.vidarin.adminspace.gui.guis.GuiTerminal;
 import com.vidarin.adminspace.gui.containers.ContainerVoidChest;
 import com.vidarin.adminspace.gui.guis.GuiVoidChest;
@@ -17,6 +19,8 @@ public class GuiHandler implements IGuiHandler {
         switch (id) {
             case GuiNums.GUI_VOID_CHEST:
                 return new ContainerVoidChest(player.inventory, (TileEntityVoidChest) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
+            case GuiNums.GUI_TERMINAL:
+                return new ContainerDummy(true);
         }
         return null;
     }
@@ -25,7 +29,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         switch (id) {
             case GuiNums.GUI_TERMINAL:
-                return new GuiTerminal(Objects.requireNonNull(world.getBlockState(new BlockPos(x, y, z))), player, world);
+                return new GuiTerminal((TileEntityTerminal) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
             case GuiNums.GUI_VOID_CHEST:
                 return new GuiVoidChest(player.inventory, (TileEntityVoidChest) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
         }

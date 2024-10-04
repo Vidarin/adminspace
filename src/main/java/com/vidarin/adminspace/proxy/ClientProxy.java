@@ -9,17 +9,19 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 
+import java.util.Objects;
+
 public class ClientProxy extends CommonProxy{
     @Override
     public void registerItemRenderer(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), id));
     }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         final EventBus forgeBus = MinecraftForge.EVENT_BUS;
-        forgeBus.register((Object) new RegisterModels());
+        forgeBus.register(new RegisterModels());
     }
 
     @Override

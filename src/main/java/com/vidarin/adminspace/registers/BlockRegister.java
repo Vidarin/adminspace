@@ -26,6 +26,7 @@ public class BlockRegister {
     public static final Block voidCorruption;
 
     public static final Block terminal;
+    public static final Block mainTerminal;
 
     public static final Block trigger;
 
@@ -46,7 +47,8 @@ public class BlockRegister {
         voidCreep = new BlockCreep("void_creep"); //Or as RGN would call it: "blueish substance"
         voidCorruption = new BlockCreep("void_corruption");
 
-        terminal = new BlockTerminal();
+        terminal = new BlockTerminal("terminal");
+        mainTerminal = new BlockTerminal("main_terminal");
 
         trigger = new BlockTrigger("trigger", BlockPressurePlate.Sensitivity.MOBS);
     }
