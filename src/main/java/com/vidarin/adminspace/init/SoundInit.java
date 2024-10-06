@@ -1,11 +1,11 @@
-package com.vidarin.adminspace.registers;
+package com.vidarin.adminspace.init;
 
 import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-public class SoundRegister {
+public class SoundInit {
     public static SoundEvent VOID_DOOR_OPEN, VOID_DOOR_CLOSE;
 
     public static void registerSounds() {

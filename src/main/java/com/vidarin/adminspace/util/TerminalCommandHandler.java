@@ -19,8 +19,6 @@ public class TerminalCommandHandler {
 
     private int permLevel;
 
-    private String commandArgs;
-
     public void sendCommandParams(EntityPlayer player, World world, TileEntityTerminal terminal) {
         this.player = player;
         this.world = world;
@@ -29,7 +27,6 @@ public class TerminalCommandHandler {
     }
 
     public void runCommand(String command) throws ClassNotFoundException {
-        this.commandStored = command;
         String path = "";
         String commandArgs = "";
         try {
@@ -56,7 +53,7 @@ public class TerminalCommandHandler {
             throw new RuntimeException(e);
         }
 
-        this.commandArgs = commandArgs;
+        setCommandStored("");
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -91,9 +88,5 @@ public class TerminalCommandHandler {
 
     public int getPermLevel() {
         return this.permLevel;
-    }
-
-    public String getCommandArgs() {
-        return this.commandArgs;
     }
 }

@@ -1,8 +1,9 @@
 package com.vidarin.adminspace.main;
 
 import com.vidarin.adminspace.gui.GuiHandler;
+import com.vidarin.adminspace.init.EntityInit;
 import com.vidarin.adminspace.proxy.CommonProxy;
-import com.vidarin.adminspace.registers.SoundRegister;
+import com.vidarin.adminspace.init.SoundInit;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -20,18 +21,21 @@ public class Adminspace
 
     @Mod.Instance
     public static Adminspace instance;
+
     @SidedProxy(clientSide = "com.vidarin.adminspace.proxy.ClientProxy", serverSide = "com.vidarin.adminspace.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Adminspace.proxy.preInit(event);
+        EntityInit.registerEntities();
+        RegisterRenderers.registerEntityRenderers();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
         Adminspace.proxy.init();
-        SoundRegister.registerSounds();
+        SoundInit.registerSounds();
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
     }
 

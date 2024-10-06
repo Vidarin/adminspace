@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.item;
 
-import com.vidarin.adminspace.registers.ItemRegister;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -11,6 +11,6 @@ public class ItemBase extends Item {
         if (tab != null)
             setCreativeTab(tab);
 
-        ItemRegister.ITEMS.add(this);
+        ItemInit.ITEMS.add(this);
     }
 }

@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.block;
 
-import com.vidarin.adminspace.registers.BlockRegister;
-import com.vidarin.adminspace.registers.ItemRegister;
+import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockVine;
 import net.minecraft.block.SoundType;
@@ -31,8 +31,8 @@ public class BlockCreep extends BlockVine {
         this.setSoundType(SoundType.PLANT);
         this.setCreativeTab(tab);
 
-        BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(this.getRegistryName()));
+        BlockInit.BLOCKS.add(this);
+        ItemInit.ITEMS.add((Item) new ItemBlock((Block) this).setRegistryName(this.getRegistryName()));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.block;
 
-import com.vidarin.adminspace.registers.BlockRegister;
-import com.vidarin.adminspace.registers.ItemRegister;
+import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -28,7 +28,7 @@ public class BlockBase extends Block {
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(tab);
 
-        BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        BlockInit.BLOCKS.add(this);
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 }

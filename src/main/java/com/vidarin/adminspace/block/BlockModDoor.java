@@ -1,9 +1,9 @@
 package com.vidarin.adminspace.block;
 
-import com.vidarin.adminspace.registers.SoundRegister;
+import com.vidarin.adminspace.init.SoundInit;
 import net.minecraft.item.ItemDoor;
-import com.vidarin.adminspace.registers.BlockRegister;
-import com.vidarin.adminspace.registers.ItemRegister;
+import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.SoundType;
@@ -42,18 +42,18 @@ public class BlockModDoor extends BlockDoor {
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(tab);
 
-        BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        BlockInit.BLOCKS.add(this);
+        ItemInit.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 
     private SoundEvent getDoorCloseSound()
     {
-        return SoundRegister.VOID_DOOR_CLOSE;
+        return SoundInit.VOID_DOOR_CLOSE;
     }
 
     private SoundEvent getDoorOpenSound()
     {
-        return SoundRegister.VOID_DOOR_OPEN;
+        return SoundInit.VOID_DOOR_OPEN;
     }
 
     @Override

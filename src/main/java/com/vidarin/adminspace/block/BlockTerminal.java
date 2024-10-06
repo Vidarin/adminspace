@@ -3,7 +3,6 @@ package com.vidarin.adminspace.block;
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
 import com.vidarin.adminspace.gui.GuiNums;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.registers.BlockRegister;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -42,7 +41,7 @@ public class BlockTerminal extends BlockBase implements ITileEntityProvider {
         if (Objects.equals(name, "terminal")) permLevel = 1;
         else if (Objects.equals(name, "main_terminal")) permLevel = 2;
         else if (Objects.equals(name, "adminspace_terminal")) permLevel = 3;
-        else if (Objects.equals(name, "authors:terminal")) permLevel = 4;
+        else if (Objects.equals(name, "authors_terminal")) permLevel = 4;
         return permLevel;
     }
 

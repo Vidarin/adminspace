@@ -1,4 +1,4 @@
-package com.vidarin.adminspace.registers;
+package com.vidarin.adminspace.init;
 
 import com.vidarin.adminspace.block.*;
 import net.minecraft.block.Block;
@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockRegister {
+public class BlockInit {
     public static final List<Block> BLOCKS;
 
     public static final Block voidTile;

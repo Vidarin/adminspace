@@ -1,11 +1,11 @@
-package com.vidarin.adminspace.registers;
+package com.vidarin.adminspace.init;
 
 import net.minecraft.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemRegister {
+public class ItemInit {
     public static final List<Item> ITEMS;
 
     static {

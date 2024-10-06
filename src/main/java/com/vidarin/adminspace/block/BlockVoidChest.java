@@ -2,10 +2,9 @@ package com.vidarin.adminspace.block;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.registers.BlockRegister;
+import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.gui.GuiNums;
-import com.vidarin.adminspace.registers.ItemRegister;
-import net.minecraft.block.Block;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
@@ -17,7 +16,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -48,8 +46,8 @@ public class BlockVoidChest extends BlockContainer {
         this.setCreativeTab(tab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 
-        BlockRegister.BLOCKS.add(this);
-        ItemRegister.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        BlockInit.BLOCKS.add(this);
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
     }
 
     @Override

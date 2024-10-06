@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.util.terminalcommands.player.stats;
 
 import com.vidarin.adminspace.util.TerminalCommandHandler;
+import com.vidarin.adminspace.util.terminalcommands.TermError;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,9 +32,8 @@ public class sethealth {
             target.setHealth(val);
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            assert target != null;
-            target = commandHandler.getPlayer();
-            target.sendMessage(new TextComponentString("<MISSING ARGUMENTS>"));
+            TermError termError = new TermError(commandHandler, commandArgs);
+            termError.argumentError(commandHandler);
         }
     }
 }

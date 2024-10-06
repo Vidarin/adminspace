@@ -10,4 +10,10 @@ public class TermError {
 
         player.sendMessage(new TextComponentString("<SYNTAX ERROR>"));
     }
+
+    public void argumentError(TerminalCommandHandler commandHandler) {
+        EntityPlayer player = commandHandler.getPlayer();
+
+        player.sendMessage(new TextComponentString("<INVALID ARGUMENTS>"));
+    }
 }

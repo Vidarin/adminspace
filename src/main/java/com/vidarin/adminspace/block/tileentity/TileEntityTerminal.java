@@ -36,6 +36,8 @@ public class TileEntityTerminal extends TileEntity {
     public void readFromNBT(@Nonnull NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.commandHandler.readDataFromNBT(compound);
+        NBTTagCompound commandHandlerCompound = this.commandHandler.writeToNBT(compound);
+        this.commandHandler.setCommandStored(commandHandlerCompound.getString("Command"));
     }
 
     @Override

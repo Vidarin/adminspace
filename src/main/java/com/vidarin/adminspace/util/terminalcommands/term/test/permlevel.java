@@ -12,9 +12,9 @@ public class permlevel {
         EntityPlayer player = commandHandler.getPlayer();
 
         if (Objects.equals(permLevel, 0)) player.sendMessage(new TextComponentString("<MEMORY SLOT EMPTY: NO DATA FOUND>"));
-        else if (Objects.equals(permLevel, 1)) player.sendMessage(new TextComponentString("<Normal>"));
-        else if (Objects.equals(permLevel, 2)) player.sendMessage(new TextComponentString("<Main>"));
-        else if (Objects.equals(permLevel, 3)) player.sendMessage(new TextComponentString("<Adminspace>"));
-        else if (Objects.equals(permLevel, 4)) player.sendMessage(new TextComponentString("<Author>"));
+        else if (Objects.equals(permLevel, 1)) player.sendMessage(new TextComponentString("<NORMAL>"));
+        else if (Objects.equals(permLevel, 2)) player.sendMessage(new TextComponentString("<MAIN>"));
+        else if (Objects.equals(permLevel, 3)) player.sendMessage(new TextComponentString("<ADMINSPACE>"));
+        else if (Objects.equals(permLevel, 4)) player.sendMessage(new TextComponentString("<AUTHOR>"));
     }
 }

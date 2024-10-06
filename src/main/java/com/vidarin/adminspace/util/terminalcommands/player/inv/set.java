@@ -1,16 +1,18 @@
 package com.vidarin.adminspace.util.terminalcommands.player.inv;
 
 import com.vidarin.adminspace.util.TerminalCommandHandler;
+import com.vidarin.adminspace.util.terminalcommands.TermError;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
 
-public class additem {
-    public additem(TerminalCommandHandler commandHandler, String commandArgs) {
+public class set {
+    public set(TerminalCommandHandler commandHandler, String commandArgs) {
         EntityPlayer player = commandHandler.getPlayer();
         InventoryPlayer inventory = player.inventory;
+
+        TermError termError = new TermError(commandHandler, commandArgs);
 
         try {
             String id = commandArgs.split("/")[0];
@@ -22,7 +24,7 @@ public class additem {
             } catch (NumberFormatException e) {
                 slot = 0;
                 amount = 0;
-                player.sendMessage(new TextComponentString("<INVALID ARGUMENTS>"));
+                termError.argumentError(commandHandler);
             }
 
             if (amount > 64) amount = 64;
@@ -35,10 +37,9 @@ public class additem {
             assert item != null;
             ItemStack stack = new ItemStack(item, amount);
 
-            inventory.add(slot, stack);
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
-            player.sendMessage(new TextComponentString("<MISSING ARGUMENTS>"));
+            inventory.setInventorySlotContents(slot, stack);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            termError.argumentError(commandHandler);
         }
     }
 }

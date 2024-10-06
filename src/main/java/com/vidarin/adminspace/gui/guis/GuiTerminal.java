@@ -34,13 +34,14 @@ public class GuiTerminal extends GuiContainer {
 
     @Override
     public void initGui() {
+        TerminalCommandHandler commandHandler = terminal.getCommandHandler();
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.executeBtn = new GuiButton(0, this.width / 2 - 100, this.height - 70, "Execute");
         this.input = new GuiTextField(1, this.fontRenderer, this.width / 2 - 150, this.height / 2 - 50, 300, 20);
         this.input.setMaxStringLength(32767);
         this.input.setFocused(true);
-        this.input.setText("");
+        this.input.setText(commandHandler.getCommandStored());
         this.executeBtn.enabled = true;
     }
 
@@ -69,12 +70,14 @@ public class GuiTerminal extends GuiContainer {
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
         this.input.textboxKeyTyped(typedChar, keyCode);
+        TerminalCommandHandler commandHandler = terminal.getCommandHandler();
 
         if (keyCode != 28 && keyCode != 156)
         {
             if (keyCode == 1)
             {
                 this.mc.displayGuiScreen(null);
+                commandHandler.setCommandStored(input.getText());
             }
         }
         else

@@ -2,10 +2,9 @@ package com.vidarin.adminspace.block.tileentity;
 
 import com.vidarin.adminspace.gui.containers.ContainerVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.registers.SoundRegister;
+import com.vidarin.adminspace.init.SoundInit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -114,7 +113,7 @@ public class TileEntityVoidChest extends TileEntityLockableLoot implements ITick
         {
             double d1 = (double)pos.getX() + 0.5D;
             double d2 = (double)pos.getZ() + 0.5D;
-            this.world.playSound((EntityPlayer)null, d1, (double)pos.getY() + 0.5D, d2, SoundRegister.VOID_DOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+            this.world.playSound((EntityPlayer)null, d1, (double)pos.getY() + 0.5D, d2, SoundInit.VOID_DOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
         }
 
         if (this.numUsers == 0 && this.lidAngle > 0.0F || this.numUsers > 0 && this.lidAngle < 1.0F)
@@ -141,7 +140,7 @@ public class TileEntityVoidChest extends TileEntityLockableLoot implements ITick
             {
                 double d3 = (double)pos.getX() + 0.5D;
                 double d0 = (double)pos.getZ() + 0.5D;
-                this.world.playSound((EntityPlayer)null, d3, (double)pos.getY() + 0.5D, d0, SoundRegister.VOID_DOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                this.world.playSound((EntityPlayer)null, d3, (double)pos.getY() + 0.5D, d0, SoundInit.VOID_DOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F)

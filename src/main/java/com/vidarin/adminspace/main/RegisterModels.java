@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.main;
 
-import com.vidarin.adminspace.registers.BlockRegister;
-import com.vidarin.adminspace.registers.ItemRegister;
+import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -15,10 +15,10 @@ public class RegisterModels {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerModels(ModelRegistryEvent event) {
-        for (final Item item : ItemRegister.ITEMS) {
+        for (final Item item : ItemInit.ITEMS) {
             Adminspace.proxy.registerItemRenderer(item, 0, "inventory");
         }
-        for (final Block block : BlockRegister.BLOCKS) {
+        for (final Block block : BlockInit.BLOCKS) {
             Adminspace.proxy.registerItemRenderer(Item.getItemFromBlock(block), 0, "inventory");
         }
     }
