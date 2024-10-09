@@ -13,6 +13,6 @@ public class EntityInit {
     }
 
     private static void registerEntity(String name, Class<? extends Entity> entityClass, int id, int trackingRange) {
-        EntityRegistry.registerModEntity(new ResourceLocation(Adminspace.MODID + ":" + name), entityClass, name, id, Adminspace.instance, trackingRange, 1, true, 0, 0);
+        EntityRegistry.registerModEntity(new ResourceLocation(Adminspace.MODID + ":" + name), entityClass, name, id, Adminspace.INSTANCE, trackingRange, 1, true, 0, 0);
     }
 }

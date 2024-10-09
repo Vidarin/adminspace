@@ -1,4 +1,5 @@
 {
   "block.void_door_open": { "category": "block", "sounds": [{ "name": "adminspace:blocks/void_door_open", "stream": true }] },
-  "block.void_door_close": { "category": "block", "sounds": [{ "name": "adminspace:blocks/void_door_close", "stream": true }] }
+  "block.void_door_close": { "category": "block", "sounds": [{ "name": "adminspace:blocks/void_door_close", "stream": true }] },
+  "entity.death_easter_egg": { "category": "entity", "sounds": [{ "name": "adminspace:entities/death_easter_egg", "stream": true }] }
 }

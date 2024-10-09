@@ -54,7 +54,7 @@ public class BlockVoidChest extends BlockContainer {
     @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            player.openGui(Adminspace.instance, GuiNums.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(Adminspace.INSTANCE, GuiNums.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
 
         return true;

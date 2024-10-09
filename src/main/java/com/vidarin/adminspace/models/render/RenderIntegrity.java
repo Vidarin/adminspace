@@ -3,9 +3,13 @@ package com.vidarin.adminspace.models.render;
 import com.vidarin.adminspace.entity.EntityIntegrity;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.models.ModelEntityIntegrity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,7 +28,22 @@ public class RenderIntegrity extends RenderLiving<EntityIntegrity> {
     }
 
     @Override
-    protected void applyRotations(@Nonnull EntityIntegrity entity, float rotationPitch, float rotationYaw, float partialTicks) {
-        super.applyRotations(entity, rotationPitch, rotationYaw, partialTicks);
+    protected void preRenderCallback(@Nonnull EntityIntegrity entity, float partialTicks) {
+        super.preRenderCallback(entity, partialTicks);
+
+        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().getRenderViewEntity();
+        assert player != null;
+        Vec3d viewerDirection = player.getLookVec();
+
+        double rotationYaw = Math.atan2(viewerDirection.z, viewerDirection.x) * 180 / Math.PI;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.rotate((float) rotationYaw + 35.0f, 0, 1, 0);
+    }
+
+    @Override
+    public void doRender(@Nonnull EntityIntegrity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        GlStateManager.popMatrix();
     }
 }

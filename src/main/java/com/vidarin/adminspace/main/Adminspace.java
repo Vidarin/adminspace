@@ -20,7 +20,7 @@ public class Adminspace
     public static final String VERSION = "0.0.0";
 
     @Mod.Instance
-    public static Adminspace instance;
+    public static Adminspace INSTANCE;
 
     @SidedProxy(clientSide = "com.vidarin.adminspace.proxy.ClientProxy", serverSide = "com.vidarin.adminspace.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -36,7 +36,7 @@ public class Adminspace
     public void init(FMLInitializationEvent event) {
         Adminspace.proxy.init();
         SoundInit.registerSounds();
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
     }
 
     @EventHandler

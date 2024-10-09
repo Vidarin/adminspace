@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
+
 import javax.annotation.Nonnull;
 
 public class ModelEntityIntegrity extends ModelBase {
@@ -13,7 +14,7 @@ public class ModelEntityIntegrity extends ModelBase {
     private final ModelRenderer head;
 	private final ModelRenderer bb_main;
 
-	public ModelEntityIntegrity() {
+    public ModelEntityIntegrity() {
 		textureWidth = 64;
 		textureHeight = 64;
 
@@ -78,5 +79,11 @@ public class ModelEntityIntegrity extends ModelBase {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
+	}
+
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, @Nonnull Entity entityIn) {
+		this.head.rotateAngleY = netHeadYaw * 0.017453292f;
+		this.head.rotateAngleX = headPitch * 0.017453292f;
 	}
 }
