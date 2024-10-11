@@ -17,13 +17,15 @@ public class BlockInit {
     public static final Block voidLamp;
 
     public static final Block voidDoor;
-
     public static final Block voidChest;
 
     public static final Block voidGlass;
 
     public static final Block voidCreep;
     public static final Block voidCorruption;
+
+    public static final Block skyGround;
+    public static final Block skyGround2;
 
     public static final Block terminal;
     public static final Block mainTerminal;
@@ -39,13 +41,15 @@ public class BlockInit {
         voidLamp = new BlockLamp("void_lamp");
 
         voidDoor = new BlockModDoor("void_door", Material.IRON);
-
         voidChest = new BlockVoidChest("void_chest");
 
         voidGlass = new BlockTransparent("void_glass");
 
         voidCreep = new BlockCreep("void_creep"); //Or as RGN would call it: "blueish substance"
         voidCorruption = new BlockCreep("void_corruption");
+
+        skyGround = new BlockBase("sky_ground");
+        skyGround2 = new BlockLamp("sky_ground_2");
 
         terminal = new BlockTerminal("terminal");
         mainTerminal = new BlockTerminal("main_terminal");

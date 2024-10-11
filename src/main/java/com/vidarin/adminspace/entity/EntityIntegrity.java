@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.entity;
 
 import com.vidarin.adminspace.init.SoundInit;
+import com.vidarin.adminspace.util.DimTP;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.MoverType;
@@ -12,7 +13,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,7 +30,7 @@ public class EntityIntegrity extends EntityMob {
 
     public EntityIntegrity(World worldIn) {
         super(worldIn);
-        this.setSize(0.9f, 2.0f);
+        this.setSize(0.9f, 2.9f);
         this.stepHeight = 1.5f;
     }
 
@@ -46,6 +46,7 @@ public class EntityIntegrity extends EntityMob {
 
     @Override
     public void onLivingUpdate() {
+        super.onLivingUpdate();
         this.world.getChunkFromBlockCoords(new BlockPos(this.posX, this.posY, this.posZ)).markDirty();
 
         if (this.TARGET == null || this.TARGET.getDistance(this) > 100) {
@@ -53,13 +54,12 @@ public class EntityIntegrity extends EntityMob {
             this.TARGET = this.world.getNearestAttackablePlayer(this, 40.0D, 20.0D);
         }
         if (this.TARGET != null) {
-            this.TARGET.sendMessage(new TextComponentString("dist:" + this.TARGET.getDistance(this) + " ticksSinceBlockBreak: " + this.ticksSinceBlockBreak));
-
             this.moveEntity();
 
             if (this.TARGET.getDistance(this) < 1.5) {
-                this.TARGET.sendMessage(new TextComponentString("you deaded..."));
                 this.setDead();
+                DimTP.tpToDimension(this.TARGET, 20, 0, 32, 0);
+                this.setFramerate(120);
             }
             this.setFramerate(5);
         }

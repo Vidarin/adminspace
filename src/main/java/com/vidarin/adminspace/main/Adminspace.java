@@ -1,6 +1,8 @@
 package com.vidarin.adminspace.main;
 
 import com.vidarin.adminspace.gui.GuiHandler;
+import com.vidarin.adminspace.init.BiomeInit;
+import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.EntityInit;
 import com.vidarin.adminspace.proxy.CommonProxy;
 import com.vidarin.adminspace.init.SoundInit;
@@ -30,6 +32,8 @@ public class Adminspace
         Adminspace.proxy.preInit(event);
         EntityInit.registerEntities();
         RegisterRenderers.registerEntityRenderers();
+        BiomeInit.registerBiomes();
+        DimensionInit.registerDimensions();
     }
 
     @EventHandler

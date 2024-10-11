@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.main;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
-import com.vidarin.adminspace.models.render.RenderVoidChest;
+import com.vidarin.adminspace.model.render.RenderVoidChest;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
 import com.vidarin.adminspace.init.TileEntityInit;

@@ -1,4 +1,4 @@
-package com.vidarin.adminspace.models;
+package com.vidarin.adminspace.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
