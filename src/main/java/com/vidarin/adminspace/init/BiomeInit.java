@@ -22,7 +22,6 @@ public class BiomeInit {
         System.out.println("Biome " + name + " Registered!");
         BiomeDictionary.addTypes(biome, types);
         BiomeManager.addBiome(biomeType, new BiomeEntry(biome, weight));
-        BiomeManager.addSpawnBiome(biome);
         System.out.println("Biome " + name + " Added!");
         return biome;
     }

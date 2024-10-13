@@ -45,7 +45,7 @@ public class EntityIntegrity extends EntityMob {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void onLivingUpdate() throws IndexOutOfBoundsException{
         super.onLivingUpdate();
         this.world.getChunkFromBlockCoords(new BlockPos(this.posX, this.posY, this.posZ)).markDirty();
 
@@ -54,18 +54,19 @@ public class EntityIntegrity extends EntityMob {
             this.TARGET = this.world.getNearestAttackablePlayer(this, 40.0D, 20.0D);
         }
         if (this.TARGET != null) {
-            this.moveEntity();
-
             if (this.TARGET.getDistance(this) < 1.5) {
+                DimTP.tpToDimension(this.TARGET, 20, 8, 32, 8);
                 this.setDead();
-                DimTP.tpToDimension(this.TARGET, 20, 0, 32, 0);
                 this.setFramerate(120);
             }
-            this.setFramerate(5);
+            else {
+                this.moveEntity();
+                this.setFramerate(5);
+            }
         }
     }
 
-    private void moveEntity() {
+    private void moveEntity() throws IndexOutOfBoundsException {
         double dx = this.TARGET.posX - this.posX;
         double dy = this.TARGET.posY - this.posY;
         double dz = this.TARGET.posZ - this.posZ;
@@ -108,7 +109,7 @@ public class EntityIntegrity extends EntityMob {
         }
     }
 
-    private List<BlockPos> getBlocksInWay(double x1, double y1, double z1, double x2, double y2, double z2) {
+    private List<BlockPos> getBlocksInWay(double x1, double y1, double z1, double x2, double y2, double z2) throws IndexOutOfBoundsException{
         List<BlockPos> blocksInWay = new ArrayList<>();
 
         double dx = x2 - x1;

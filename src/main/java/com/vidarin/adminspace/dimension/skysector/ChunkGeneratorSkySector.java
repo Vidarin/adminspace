@@ -2,9 +2,9 @@ package com.vidarin.adminspace.dimension.skysector;
 
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.util.StructurePlacer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -28,6 +28,12 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
 
     private int x, y, z;
 
+    private static boolean hasGeneratedSpawn = false;
+    private static int rooms = 0;
+
+    // Locking flag
+    private static boolean isPopulating = false;
+
     protected ChunkGeneratorSkySector(World world, long seed) {
         this.world = world;
         this.rand = new Random(seed);
@@ -39,7 +45,14 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
         this.rand.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
         this.chunkPrimer = new ChunkPrimer();
 
-        setBlocksInChunk();
+        fillBlocks(0, 0, 0, 15, 31, 15, BlockInit.skyGround.getDefaultState());
+
+        for (x = 0; x <= 15; x++) {
+            for (z = 0; z <= 15; z++) {
+                if (rand.nextInt(10) == 0)
+                    chunkPrimer.setBlockState(x, 31, z, BlockInit.skyGround2.getDefaultState());
+            }
+        }
 
         Chunk chunk = new Chunk(world, chunkPrimer, chunkX, chunkZ);
 
@@ -51,17 +64,6 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
 
         chunk.generateSkylightMap();
         return chunk;
-    }
-
-    private void setBlocksInChunk() {
-        fillBlocks(0, 0, 0, 15, 30, 15, BlockInit.skyGround.getDefaultState());
-
-        for (x = 0; x <= 15; x++) {
-            for (z = 0; z <= 15; z++) {
-                if (rand.nextInt(10) == 0)
-                    chunkPrimer.setBlockState(x, 30, z, BlockInit.skyGround2.getDefaultState());
-            }
-        }
     }
 
     private void fillBlocks(int x1, int y1, int z1, int x2, int y2, int z2, IBlockState block) {
@@ -76,6 +78,27 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
 
     @Override
     public void populate(int x, int z) {
+        if (isPopulating) {
+            return;
+        }
+
+        isPopulating = true;
+        try {
+            if (!hasGeneratedSpawn) {
+                new StructurePlacer("sky_spawn").generate(world, rand, new BlockPos(0, 31, 0));
+                hasGeneratedSpawn = true;
+            } else if (x != 0 || z != 0) {
+                int i = rand.nextInt(5);
+                if (i == 0 || rooms >= 20) {
+                    rooms -= 1;
+                } else {
+                    new StructurePlacer("sky_corridor_" + i).generate(world, rand, new BlockPos(x * 16, 31, z * 16));
+                    rooms += 1;
+                }
+            }
+        } finally {
+            isPopulating = false;
+        }
     }
 
     @Override
