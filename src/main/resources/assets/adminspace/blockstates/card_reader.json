@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east":  { "model": "adminspace:card_reader" },
+    "facing=south": { "model": "adminspace:card_reader", "y": 90 },
+    "facing=west":  { "model": "adminspace:card_reader", "y": 180 },
+    "facing=north": { "model": "adminspace:card_reader", "y": 270 }
+  }
+}

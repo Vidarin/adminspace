@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "east": "adminspace:blocks/music_player_side",
+    "south": "adminspace:blocks/music_player_side",
+    "north": "adminspace:blocks/music_player_side",
+    "west": "adminspace:blocks/music_player_side",
+    "particle": "adminspace:blocks/music_player_side",
+    "up": "adminspace:blocks/music_player_top",
+    "down": "adminspace:blocks/music_player_side"
+  }
+}

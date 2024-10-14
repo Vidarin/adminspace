@@ -5,6 +5,7 @@ import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.util.StructurePlacer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -85,20 +86,36 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
         isPopulating = true;
         try {
             if (!hasGeneratedSpawn) {
-                new StructurePlacer("sky_spawn").generate(world, rand, new BlockPos(0, 31, 0));
+                new StructurePlacer("skysector/sky_spawn").generate(world, rand, new BlockPos(0, 31, 0));
+                world.getChunkFromBlockCoords(new BlockPos(0, 0, 0)).generateSkylightMap();
                 hasGeneratedSpawn = true;
             } else if (x != 0 || z != 0) {
-                int i = rand.nextInt(5);
+                int i = rand.nextInt(7);
                 if (i == 0 || rooms >= 20) {
                     rooms -= 1;
                 } else {
-                    new StructurePlacer("sky_corridor_" + i).generate(world, rand, new BlockPos(x * 16, 31, z * 16));
+                    new StructurePlacer("skysector/sky_corridor_" + i).generateWithRotation(world, new BlockPos(x * 16, 31, z * 16), randomRotation());
                     rooms += 1;
                 }
             }
         } finally {
             isPopulating = false;
         }
+    }
+
+    private Rotation randomRotation() {
+        int i = rand.nextInt(4);
+        switch (i) {
+            case 0:
+                return Rotation.NONE;
+            case 1:
+                return Rotation.CLOCKWISE_90;
+            case 2:
+                return Rotation.CLOCKWISE_180;
+            case 3:
+                return Rotation.COUNTERCLOCKWISE_90;
+        }
+        return Rotation.NONE;
     }
 
     @Override

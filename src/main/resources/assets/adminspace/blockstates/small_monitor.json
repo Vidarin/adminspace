@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east":  { "model": "adminspace:small_monitor" },
+    "facing=south": { "model": "adminspace:small_monitor", "y": 90 },
+    "facing=west":  { "model": "adminspace:small_monitor", "y": 180 },
+    "facing=north": { "model": "adminspace:small_monitor", "y": 270 }
+  }
+}
