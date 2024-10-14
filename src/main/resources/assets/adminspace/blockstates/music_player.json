@@ -1,6 +1,6 @@
 {
   "variants": {
     "has_record=true":  { "model": "adminspace:music_player" },
-    "has_record=false": { "model": "adminspace:music_player", "y": 90 }
+    "has_record=false": { "model": "adminspace:music_player"}
   }
 }
