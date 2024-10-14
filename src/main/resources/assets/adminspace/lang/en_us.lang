@@ -3,6 +3,8 @@ container.void_chest=Chest
 tile.void_tile.name=Noise Gem Tile
 tile.void_err_tile.name=Error Containment
 
+tile.concealment_block.name=Concealment Block
+
 tile.void_glass.name=Experiment Glass
 
 item.null.name=Noise Gem Door
@@ -13,8 +15,17 @@ tile.terminal.name=Terminal
 tile.main_terminal.name=Terminal (main)
 
 tile.void_chest.name=Noise Gem Chest
+tile.music_player.name=Music Player
 
 tile.void_creep.name=Void Creep
 tile.void_corruption.name=Void Corruption
 
-tile.void_lamp.name=Brightness Block
+tile.void_lamp.name=Brightness 15 Block
+tile.void_lamp_off.name=Brightness 0 Block
+
+tile.card_reader.name=Card Reader
+tile.void_meter.name=Void Meter
+tile.small_monitor.name=Small Monitor
+
+tile.sky_ground.name=Void Block
+tile.sky_ground_2.name=Active Void Block
