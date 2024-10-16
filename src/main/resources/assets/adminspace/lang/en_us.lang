@@ -16,6 +16,8 @@ tile.main_terminal.name=Terminal (main)
 
 tile.void_chest.name=Noise Gem Chest
 tile.music_player.name=Music Player
+tile.toggle_button_on.name=Toggle Button
+tile.toggle_button_off.name=Toggle Button
 
 tile.void_creep.name=Void Creep
 tile.void_corruption.name=Void Corruption
@@ -29,3 +31,6 @@ tile.small_monitor.name=Small Monitor
 
 tile.sky_ground.name=Void Block
 tile.sky_ground_2.name=Active Void Block
+
+tile.moon_block.name=Moon Block
+tile.sun_block.name=Sun Block

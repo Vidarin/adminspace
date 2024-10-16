@@ -21,6 +21,8 @@ public class BlockInit {
     public static final Block voidDoor;
     public static final Block voidChest;
     public static final Block musicPlayer;
+    public static final Block toggleButtonOff;
+    public static final Block toggleButtonOn; // I had to make two separate blocks because the blockstates didn't want to work
 
     public static final Block voidGlass;
 
@@ -29,6 +31,9 @@ public class BlockInit {
 
     public static final Block skyGround;
     public static final Block skyGround2;
+
+    public static final Block moonBlock;
+    public static final Block sunBlock;
 
     public static final Block cardReader;
     public static final Block voidMeter;
@@ -55,6 +60,8 @@ public class BlockInit {
         voidDoor = new BlockModDoor("void_door", Material.IRON);
         voidChest = new BlockVoidChest("void_chest");
         musicPlayer = new BlockMusicPlayer();
+        toggleButtonOff = new BlockToggleButtonOff();
+        toggleButtonOn = new BlockToggleButtonOn();
 
         //Glass
         voidGlass = new BlockTransparent("void_glass");
@@ -66,6 +73,10 @@ public class BlockInit {
         //Sky sector dimension
         skyGround = new BlockBase("sky_ground");
         skyGround2 = new BlockLamp("sky_ground_2");
+
+        //Moon dimension
+        moonBlock = new BlockBase("moon_block");
+        sunBlock = new BlockBase("sun_block");
 
         //Decorations
         cardReader = new BlockSided("card_reader");

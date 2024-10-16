@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "east": "adminspace:blocks/toggle_button_on",
+    "south": "adminspace:blocks/toggle_button_on",
+    "north": "adminspace:blocks/toggle_button_on",
+    "west": "adminspace:blocks/toggle_button_on",
+    "particle": "adminspace:blocks/void_tile",
+    "up": "adminspace:blocks/void_tile",
+    "down": "adminspace:blocks/void_tile"
+  }
+}

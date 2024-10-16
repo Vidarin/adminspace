@@ -42,7 +42,7 @@ public class BlockMusicPlayer extends BlockJukebox {
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (state.getValue(HAS_RECORD))
         {
-            this.dropRecord(worldIn, pos, state);
+            this.dropRecord(worldIn, pos);
             state = state.withProperty(HAS_RECORD, Boolean.FALSE);
             worldIn.setBlockState(pos, state, 2);
             return true;
@@ -63,7 +63,7 @@ public class BlockMusicPlayer extends BlockJukebox {
         else return false;
     }
 
-    private void dropRecord(World worldIn, BlockPos pos, IBlockState state)
+    private void dropRecord(World worldIn, BlockPos pos)
     {
         if (!worldIn.isRemote)
         {
