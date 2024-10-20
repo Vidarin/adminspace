@@ -1,0 +1,17 @@
+{
+  "multipart": [
+    {   "apply": { "model": "adminspace:corridor_railing_post" }},
+    {   "when": { "north": "true" },
+      "apply": { "model": "adminspace:corridor_railing", "uvlock": true }
+    },
+    {   "when": { "east": "true" },
+      "apply": { "model": "adminspace:corridor_railing", "y": 90, "uvlock": true }
+    },
+    {   "when": { "south": "true" },
+      "apply": { "model": "adminspace:corridor_railing", "y": 180, "uvlock": true }
+    },
+    {   "when": { "west": "true" },
+      "apply": { "model": "adminspace:corridor_railing", "y": 270, "uvlock": true }
+    }
+  ]
+}

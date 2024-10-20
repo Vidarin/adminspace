@@ -8,8 +8,7 @@ public class ItemBase extends Item {
     public ItemBase(String name, CreativeTabs tab) {
         setUnlocalizedName(name);
         setRegistryName(name);
-        if (tab != null)
-            setCreativeTab(tab);
+        setCreativeTab(tab);
 
         ItemInit.ITEMS.add(this);
     }

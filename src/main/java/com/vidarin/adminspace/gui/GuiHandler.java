@@ -17,9 +17,9 @@ public class GuiHandler implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         switch (id) {
-            case GuiNums.GUI_VOID_CHEST:
+            case GuiIDs.GUI_VOID_CHEST:
                 return new ContainerVoidChest(player.inventory, (TileEntityVoidChest) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
-            case GuiNums.GUI_TERMINAL:
+            case GuiIDs.GUI_TERMINAL:
                 return new ContainerDummy(true);
         }
         return null;
@@ -28,9 +28,9 @@ public class GuiHandler implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         switch (id) {
-            case GuiNums.GUI_TERMINAL:
+            case GuiIDs.GUI_TERMINAL:
                 return new GuiTerminal((TileEntityTerminal) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
-            case GuiNums.GUI_VOID_CHEST:
+            case GuiIDs.GUI_VOID_CHEST:
                 return new GuiVoidChest(player.inventory, (TileEntityVoidChest) Objects.requireNonNull(world.getTileEntity(new BlockPos(x, y, z))), player);
         }
         return null;

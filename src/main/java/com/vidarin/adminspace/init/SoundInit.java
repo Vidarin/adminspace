@@ -8,12 +8,15 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class SoundInit {
     public static SoundEvent VOID_DOOR_OPEN, VOID_DOOR_CLOSE;
     public static SoundEvent DEATH_EASTER_EGG;
+    public static SoundEvent CORRIDOR_MUSIC;
 
     public static void registerSounds() {
         VOID_DOOR_OPEN = registerSound("block.void_door_open");
         VOID_DOOR_CLOSE = registerSound("block.void_door_close");
 
         DEATH_EASTER_EGG = registerSound("entity.death_easter_egg");
+
+        CORRIDOR_MUSIC = registerSound("music.corridors.corridor_music");
     }
 
     private static SoundEvent registerSound(String name) {

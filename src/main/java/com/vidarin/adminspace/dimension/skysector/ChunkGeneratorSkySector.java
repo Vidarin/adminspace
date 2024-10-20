@@ -16,6 +16,7 @@ import net.minecraft.world.gen.IChunkGenerator;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -32,7 +33,6 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
     private static boolean hasGeneratedSpawn = false;
     private static int rooms = 0;
 
-    // Locking flag
     private static boolean isPopulating = false;
 
     protected ChunkGeneratorSkySector(World world, long seed) {
@@ -90,7 +90,7 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
                 world.getChunkFromBlockCoords(new BlockPos(0, 0, 0)).generateSkylightMap();
                 hasGeneratedSpawn = true;
             } else if (x != 0 || z != 0) {
-                int i = rand.nextInt(7);
+                int i = rand.nextInt(15);
                 if (i == 0 || rooms >= 20) {
                     rooms -= 1;
                 } else {
@@ -126,7 +126,7 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
     @Override
     @ParametersAreNonnullByDefault
     public @Nonnull List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
-        return this.world.getBiome(pos).getSpawnableList(creatureType);
+        return Collections.emptyList();
     }
 
     @Nullable

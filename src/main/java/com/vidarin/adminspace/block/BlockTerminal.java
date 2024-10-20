@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.block;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
-import com.vidarin.adminspace.gui.GuiNums;
+import com.vidarin.adminspace.gui.GuiIDs;
 import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -49,7 +49,7 @@ public class BlockTerminal extends BlockBase implements ITileEntityProvider {
     @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!world.isRemote)
-            player.openGui(Adminspace.INSTANCE, GuiNums.GUI_TERMINAL, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(Adminspace.INSTANCE, GuiIDs.GUI_TERMINAL, world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

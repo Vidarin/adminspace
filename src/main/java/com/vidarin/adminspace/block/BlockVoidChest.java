@@ -3,7 +3,7 @@ package com.vidarin.adminspace.block;
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.init.BlockInit;
-import com.vidarin.adminspace.gui.GuiNums;
+import com.vidarin.adminspace.gui.GuiIDs;
 import com.vidarin.adminspace.init.ItemInit;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockContainer;
@@ -57,7 +57,7 @@ public class BlockVoidChest extends BlockContainer {
     @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            player.openGui(Adminspace.INSTANCE, GuiNums.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(Adminspace.INSTANCE, GuiIDs.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
 
         return true;

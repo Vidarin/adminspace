@@ -26,7 +26,7 @@ public class DimensionSkySector extends WorldProvider {
     }
 
     @Override
-    public  IChunkGenerator createChunkGenerator() {
+    public IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorSkySector(this.world, this.getSeed());
     }
 

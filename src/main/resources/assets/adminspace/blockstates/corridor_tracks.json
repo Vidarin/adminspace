@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": { "model": "adminspace:corridor_tracks" },
+    "axis=z": { "model": "adminspace:corridor_tracks", "x": 90 },
+    "axis=x": { "model": "adminspace:corridor_tracks", "x": 90, "y": 90 }
+  }
+}

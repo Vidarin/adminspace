@@ -24,6 +24,7 @@ tile.void_corruption.name=Void Corruption
 
 tile.void_lamp.name=Brightness 15 Block
 tile.void_lamp_off.name=Brightness 0 Block
+tile.hell_bulb.name=Hell Bulb
 
 tile.card_reader.name=Card Reader
 tile.void_meter.name=Void Meter
@@ -34,3 +35,19 @@ tile.sky_ground_2.name=Active Void Block
 
 tile.moon_block.name=Moon Block
 tile.sun_block.name=Sun Block
+
+tile.corridor_exposed_pipes.name=Exposed Pipes
+tile.corridor_tiled_pipes.name=Tiled Pipes
+tile.corridor_lantern.name=Corridor Lantern
+tile.corridor_light.name=Corridor Light
+tile.corridor_machinery.name=Unknown Machinery
+tile.corridor_netting.name=Corridor Netting
+tile.corridor_supports.name=Corridor Supports
+tile.corridor_pillar.name=Corridor Pillar
+tile.corridor_railing.name=Corridor Railing
+tile.corridor_smooth.name=Corridor Tile
+tile.corridor_tracks.name=Corridor Tracks
+
+tile.squirming_organism.name=Squirming Organism
+
+item.cat_pass.name=Cat Pass

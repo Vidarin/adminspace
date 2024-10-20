@@ -4,6 +4,7 @@ import com.vidarin.adminspace.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPressurePlate.Sensitivity;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.DamageSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class BlockInit {
 
     public static final Block voidLamp;
     public static final Block voidLampOff;
+    public static final Block hellBulb;
 
     public static final Block voidDoor;
     public static final Block voidChest;
@@ -35,9 +37,26 @@ public class BlockInit {
     public static final Block moonBlock;
     public static final Block sunBlock;
 
+    public static final Block corridorExposedPipes;
+    public static final Block corridorTiledPipes;
+    public static final Block corridorLantern;
+    public static final Block corridorLight;
+    public static final Block corridorMachinery;
+    public static final Block corridorNetting;
+    public static final Block corridorSupports;
+    public static final Block corridorPillar;
+    public static final Block corridorRailing;
+    public static final Block corridorRailingBlock;
+    public static final Block corridorSmooth;
+    public static final Block corridorTracks;
+
+    public static final Block squirmingOrganism;
+
     public static final Block cardReader;
     public static final Block voidMeter;
     public static final Block smallMonitor;
+    public static final Block fan;
+    public static final Block voidFan;
 
     public static final Block terminal;
     public static final Block mainTerminal;
@@ -55,6 +74,7 @@ public class BlockInit {
         //Lamps
         voidLamp = new BlockLamp("void_lamp");
         voidLampOff = new BlockBase("void_lamp_off");
+        hellBulb = new BlockLamp("hell_bulb");
 
         //Simple functional blocks
         voidDoor = new BlockModDoor("void_door", Material.IRON);
@@ -78,10 +98,29 @@ public class BlockInit {
         moonBlock = new BlockBase("moon_block");
         sunBlock = new BlockBase("sun_block");
 
+        //Corridor dimension
+        corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON);
+        corridorTiledPipes = new BlockBase("corridor_tiled_pipes", Material.IRON);
+        corridorLantern = new BlockLamp("corridor_lantern");
+        corridorLight = new BlockLamp("corridor_light");
+        corridorMachinery = new BlockBase("corridor_machinery", Material.IRON);
+        corridorNetting = new BlockSemiTransparent("corridor_netting");
+        corridorSupports = new BlockSemiTransparent("corridor_supports");
+        corridorPillar = new BlockAxisSided("corridor_pillar");
+        corridorRailing = new BlockModFence("corridor_railing");
+        corridorRailingBlock = new BlockBase("corridor_railing_block");
+        corridorSmooth = new BlockBase("corridor_smooth");
+        corridorTracks = new BlockAxisSided("corridor_tracks");
+
+        //Void being stuff
+        squirmingOrganism = new BlockDamaging("squirming_organism", 2, DamageSource.WITHER);
+
         //Decorations
         cardReader = new BlockSided("card_reader");
         voidMeter = new BlockSided("void_meter");
         smallMonitor = new BlockSided("small_monitor");
+        fan = new BlockBase("fan");
+        voidFan = new BlockBase("void_fan");
 
         //Terminals
         terminal = new BlockTerminal("terminal");

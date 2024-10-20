@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "adminspace:blocks/corridor_lantern",
+    "side": "adminspace:blocks/corridor_pillar"
+  }
+}
