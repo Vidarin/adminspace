@@ -45,9 +45,12 @@ tile.corridor_netting.name=Corridor Netting
 tile.corridor_supports.name=Corridor Supports
 tile.corridor_pillar.name=Corridor Pillar
 tile.corridor_railing.name=Corridor Railing
+tile.corridor_railing_block.name=Corridor Railing
 tile.corridor_smooth.name=Corridor Tile
 tile.corridor_tracks.name=Corridor Tracks
 
 tile.squirming_organism.name=Squirming Organism
 
 item.cat_pass.name=Cat Pass
+
+item.record_calm_5.name=Music Disc

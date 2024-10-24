@@ -17,6 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class BlockAxisSided extends BlockBase {
     public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class);
+
     public BlockAxisSided(String name) {
         this(name, Material.ROCK);
     }

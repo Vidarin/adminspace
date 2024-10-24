@@ -101,8 +101,8 @@ public class BlockInit {
         //Corridor dimension
         corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON);
         corridorTiledPipes = new BlockBase("corridor_tiled_pipes", Material.IRON);
-        corridorLantern = new BlockLamp("corridor_lantern");
-        corridorLight = new BlockLamp("corridor_light");
+        corridorLantern = new BlockLampCustomizable("corridor_lantern", 9);
+        corridorLight = new BlockLampCustomizable("corridor_light", 12);
         corridorMachinery = new BlockBase("corridor_machinery", Material.IRON);
         corridorNetting = new BlockSemiTransparent("corridor_netting");
         corridorSupports = new BlockSemiTransparent("corridor_supports");
