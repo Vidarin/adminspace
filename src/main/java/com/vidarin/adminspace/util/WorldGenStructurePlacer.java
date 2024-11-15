@@ -19,14 +19,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.Random;
 
-public class StructurePlacer extends WorldGenerator
+public class WorldGenStructurePlacer extends WorldGenerator
 {
     public static final WorldServer worldServer = Objects.requireNonNull(FMLCommonHandler.instance().getMinecraftServerInstance().getServer()).getWorld(0);
     public static final PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
 
     public static String structureName;
 
-    public StructurePlacer(String name) {
+    public WorldGenStructurePlacer(String name) {
         structureName = name;
     }
 
@@ -37,8 +37,8 @@ public class StructurePlacer extends WorldGenerator
     }
 
     public void generateWithRotation(World worldIn, BlockPos position, Rotation rotation) {
-        final BlockPos new_position = this.posByRotation(position, rotation, this.templateSize(worldIn));
-        this.generateStructure(worldIn, new_position, rotation);
+        final BlockPos newPosition = this.posByRotation(position, rotation, this.templateSize(worldIn));
+        this.generateStructure(worldIn, newPosition, rotation);
     }
 
     public void generateStructure(World world, BlockPos pos, Rotation rot) {

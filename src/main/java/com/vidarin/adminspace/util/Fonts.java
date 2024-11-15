@@ -27,20 +27,8 @@ public enum Fonts
 
     private final char c;
 
-    private Fonts(char c) {
+    Fonts(char c) {
         this.c = c;
-    }
-
-    public static String getFormat(Fonts... font) {
-        final StringBuilder builder = new StringBuilder();
-        for (Fonts fonts : font) {
-            builder.append(fonts.toString());
-        }
-        return builder.toString();
-    }
-
-    public static String format(String s) {
-        return s.replace("&", "§");
     }
 
     @Override

@@ -126,11 +126,11 @@ public class BlockMusicPlayer extends BlockJukebox {
 
     @SideOnly(Side.CLIENT)
     private void playSpecialRecord(@Nullable SoundEvent soundIn, BlockPos pos, @Nullable String trackName) {
-        ISound soundtrack = this.mapSoundPositions.get(pos);
+        ISound sound = this.mapSoundPositions.get(pos);
 
-        if (soundtrack != null)
+        if (sound != null)
         {
-            Minecraft.getMinecraft().getSoundHandler().stopSound(soundtrack);
+            Minecraft.getMinecraft().getSoundHandler().stopSound(sound);
             this.mapSoundPositions.remove(pos);
         }
 
@@ -141,6 +141,8 @@ public class BlockMusicPlayer extends BlockJukebox {
 
             ISound positionedSoundRecord = PositionedSoundRecord.getRecordSoundRecord(soundIn, (float)pos.getX(), (float)pos.getY(), (float)pos.getZ());
             this.mapSoundPositions.put(pos, positionedSoundRecord);
+            if (Minecraft.getMinecraft().world.provider.getMusicType() != null)
+                Minecraft.getMinecraft().getSoundHandler().stopSound(PositionedSoundRecord.getMusicRecord(Minecraft.getMinecraft().world.provider.getMusicType().getMusicLocation()));
             Minecraft.getMinecraft().getSoundHandler().playSound(positionedSoundRecord);
         }
     }
