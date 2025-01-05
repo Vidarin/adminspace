@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_side",
+  "textures": {
+    "wall": "adminspace:blocks/void_tile"
+  }
+}

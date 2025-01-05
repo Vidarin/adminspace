@@ -27,8 +27,6 @@ import java.util.*;
 public class DimensionCorridors extends WorldProvider {
     private final ArrayList<EntityPlayerMP> players = new ArrayList<>();
     private final Map<UUID, Integer> ticksInDimension = new HashMap<>();
-    private final Map<UUID, Integer> prevRenderDist = new HashMap<>();
-    private final Map<UUID, Float> prevBrightness = new HashMap<>();
 
     public DimensionCorridors() {
         this.biomeProvider = new BiomeProviderSingle(BiomeInit.CORRIDOR_DIM);
@@ -49,16 +47,6 @@ public class DimensionCorridors extends WorldProvider {
         super.onPlayerAdded(player);
         players.add(player);
         ticksInDimension.put(player.getUniqueID(), 0);
-        System.out.println("Player " + player.getName() + " joined!");
-        getPrevPlayerSettings(player);
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void getPrevPlayerSettings(EntityPlayer player) {
-        if (player.getUniqueID().equals(Minecraft.getMinecraft().player.getUniqueID())) {
-            prevRenderDist.put(player.getUniqueID(), Minecraft.getMinecraft().gameSettings.renderDistanceChunks);
-            prevBrightness.put(player.getUniqueID(), Minecraft.getMinecraft().gameSettings.gammaSetting);
-        }
     }
 
     @Override
@@ -66,17 +54,6 @@ public class DimensionCorridors extends WorldProvider {
         super.onPlayerRemoved(player);
         players.remove(player);
         ticksInDimension.remove(player.getUniqueID());
-        resetPlayerSettings(player);
-        prevRenderDist.remove(player.getUniqueID());
-        prevBrightness.remove(player.getUniqueID());
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void resetPlayerSettings(EntityPlayer player) {
-        if (player.getUniqueID().equals(Minecraft.getMinecraft().player.getUniqueID())) {
-            Minecraft.getMinecraft().gameSettings.renderDistanceChunks = prevRenderDist.get(player.getUniqueID());
-            Minecraft.getMinecraft().gameSettings.gammaSetting = prevBrightness.get(player.getUniqueID());
-        }
     }
 
     @Override
@@ -87,25 +64,12 @@ public class DimensionCorridors extends WorldProvider {
                 playDimensionMusic();
             }
             ticksInDimension.replace(player.getUniqueID(), ticksInDimension.get(player.getUniqueID()) + 1);
-            updatePlayerSettings(player);
         }
     }
 
     @SideOnly(Side.CLIENT)
     private void playDimensionMusic() {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMusicRecord(SoundInit.CORRIDOR_MUSIC));
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void updatePlayerSettings(EntityPlayer player) {
-        if (player.getUniqueID().equals(Minecraft.getMinecraft().player.getUniqueID())) {
-            if (Minecraft.getMinecraft().gameSettings.renderDistanceChunks > 2)
-                Minecraft.getMinecraft().gameSettings.renderDistanceChunks = 2;
-            if (Minecraft.getMinecraft().gameSettings.gammaSetting > 0)
-                Minecraft.getMinecraft().gameSettings.gammaSetting = 0;
-            if (Minecraft.getMinecraft().world.provider.getMusicType() != null)
-                Minecraft.getMinecraft().getSoundHandler().stopSound(PositionedSoundRecord.getMusicRecord(Minecraft.getMinecraft().world.provider.getMusicType().getMusicLocation()));
-        }
     }
 
     @Nullable

@@ -1,0 +1,8 @@
+{
+  "parent": "block/outer_stairs",
+  "textures": {
+    "bottom": "adminspace:blocks/void_err_tile",
+    "top": "adminspace:blocks/void_err_tile",
+    "side": "adminspace:blocks/void_err_tile"
+  }
+}

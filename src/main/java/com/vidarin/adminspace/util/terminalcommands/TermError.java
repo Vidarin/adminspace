@@ -5,15 +5,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
 public class TermError {
-    public TermError(TerminalCommandHandler commandHandler, String commandArgs) {
-        EntityPlayer player = commandHandler.getPlayer();
+    public TermError() {} // For the argumentError method
 
-        player.sendMessage(new TextComponentString("<SYNTAX ERROR>"));
+    public TermError(TerminalCommandHandler commandHandler, String commandArgs) {
+        if (commandHandler.getWorld().isRemote) {
+            EntityPlayer player = commandHandler.getPlayer();
+
+            player.sendMessage(new TextComponentString("<SYNTAX ERROR>"));
+        }
     }
 
-    public void argumentError(TerminalCommandHandler commandHandler) {
-        EntityPlayer player = commandHandler.getPlayer();
+    public static void argumentError(TerminalCommandHandler commandHandler) {
+        if (commandHandler.getWorld().isRemote) {
+            EntityPlayer player = commandHandler.getPlayer();
 
-        player.sendMessage(new TextComponentString("<INVALID ARGUMENTS>"));
+            player.sendMessage(new TextComponentString("<INVALID ARGUMENTS>"));
+        }
     }
 }

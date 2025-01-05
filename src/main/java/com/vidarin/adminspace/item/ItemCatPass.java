@@ -6,12 +6,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -34,7 +32,7 @@ public class ItemCatPass extends ItemBase{
         {
             if (!worldIn.isRemote)
             {
-                if (worldIn.getBlockState(pos.up()) == BlockInit.sunBlock.getDefaultState() && worldIn.getBlockState(pos.down()) == BlockInit.moonBlock.getDefaultState()) {
+                if (worldIn.getBlockState(pos.up()) == BlockInit.moonBlock.getDefaultState() && worldIn.getBlockState(pos.down()) == BlockInit.moonBlock.getDefaultState()) {
                     worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
                     worldIn.setBlockState(pos.down(), Blocks.AIR.getDefaultState());
                     worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState());

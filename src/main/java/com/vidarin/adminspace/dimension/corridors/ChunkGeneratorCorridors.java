@@ -3,7 +3,7 @@ package com.vidarin.adminspace.dimension.corridors;
 import com.vidarin.adminspace.block.BlockAxisSided;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
-import com.vidarin.adminspace.util.WorldGenBlockFiller;
+import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.EnumFacing.Axis;

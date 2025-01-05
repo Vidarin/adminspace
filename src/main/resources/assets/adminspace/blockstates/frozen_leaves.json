@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "check_decay=false,decayable=false,variant=oak": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=true,variant=oak": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=false,variant=oak": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=true,variant=oak": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=false,variant=spruce": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=true,variant=spruce": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=false,variant=spruce": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=true,variant=spruce": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=false,variant=birch": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=true,variant=birch": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=false,variant=birch": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=true,variant=birch": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=false,variant=jungle": { "model": "adminspace:frozen_leaves" },
+    "check_decay=false,decayable=true,variant=jungle": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=false,variant=jungle": { "model": "adminspace:frozen_leaves" },
+    "check_decay=true,decayable=true,variant=jungle": { "model": "adminspace:frozen_leaves" }
+  }
+}

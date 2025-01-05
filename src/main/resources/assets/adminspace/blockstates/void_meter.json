@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=east":  { "model": "adminspace:void_meter" },
-    "facing=south": { "model": "adminspace:void_meter", "y": 90 },
-    "facing=west":  { "model": "adminspace:void_meter", "y": 180 },
-    "facing=north": { "model": "adminspace:void_meter", "y": 270 }
-  }
-}

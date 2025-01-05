@@ -1,7 +1,15 @@
 container.void_chest=Chest
 
+instruction.finalizeWarning=Note: This will overwrite the previous instruction!
+instruction.signButton=Sign
+instruction.finalizeButton=Save Changes
+
 tile.void_tile.name=Noise Gem Tile
 tile.void_err_tile.name=Error Containment
+
+tile.void_wall.name=Noise Gem Wall
+tile.void_stairs.name=Noise Gem Stairs
+tile.void_err_stairs.name=Error Containment Stairs
 
 tile.concealment_block.name=Concealment Block
 
@@ -13,11 +21,14 @@ tile.trigger.name=Invisible Trigger
 
 tile.terminal.name=Terminal
 tile.main_terminal.name=Terminal (main)
+tile.terminal_accept.name=Acceptor Block
+tile.terminal_deny.name=Denier Block
 
 tile.void_chest.name=Noise Gem Chest
 tile.music_player.name=Music Player
 tile.toggle_button_on.name=Toggle Button
 tile.toggle_button_off.name=Toggle Button
+tile.void_lever.name=Noise Gem Lever
 
 tile.void_creep.name=Void Creep
 tile.void_corruption.name=Void Corruption
@@ -27,8 +38,10 @@ tile.void_lamp_off.name=Brightness 0 Block
 tile.hell_bulb.name=Hell Bulb
 
 tile.card_reader.name=Card Reader
-tile.void_meter.name=Void Meter
+tile.void_gauge.name=Void Gauge
 tile.small_monitor.name=Small Monitor
+tile.void_gauge_all.name=4-Sided Void Gauge
+tile.small_monitor_all.name=4-Sided Small Monitor
 
 tile.sky_ground.name=Void Block
 tile.sky_ground_2.name=Active Void Block
@@ -51,6 +64,22 @@ tile.corridor_tracks.name=Corridor Tracks
 
 tile.squirming_organism.name=Squirming Organism
 
+tile.noise_gem_ore.name=Noise Ore
+tile.rainbow_ore.name=§cR§6a§ei§an§bb§9o§dw §cO§6r§ee
+
+tile.frozen_leaves.name=Snowy Leaves
+
 item.cat_pass.name=Cat Pass
 
+item.noise_gem.name=Noise Gem
+item.rainbow_gem.name=§cR§6a§ei§an§bb§9o§dw §cG§6e§em
+
 item.record_calm_5.name=Music Disc
+
+item.accept.name=assets_tiles_accept
+item.deny.name=assets_tiles_deny
+
+item.instruction.name=Empty Instruction
+
+item.repeller.name=Repeller
+item.dismantler.name=Dismantler

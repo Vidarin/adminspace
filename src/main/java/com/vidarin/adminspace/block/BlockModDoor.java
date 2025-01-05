@@ -21,10 +21,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.Random;
 
-public class BlockModDoor extends BlockDoor {
+public class
+BlockModDoor extends BlockDoor {
     public BlockModDoor(String name) {
         this(name, Material.ROCK);
     }
@@ -40,7 +43,8 @@ public class BlockModDoor extends BlockDoor {
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
-        this.setCreativeTab(tab);
+        if (tab != null)
+            this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
         ItemInit.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
@@ -57,16 +61,19 @@ public class BlockModDoor extends BlockDoor {
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random random, int fortune) {
+    @ParametersAreNonnullByDefault
+    public @Nonnull Item getItemDropped(IBlockState state, Random random, int fortune) {
         return Item.getItemFromBlock(this);
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult traceResult, World world, BlockPos pos, EntityPlayer player) {
+    @ParametersAreNonnullByDefault
+    public @Nonnull ItemStack getPickBlock(IBlockState state, RayTraceResult traceResult, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this);
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         if (this.blockMaterial == Material.IRON)
@@ -87,7 +94,7 @@ public class BlockModDoor extends BlockDoor {
                 state = iblockstate.cycleProperty(OPEN);
                 worldIn.setBlockState(blockpos, state, 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                SoundType soundType = this.getSoundType();
+                SoundType soundType = this.getSoundType(state, worldIn, pos, playerIn);
                 worldIn.playSound(playerIn, pos, state.getValue(OPEN) ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
                 return true;
             }
@@ -95,6 +102,7 @@ public class BlockModDoor extends BlockDoor {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void toggleDoor(World worldIn, BlockPos pos, boolean open)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -102,19 +110,20 @@ public class BlockModDoor extends BlockDoor {
         if (iblockstate.getBlock() == this)
         {
             BlockPos blockpos = iblockstate.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-            IBlockState iblockstate1 = pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
+            IBlockState blockState1 = pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
 
-            if (iblockstate1.getBlock() == this && (Boolean) iblockstate1.getValue(OPEN) != open)
+            if (blockState1.getBlock() == this && blockState1.getValue(OPEN) != open)
             {
-                worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, open), 10);
+                worldIn.setBlockState(blockpos, blockState1.withProperty(OPEN, open), 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                SoundType soundType = this.getSoundType();
+                SoundType soundType = this.getSoundType(this.getDefaultState(), worldIn, pos, null);
                 worldIn.playSound(null, pos, open ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
             }
         }
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (state.getValue(HALF) == EnumDoorHalf.UPPER)
@@ -134,10 +143,10 @@ public class BlockModDoor extends BlockDoor {
         else
         {
             boolean flag1 = false;
-            BlockPos blockpos1 = pos.up();
-            IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
+            BlockPos blockPos = pos.up();
+            IBlockState blockState1 = worldIn.getBlockState(blockPos);
 
-            if (iblockstate1.getBlock() != this)
+            if (blockState1.getBlock() != this)
             {
                 worldIn.setBlockToAir(pos);
                 flag1 = true;
@@ -148,9 +157,9 @@ public class BlockModDoor extends BlockDoor {
                 worldIn.setBlockToAir(pos);
                 flag1 = true;
 
-                if (iblockstate1.getBlock() == this)
+                if (blockState1.getBlock() == this)
                 {
-                    worldIn.setBlockToAir(blockpos1);
+                    worldIn.setBlockToAir(blockPos);
                 }
             }
 
@@ -163,17 +172,17 @@ public class BlockModDoor extends BlockDoor {
             }
             else
             {
-                boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
+                boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockPos);
 
-                if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != ((Boolean)iblockstate1.getValue(POWERED)).booleanValue())
+                if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != blockState1.getValue(POWERED))
                 {
-                    worldIn.setBlockState(blockpos1, iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
+                    worldIn.setBlockState(blockPos, blockState1.withProperty(POWERED, flag), 2);
 
-                    if (flag != state.getValue(OPEN).booleanValue())
+                    if (flag != state.getValue(OPEN))
                     {
-                        worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(flag)), 2);
+                        worldIn.setBlockState(pos, state.withProperty(OPEN, flag), 2);
                         worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                        SoundType soundType = this.getSoundType();
+                        SoundType soundType = this.getSoundType(state, worldIn, pos, null);
                         worldIn.playSound(null, pos, flag ? this.getDoorOpenSound() : this.getDoorCloseSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.5F);
                     }
                 }

@@ -8,8 +8,9 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class SoundInit {
     public static SoundEvent VOID_DOOR_OPEN, VOID_DOOR_CLOSE;
     public static SoundEvent DEATH_EASTER_EGG;
-    public static SoundEvent CORRIDOR_MUSIC, SKY_SECTOR_MUSIC;
+    public static SoundEvent CORRIDOR_MUSIC, SKY_SECTOR_MUSIC, DISPOSAL_MUSIC;
     public static SoundEvent RECORD_CALM_5;
+    public static SoundEvent DISMANTLER_DASH, DISMANTLER_RECHARGE;
 
     public static void registerSounds() {
         VOID_DOOR_OPEN = registerSound("block.void_door_open");
@@ -19,8 +20,12 @@ public class SoundInit {
 
         CORRIDOR_MUSIC = registerSound("music.corridors.corridor_music");
         SKY_SECTOR_MUSIC = registerSound("music.skysector.sky_sector_music");
+        DISPOSAL_MUSIC = registerSound("music.disposal.disposal_music");
 
         RECORD_CALM_5 = registerSound("music.disc.calm_5");
+
+        DISMANTLER_DASH = registerSound("item.dismantler.dash");
+        DISMANTLER_RECHARGE = registerSound("item.dismantler.recharge");
     }
 
     private static SoundEvent registerSound(String name) {

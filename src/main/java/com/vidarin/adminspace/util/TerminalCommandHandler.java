@@ -30,10 +30,10 @@ public class TerminalCommandHandler {
         String path = "";
         String commandArgs = "";
         try {
-            path = command.split("#")[0];
-            commandArgs = command.split("#")[1];
+            path = command.split(";")[0];
+            commandArgs = command.replaceAll(path + ";", "");
         }
-        catch (ArrayIndexOutOfBoundsException ignore) {}
+        catch (ArrayIndexOutOfBoundsException ignored) {}
 
         String classPath = "com.vidarin.adminspace.util.terminalcommands." + path;
 

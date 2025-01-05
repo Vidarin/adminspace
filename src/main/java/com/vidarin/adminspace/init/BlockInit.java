@@ -4,6 +4,7 @@ import com.vidarin.adminspace.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPressurePlate.Sensitivity;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.DamageSource;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ public class BlockInit {
 
     public static final Block voidTile;
     public static final Block voidErrTile;
+    public static final Block voidWall;
+    public static final Block voidStairs;
+    public static final Block voidErrStairs;
     public static final Block concealmentBlock;
 
     public static final Block voidLamp;
@@ -25,6 +29,7 @@ public class BlockInit {
     public static final Block musicPlayer;
     public static final Block toggleButtonOff;
     public static final Block toggleButtonOn; // I had to make two separate blocks because the blockstates didn't want to work
+    public static final Block voidLever;
 
     public static final Block voidGlass;
 
@@ -52,14 +57,23 @@ public class BlockInit {
 
     public static final Block squirmingOrganism;
 
+    public static final Block noiseGemOre;
+    public static final Block rainbowOre;
+
+    public static final Block frozenLeaves;
+
     public static final Block cardReader;
-    public static final Block voidMeter;
+    public static final Block voidGauge;
     public static final Block smallMonitor;
+    public static final Block voidGaugeAll;
+    public static final Block smallMonitorAll;
     public static final Block fan;
     public static final Block voidFan;
 
     public static final Block terminal;
     public static final Block mainTerminal;
+    public static final Block terminalAccept;
+    public static final Block terminalDeny;
 
     public static final Block trigger;
 
@@ -67,9 +81,12 @@ public class BlockInit {
         BLOCKS = new ArrayList<>();
 
         //Basic blocks
-        voidTile = new BlockBase("void_tile");
+        voidTile = new BlockBase("void_tile", Material.ROCK, CreativeTabs.BUILDING_BLOCKS);
         voidErrTile = new BlockBase("void_err_tile");
-        concealmentBlock = new BlockBase("concealment_block");
+        voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS);
+        voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile);
+        voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
+        concealmentBlock = new BlockConcealmentBlock();
 
         //Lamps
         voidLamp = new BlockLamp("void_lamp");
@@ -77,13 +94,14 @@ public class BlockInit {
         hellBulb = new BlockLamp("hell_bulb");
 
         //Simple functional blocks
-        voidDoor = new BlockModDoor("void_door", Material.IRON);
+        voidDoor = new BlockModDoor("void_door", Material.IRON, null);
         voidChest = new BlockVoidChest("void_chest");
         musicPlayer = new BlockMusicPlayer();
         toggleButtonOff = new BlockToggleButtonOff();
         toggleButtonOn = new BlockToggleButtonOn();
+        voidLever = new BlockModLever("void_lever", CreativeTabs.REDSTONE);
 
-        //Glass
+        //Transparent blocks
         voidGlass = new BlockTransparent("void_glass");
 
         //Vine-like stuff
@@ -93,8 +111,6 @@ public class BlockInit {
         //Sky sector dimension
         skyGround = new BlockBase("sky_ground");
         skyGround2 = new BlockLamp("sky_ground_2");
-
-        //Moon dimension
         moonBlock = new BlockBase("moon_block");
         sunBlock = new BlockBase("sun_block");
 
@@ -115,16 +131,27 @@ public class BlockInit {
         //Void being stuff
         squirmingOrganism = new BlockDamaging("squirming_organism", 2, DamageSource.WITHER);
 
+        //Ores
+        noiseGemOre = new BlockCustomDrop("noise_gem_ore", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, ItemInit.noiseGem, 1, 1);
+        rainbowOre = new BlockCustomDrop("rainbow_ore", ItemInit.rainbowGem, 1, 1);
+
+        //Plants
+        frozenLeaves = new BlockModLeaves("frozen_leaves");
+
         //Decorations
         cardReader = new BlockSided("card_reader");
-        voidMeter = new BlockSided("void_meter");
+        voidGauge = new BlockSided("void_gauge");
         smallMonitor = new BlockSided("small_monitor");
+        voidGaugeAll = new BlockBase("void_gauge_all");
+        smallMonitorAll = new BlockBase("small_monitor_all");
         fan = new BlockBase("fan");
         voidFan = new BlockBase("void_fan");
 
         //Terminals
         terminal = new BlockTerminal("terminal");
         mainTerminal = new BlockTerminal("main_terminal");
+        terminalAccept = new BlockTerminalAccept();
+        terminalDeny = new BlockTerminalDeny();
 
         //Other stuff
         trigger = new BlockTrigger("trigger", Sensitivity.MOBS);

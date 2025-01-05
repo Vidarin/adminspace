@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east":  { "model": "adminspace:void_gauge" },
+    "facing=south": { "model": "adminspace:void_gauge", "y": 90 },
+    "facing=west":  { "model": "adminspace:void_gauge", "y": 180 },
+    "facing=north": { "model": "adminspace:void_gauge", "y": 270 }
+  }
+}

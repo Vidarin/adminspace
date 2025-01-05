@@ -36,7 +36,7 @@ public class BlockDamaging extends BlockBase {
         if (entityIn instanceof EntityLivingBase && !entityIn.isEntityInvulnerable(source))
             entityIn.attackEntityFrom(source, damage);
         if (entityIn instanceof EntityPlayer) {
-            DimTP.tpToDimension((EntityPlayer) entityIn, 21, 8, 100, 8);
+            DimTP.tpToDimension((EntityPlayer) entityIn, 100, 8, 100, 8);
         }
         super.onEntityWalk(worldIn, pos, entityIn);
     }

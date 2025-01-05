@@ -1,0 +1,37 @@
+package com.vidarin.adminspace.dimension.deltaquest;
+
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.biome.Biome;
+
+import javax.annotation.Nonnull;
+
+public class BiomeDeltaQuestTundra extends Biome {
+    public BiomeDeltaQuestTundra() {
+        super(new BiomeProperties("Tundra (DQ)").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.0f).setWaterColor(1541575).setSnowEnabled().setRainfall(0.5f));
+
+        this.spawnableCaveCreatureList.clear();
+        this.spawnableCreatureList.clear();
+        this.spawnableMonsterList.clear();
+        this.spawnableWaterCreatureList.clear();
+    }
+
+    @Override
+    public int getFoliageColorAtPos(@Nonnull BlockPos pos) {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public int getModdedBiomeFoliageColor(int original) {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public int getGrassColorAtPos(@Nonnull BlockPos pos) {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public int getModdedBiomeGrassColor(int original) {
+        return 0xFFFFFF;
+    }
+}

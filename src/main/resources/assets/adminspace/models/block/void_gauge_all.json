@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "adminspace:blocks/void_tile",
+    "side": "adminspace:blocks/void_gauge"
+  }
+}

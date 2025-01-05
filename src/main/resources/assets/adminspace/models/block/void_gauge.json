@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "east": "adminspace:blocks/void_gauge",
+    "south": "adminspace:blocks/void_tile",
+    "north": "adminspace:blocks/void_tile",
+    "west": "adminspace:blocks/void_tile",
+    "particle": "adminspace:blocks/void_tile",
+    "up": "adminspace:blocks/void_tile",
+    "down": "adminspace:blocks/void_tile"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+          [
+            "VVC",
+            " DV",
+            "D V"
+          ],
+
+  "key": {
+    "V": { "item": "adminspace:noise_gem" },
+    "C": { "item": "adminspace:accept" },
+    "D": { "item": "adminspace:deny" }
+  },
+
+  "result": {
+    "item": "adminspace:dismantler",
+    "count": 1
+  }
+}

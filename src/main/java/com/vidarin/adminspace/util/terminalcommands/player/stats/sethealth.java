@@ -3,6 +3,8 @@ package com.vidarin.adminspace.util.terminalcommands.player.stats;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
 import com.vidarin.adminspace.util.terminalcommands.TermError;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketUpdateHealth;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -30,10 +32,13 @@ public class sethealth {
             assert target != null;
 
             target.setHealth(val);
+            if (commandHandler.getWorld().isRemote) {
+                EntityPlayerMP playerMP = (EntityPlayerMP) target;
+                playerMP.connection.sendPacket(new SPacketUpdateHealth(val, 0, 0F));
+            }
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            TermError termError = new TermError(commandHandler, commandArgs);
-            termError.argumentError(commandHandler);
+            TermError.argumentError(commandHandler);
         }
     }
 }

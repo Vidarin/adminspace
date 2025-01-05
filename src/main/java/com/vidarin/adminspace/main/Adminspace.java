@@ -1,11 +1,9 @@
 package com.vidarin.adminspace.main;
 
 import com.vidarin.adminspace.gui.GuiHandler;
-import com.vidarin.adminspace.init.BiomeInit;
-import com.vidarin.adminspace.init.DimensionInit;
-import com.vidarin.adminspace.init.EntityInit;
+import com.vidarin.adminspace.init.*;
+import com.vidarin.adminspace.network.ModNetworkHandler;
 import com.vidarin.adminspace.proxy.CommonProxy;
-import com.vidarin.adminspace.init.SoundInit;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,6 +32,7 @@ public class Adminspace
         RegisterRenderers.registerEntityRenderers();
         BiomeInit.registerBiomes();
         DimensionInit.registerDimensions();
+        RegisterMain.registerWorldGen();
     }
 
     @EventHandler
@@ -41,6 +40,7 @@ public class Adminspace
         Adminspace.proxy.init();
         SoundInit.registerSounds();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
+        ModNetworkHandler.registerPackets();
     }
 
     @EventHandler

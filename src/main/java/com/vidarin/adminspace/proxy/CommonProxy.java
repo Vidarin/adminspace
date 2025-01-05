@@ -7,19 +7,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) {}
 
-    }
+    public void init() {}
 
-    public void init() {
+    public void postInit(FMLPostInitializationEvent event) {}
 
-    }
-
-    public void postInit(FMLPostInitializationEvent event) {
-
-    }
-
-    public void registerItemRenderer(Item item, int meta, String id) {
-
-    }
+    public void registerItemRenderer(Item item, int meta, String id) {}
 }

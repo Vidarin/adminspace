@@ -9,35 +9,33 @@ public class move {
     public move(TerminalCommandHandler commandHandler, String commandArgs) {
         EntityPlayer player = commandHandler.getPlayer();
 
-        TermError termError = new TermError(commandHandler, commandArgs);
-
         try {
             double x;
             try {
                 x = Integer.parseInt(commandArgs.split("/")[0]);
             } catch (NumberFormatException e) {
                 x = player.posX;
-                termError.argumentError(commandHandler);
+                TermError.argumentError(commandHandler);
             }
             double y;
             try {
                 y = Integer.parseInt(commandArgs.split("/")[1]);
             } catch (NumberFormatException e) {
                 y = player.posY;
-                termError.argumentError(commandHandler);
+                TermError.argumentError(commandHandler);
             }
             double z;
             try {
                 z = Integer.parseInt(commandArgs.split("/")[2]);
             } catch (NumberFormatException e) {
                 z = player.posZ;
-                termError.argumentError(commandHandler);
+                TermError.argumentError(commandHandler);
             }
 
             player.move(MoverType.SELF, x, y, z);
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            termError.argumentError(commandHandler);
+            TermError.argumentError(commandHandler);
         }
     }
 }
