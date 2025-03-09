@@ -43,6 +43,21 @@ tile.small_monitor.name=Small Monitor
 tile.void_gauge_all.name=4-Sided Void Gauge
 tile.small_monitor_all.name=4-Sided Small Monitor
 
+tile.minesweeper_0.name=Minesweeper Tile
+tile.minesweeper_1.name=Minesweeper Tile
+tile.minesweeper_2.name=Minesweeper Tile
+tile.minesweeper_3.name=Minesweeper Tile
+tile.minesweeper_4.name=Minesweeper Tile
+tile.minesweeper_5.name=Minesweeper Tile
+tile.minesweeper_6.name=Minesweeper Tile
+tile.minesweeper_7.name=Minesweeper Tile
+tile.minesweeper_8.name=Minesweeper Tile
+tile.minesweeper_flag.name=Minesweeper Tile
+tile.minesweeper_mine.name=Minesweeper Tile
+tile.minesweeper_mine_critical.name=YOU LOST!
+tile.minesweeper_button.name=Minesweeper Tile
+
+
 tile.sky_ground.name=Void Block
 tile.sky_ground_2.name=Active Void Block
 
@@ -64,10 +79,15 @@ tile.corridor_tracks.name=Corridor Tracks
 
 tile.squirming_organism.name=Squirming Organism
 
+tile.data_daisy.name=Data Daisy
+
 tile.noise_gem_ore.name=Noise Ore
 tile.rainbow_ore.name=§cR§6a§ei§an§bb§9o§dw §cO§6r§ee
 
 tile.frozen_leaves.name=Snowy Leaves
+
+tile.teleporter_dq.name=Teleporter that is very magical and teleports you to the deltaquest dimension, which is very cool
+tile.teleporter_ss.name=Teleporter that is very boring and teleports you to the sky sector dimension, which is very boring
 
 item.cat_pass.name=Cat Pass
 

@@ -108,11 +108,13 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(@Nonnull IBlockState state) {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(@Nonnull IBlockState state) {
         return false;
     }
@@ -125,12 +127,14 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
@@ -143,6 +147,7 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
         EnumFacing facing = EnumFacing.getFront(meta);

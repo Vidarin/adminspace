@@ -31,18 +31,21 @@ public class BlockToggleButtonOn extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean canProvidePower(IBlockState state) {
         return true;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return 15;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return 15;

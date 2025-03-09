@@ -43,6 +43,7 @@ public class BlockModLeaves extends BlockOldLeaf {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state) {
         return false;

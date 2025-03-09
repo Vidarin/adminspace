@@ -11,7 +11,7 @@
   "key": {
     "V": { "item": "adminspace:noise_gem" },
     "C": { "item": "adminspace:accept" },
-    "D": { "item": "adminspace:deny" }
+    "D": { "item": "adminspace:data_daisy" }
   },
 
   "result": {

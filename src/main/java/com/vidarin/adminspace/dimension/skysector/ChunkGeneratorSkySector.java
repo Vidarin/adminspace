@@ -40,7 +40,6 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
         this.rand = new Random(seed);
         this.world.setSeaLevel(0);
         this.chunkPrimer = new ChunkPrimer();
-        this.blockFiller = new WorldGenBlockFiller(this.chunkPrimer, this.world);
     }
 
     @Override
@@ -238,12 +237,12 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
 
         // If two non-solid cubes doesn't connect 'true-true' return false
         if (!solid.contains(cube)) {
-            if (!solid.contains(northAdjacentCube) && (northAdjacentCube.isSouth() && cube.isNorth())) return false;
-            if (!solid.contains(southAdjacentCube) && (southAdjacentCube.isNorth() && cube.isSouth())) return false;
-            if (!solid.contains(westAdjacentCube) && (westAdjacentCube.isEast() && cube.isWest())) return false;
-            if (!solid.contains(eastAdjacentCube) && (eastAdjacentCube.isWest() && cube.isEast())) return false;
-            if (!solid.contains(upAdjacentCube) && (upAdjacentCube.isDown() && cube.isUp())) return false;
-            if (!solid.contains(downAdjacentCube) && (downAdjacentCube.isUp() && cube.isDown())) return false;
+            if (!solid.contains(northAdjacentCube) && !(northAdjacentCube.isSouth() && cube.isNorth())) return false;
+            if (!solid.contains(southAdjacentCube) && !(southAdjacentCube.isNorth() && cube.isSouth())) return false;
+            if (!solid.contains(westAdjacentCube) && !(westAdjacentCube.isEast() && cube.isWest())) return false;
+            if (!solid.contains(eastAdjacentCube) && !(eastAdjacentCube.isWest() && cube.isEast())) return false;
+            if (!solid.contains(upAdjacentCube) && !(upAdjacentCube.isDown() && cube.isUp())) return false;
+            if (!solid.contains(downAdjacentCube) && !(downAdjacentCube.isUp() && cube.isDown())) return false;
         }
 
         // If a solid and another cube connects 'true-false' return false

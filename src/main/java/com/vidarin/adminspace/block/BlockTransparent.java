@@ -31,6 +31,7 @@ public class BlockTransparent extends BlockBase{
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
         IBlockState iblockstate = access.getBlockState(pos.offset(side));
@@ -41,12 +42,14 @@ public class BlockTransparent extends BlockBase{
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean isOpaqueCube(IBlockState state) {
         return false;

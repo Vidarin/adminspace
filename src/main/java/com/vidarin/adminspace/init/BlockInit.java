@@ -61,6 +61,7 @@ public class BlockInit {
     public static final Block rainbowOre;
 
     public static final Block frozenLeaves;
+    public static final Block dataDaisy;
 
     public static final Block cardReader;
     public static final Block voidGauge;
@@ -70,12 +71,28 @@ public class BlockInit {
     public static final Block fan;
     public static final Block voidFan;
 
+    public static final Block minesweeper0;
+    public static final Block minesweeper1;
+    public static final Block minesweeper2;
+    public static final Block minesweeper3;
+    public static final Block minesweeper4;
+    public static final Block minesweeper5;
+    public static final Block minesweeper6;
+    public static final Block minesweeper7;
+    public static final Block minesweeper8;
+    public static final Block minesweeperFlag;
+    public static final Block minesweeperMine;
+    public static final Block minesweeperMineCritical;
+    public static final Block minesweeperButton;
+
     public static final Block terminal;
     public static final Block mainTerminal;
     public static final Block terminalAccept;
     public static final Block terminalDeny;
 
     public static final Block trigger;
+    public static final Block magicalTeleporterDeltaQuest;
+    public static final Block magicalTeleporterSkySector;
 
     static {
         BLOCKS = new ArrayList<>();
@@ -137,6 +154,7 @@ public class BlockInit {
 
         //Plants
         frozenLeaves = new BlockModLeaves("frozen_leaves");
+        dataDaisy = new BlockDataDaisy();
 
         //Decorations
         cardReader = new BlockSided("card_reader");
@@ -147,6 +165,21 @@ public class BlockInit {
         fan = new BlockBase("fan");
         voidFan = new BlockBase("void_fan");
 
+        //Minesweeper
+        minesweeper0 = new BlockMinesweeperTile("minesweeper_0");
+        minesweeper1 = new BlockMinesweeperTile("minesweeper_1");
+        minesweeper2 = new BlockMinesweeperTile("minesweeper_2");
+        minesweeper3 = new BlockMinesweeperTile("minesweeper_3");
+        minesweeper4 = new BlockMinesweeperTile("minesweeper_4");
+        minesweeper5 = new BlockMinesweeperTile("minesweeper_5");
+        minesweeper6 = new BlockMinesweeperTile("minesweeper_6");
+        minesweeper7 = new BlockMinesweeperTile("minesweeper_7");
+        minesweeper8 = new BlockMinesweeperTile("minesweeper_8");
+        minesweeperFlag = new BlockMinesweeperTile("minesweeper_flag");
+        minesweeperMine = new BlockMinesweeperTile("minesweeper_mine");
+        minesweeperMineCritical = new BlockMinesweeperTile("minesweeper_mine_critical");
+        minesweeperButton = new BlockMinesweeperButton(); // TODO: fix the minesweeper stuff
+
         //Terminals
         terminal = new BlockTerminal("terminal");
         mainTerminal = new BlockTerminal("main_terminal");
@@ -155,5 +188,7 @@ public class BlockInit {
 
         //Other stuff
         trigger = new BlockTrigger("trigger", Sensitivity.MOBS);
+        magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100);
+        magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20);
     }
 }

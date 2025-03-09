@@ -46,6 +46,7 @@ public class BlockAxisSided extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState withRotation(@Nonnull IBlockState state, Rotation rot)
     {
         switch (rot)
@@ -75,6 +76,8 @@ public class BlockAxisSided extends BlockBase {
         return new BlockStateContainer(this, AXIS);
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState getStateFromMeta(int meta)
     {
         EnumFacing.Axis axis = EnumFacing.Axis.Y;
@@ -92,6 +95,7 @@ public class BlockAxisSided extends BlockBase {
         return this.getDefaultState().withProperty(AXIS, axis);
     }
 
+    @Override
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;

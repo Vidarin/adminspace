@@ -3,13 +3,10 @@ package com.vidarin.adminspace.model.render;
 import com.vidarin.adminspace.entity.EntityIntegrity;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.model.ModelEntityIntegrity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,22 +25,19 @@ public class RenderIntegrity extends RenderLiving<EntityIntegrity> {
     }
 
     @Override
-    protected void preRenderCallback(@Nonnull EntityIntegrity entity, float partialTicks) {
-        super.preRenderCallback(entity, partialTicks);
-
-        EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().getRenderViewEntity();
-        assert player != null;
-        Vec3d viewerDirection = player.getLookVec();
-
-        double rotationYaw = Math.atan2(viewerDirection.z, viewerDirection.x) * 180 / Math.PI;
-
-        GlStateManager.pushMatrix();
-        GlStateManager.rotate((float) rotationYaw + 35.0f, 0, 1, 0);
-    }
-
-    @Override
     public void doRender(@Nonnull EntityIntegrity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        GlStateManager.pushMatrix();
+
+        GlStateManager.translate(x, y + 1.5F, z);
+
+        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 0.5F, 0.0f);
+        GlStateManager.rotate(this.renderManager.options.thirdPersonView == 2 ? -this.renderManager.playerViewX : this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+
+        GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+
+        this.bindEntityTexture(entity);
+        this.mainModel.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+
         GlStateManager.popMatrix();
     }
 }

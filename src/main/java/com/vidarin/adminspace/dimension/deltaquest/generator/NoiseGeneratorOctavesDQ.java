@@ -15,7 +15,7 @@ public class NoiseGeneratorOctavesDQ extends NoiseGeneratorDQ
         }
     }
 
-    public double func_806_a(final double var1, final double var3) {
+    public double generateTreeNoise(final double var1, final double var3) {
         double var4 = 0.0;
         double var5 = 1.0;
         for (int var6 = 0; var6 < this.field_1191_b; ++var6) {

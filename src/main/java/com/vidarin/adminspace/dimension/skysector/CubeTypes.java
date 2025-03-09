@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.Random;
 
 public enum CubeTypes { //Here north is positive X and west is positive Z because I refuse to think north is negative Z
-    Empty(Blocks.AIR.getDefaultState(), DetailTypes.None, true, true, false, false, false, false, 0, "add_doors", 50),
-    EmptyFlipped(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, true, true, false, false, 0, "add_doors", 50),
-    Empty2Way(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 2, "add_doors", 40),
-    Empty3Way(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 3, "add_doors", 30),
-    Empty4Way(Blocks.AIR.getDefaultState(), DetailTypes.None, true, true, true, true, false, false, 0, "add_doors", 10),
-    EmptyDeadEnd(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 1, "add_doors", 100),
+    Empty(Blocks.AIR.getDefaultState(), DetailTypes.None, true, true, false, false, false, false, 0, "add_doors", 80),
+    EmptyFlipped(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, true, true, false, false, 0, "add_doors", 80),
+    Empty1Way(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 1, "add_doors", 60),
+    Empty2Way(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 2, "add_doors", 70),
+    Empty3Way(Blocks.AIR.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 3, "add_doors", 50),
+    Empty4Way(Blocks.AIR.getDefaultState(), DetailTypes.None, true, true, true, true, false, false, 0, "add_doors", 40),
 
     Filled(BlockInit.voidTile.getDefaultState(), DetailTypes.None, false, false, false, false, false, false, 0, "", 100),
     Lamp(BlockInit.voidTile.getDefaultState(), DetailTypes.Lamp, false, false, false, false, false, false, 0, "", 50),
@@ -33,7 +33,6 @@ public enum CubeTypes { //Here north is positive X and west is positive Z becaus
     Terminal(Blocks.AIR.getDefaultState(), DetailTypes.Terminal, false, false, false, false, false, false, 1, "", 1),
     Stairs(Blocks.AIR.getDefaultState(), DetailTypes.Stairs, false, false, false, false, true, false, 1, "", 3),
 
-
     LadderBottom(Blocks.AIR.getDefaultState(), DetailTypes.Ladder, false, false, false, false, true, false, 1, "", 5),
     Ladder(Blocks.AIR.getDefaultState(), DetailTypes.Ladder, false, false, false, false, true, true, 0, "", 100),
     LadderTop(Blocks.AIR.getDefaultState(), DetailTypes.LadderTop, false, false, false, false, false, true, 1, "", 100),
@@ -43,6 +42,8 @@ public enum CubeTypes { //Here north is positive X and west is positive Z becaus
 
     private final IBlockState mainBlock;
     private final DetailTypes detail;
+
+
 
     private final boolean north;
     private final boolean south;

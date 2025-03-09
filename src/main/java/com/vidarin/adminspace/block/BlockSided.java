@@ -67,12 +67,14 @@ public class BlockSided extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
@@ -85,6 +87,7 @@ public class BlockSided extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState getStateFromMeta(int meta)
     {
         EnumFacing facing = EnumFacing.getFront(meta);

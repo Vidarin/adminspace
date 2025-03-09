@@ -1,8 +1,9 @@
 package com.vidarin.adminspace.dimension.deltaquest.generator;
 
-import com.vidarin.adminspace.dimension.deltaquest.GenLayerBiomesDeltaQuest;
+import com.vidarin.adminspace.dimension.GenLayerCustomBiomes;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.*;
@@ -28,7 +29,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
     private final NoiseGeneratorOctavesDQ noiseGen5;
     public NoiseGeneratorOctavesDQ noiseGen6;
     public NoiseGeneratorOctavesDQ noiseGen7;
-    public NoiseGeneratorOctavesDQ mobSpawnerNoise;
+    public NoiseGeneratorOctavesDQ treeNoise;
     private final World world;
     private double[] noiseArray;
     private double[] sandNoise;
@@ -41,8 +42,10 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
     double[] field_916_g;
     double[] field_915_h;
     private Biome[] biomesForGeneration;
+
+    private WorldGenBlockFiller blockFiller;
     
-    public ChunkGeneratorDeltaQuest(final World world, final long seed) {
+    public ChunkGeneratorDeltaQuest(World world, long seed) {
         this.sandNoise = new double[256];
         this.gravelNoise = new double[256];
         this.stoneNoise = new double[256];
@@ -56,16 +59,16 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         this.noiseGen5 = new NoiseGeneratorOctavesDQ(this.random, 4);
         this.noiseGen6 = new NoiseGeneratorOctavesDQ(this.random, 10);
         this.noiseGen7 = new NoiseGeneratorOctavesDQ(this.random, 16);
-        this.mobSpawnerNoise = new NoiseGeneratorOctavesDQ(this.random, 8);
+        this.treeNoise = new NoiseGeneratorOctavesDQ(this.random, 8);
     }
     
-    public void generateTerrain(final int chunkX, final int chunkZ, final ChunkPrimer chunk) {
+    public void generateTerrain(int chunkX, int chunkZ, ChunkPrimer chunk) {
         final byte noiseZ = 4;
         final byte height = 64;
         final int width = noiseZ + 1;
         final byte depth = 17;
         final int var8 = noiseZ + 1;
-        this.noiseArray = this.generateNoise(this.noiseArray, chunkX * noiseZ, 0, chunkZ * noiseZ, width, depth, var8);
+        this.noiseArray = this.generateNoise(this.noiseArray, chunkX * noiseZ, chunkZ * noiseZ, width, depth, var8);
         for (int var9 = 0; var9 < noiseZ; ++var9) {
             for (int var10 = 0; var10 < noiseZ; ++var10) {
                 for (int var11 = 0; var11 < 16; ++var11) {
@@ -118,7 +121,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
     }
     
-    public void replaceBlocks(final int chunkX, final int chunkZ, final ChunkPrimer chunk) {
+    public void replaceBlocks(int chunkX, int chunkZ, ChunkPrimer chunk) {
         final byte baseLevel = 64;
         final double height = 0.03125;
         this.sandNoise = this.noiseGen4.generateNoiseOctaves(this.sandNoise, chunkX * 16, chunkZ * 16, 0.0, 16, 16, 1, height, height, 1.0);
@@ -184,8 +187,6 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
                                 chunk.setBlockState(x, y, z, fillerBlock.getDefaultState());
                             }
                         }
-                        else if (block == Blocks.WATER) {
-                        }
                     }
                 }
             }
@@ -198,10 +199,12 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         this.biomesForGeneration = this.getBiomesForGeneration(this.biomesForGeneration, chunkX * 16, chunkZ * 16);
 
         ChunkPrimer chunkPrimer = new ChunkPrimer();
+        this.blockFiller = new WorldGenBlockFiller(chunkPrimer, this.world);
 
         this.generateTerrain(chunkX, chunkZ, chunkPrimer);
         this.replaceBlocks(chunkX, chunkZ, chunkPrimer);
         this.caveGenerator.generate(world, chunkX, chunkZ, chunkPrimer);
+        blockFiller.fillBlocks(0, 0, 0, 15, 0, 15, Blocks.BEDROCK.getDefaultState());
 
         Chunk chunk = new Chunk(this.world, chunkPrimer, chunkX, chunkZ);
 
@@ -231,7 +234,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
             biomes = new Biome[16 * 16];
         }
 
-        GenLayer baseLayer = new GenLayerBiomesDeltaQuest(this.world.getSeed(), ALLOWED_BIOMES);
+        GenLayer baseLayer = new GenLayerCustomBiomes(this.world.getSeed(), ALLOWED_BIOMES);
         GenLayer deltaQuestGenBiomes = GenLayerZoom.magnify(1000L, baseLayer, 7);
 
         int[] biomesInts = deltaQuestGenBiomes.getInts(x, z, 16, 16);
@@ -251,19 +254,19 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
     }
     
-    private double[] generateNoise(double[] noiseIn, final int noiseX, final int noiseY, final int noiseZ, final int height, final int width, final int depth) {
+    private double[] generateNoise(double[] noiseIn, int noiseX, int noiseZ, int height, int width, int depth) {
         if (noiseIn == null) {
             noiseIn = new double[height * width * depth];
         }
         final double var8 = 684.412;
         final double var9 = 684.412;
-        this.field_916_g = this.noiseGen6.generateNoiseOctaves(this.field_916_g, noiseX, noiseY, noiseZ, height, 1, depth, 1.0, 0.0, 1.0);
+        this.field_916_g = this.noiseGen6.generateNoiseOctaves(this.field_916_g, noiseX, 0, noiseZ, height, 1, depth, 1.0, 0.0, 1.0);
         this.field_915_h = this.noiseGen7
-.generateNoiseOctaves(this.field_915_h, noiseX, noiseY, noiseZ, height, 1, depth, 100.0, 0.0, 100.0);
+.generateNoiseOctaves(this.field_915_h, noiseX, 0, noiseZ, height, 1, depth, 100.0, 0.0, 100.0);
         this.field_919_d = this.noiseGen3
-.generateNoiseOctaves(this.field_919_d, noiseX, noiseY, noiseZ, height, width, depth, var8 / 80.0, var9 / 160.0, var8 / 80.0);
-        this.field_918_e = this.noiseGen1.generateNoiseOctaves(this.field_918_e, noiseX, noiseY, noiseZ, height, width, depth, var8, var9, var8);
-        this.field_917_f = this.noiseGen2.generateNoiseOctaves(this.field_917_f, noiseX, noiseY, noiseZ, height, width, depth, var8, var9, var8);
+.generateNoiseOctaves(this.field_919_d, noiseX, 0, noiseZ, height, width, depth, var8 / 80.0, var9 / 160.0, var8 / 80.0);
+        this.field_918_e = this.noiseGen1.generateNoiseOctaves(this.field_918_e, noiseX, 0, noiseZ, height, width, depth, var8, var9, var8);
+        this.field_917_f = this.noiseGen2.generateNoiseOctaves(this.field_917_f, noiseX, 0, noiseZ, height, width, depth, var8, var9, var8);
         int var10 = 0;
         int var11 = 0;
         for (int var12 = 0; var12 < height; ++var12) {
@@ -343,7 +346,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         BlockSand.fallInstantly = true;
         int blockX = chunkX * 16;
         int blockZ = chunkZ * 16;
-        Biome biome = this.world.getBiome(new BlockPos(blockX + 16, 0, blockZ + 16));
+        Biome biome = this.biomesForGeneration[136];
         this.random.setSeed(this.world.getSeed());
         long seed1 = this.random.nextLong() / 2L * 2L + 1L;
         long seed2 = this.random.nextLong() / 2L * 2L + 1L;
@@ -367,12 +370,38 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
             }
         }
 
+        // Generate water and lava
+        for (int i = 0; i < 50; ++i) {
+            int waterX = blockX + this.random.nextInt(16) + 8;
+            int waterY = this.random.nextInt(this.random.nextInt(120) + 8);
+            int waterZ = blockZ + this.random.nextInt(16) + 8;
+            (new WorldGenLiquids(Blocks.WATER)).generate(this.world, this.random, new BlockPos(waterX, waterY, waterZ));
+            this.world.markAndNotifyBlock(new BlockPos(waterX, waterY, waterZ), world.getChunkFromChunkCoords(chunkX, chunkZ), world.getBlockState(new BlockPos(waterX, waterY, waterZ)), Blocks.LAVA.getDefaultState(), 3);
+        }
+
+        for (int i = 0; i < 20; ++i) {
+            int lavaX = blockX + this.random.nextInt(16) + 8;
+            int lavaY = this.random.nextInt(this.random.nextInt(this.random.nextInt(112) + 8) + 8);
+            int lavaZ = blockZ + this.random.nextInt(16) + 8;
+            (new WorldGenLiquids(Blocks.LAVA)).generate(this.world, this.random, new BlockPos(lavaX, lavaY, lavaZ));
+            this.world.markAndNotifyBlock(new BlockPos(lavaX, lavaY, lavaZ), world.getChunkFromChunkCoords(chunkX, chunkZ), world.getBlockState(new BlockPos(lavaX, lavaY, lavaZ)), Blocks.WATER.getDefaultState(), 3);
+
+        }
+
         // Generate dungeons
-        if (this.random.nextInt(10) == 0) {
+        if (this.random.nextInt(5) == 0) {
             int dungeonX = blockX + this.random.nextInt(16) + 8;
             int dungeonY = this.random.nextInt(64);
             int dungeonZ = blockZ + this.random.nextInt(16) + 8;
             (new WorldGenDungeons()).generate(this.world, this.random, new BlockPos(dungeonX, dungeonY, dungeonZ));
+        }
+
+        // Generate clay
+        for (int i = 0; i < 3; ++i) {
+            int clayX = blockX + this.random.nextInt(16);
+            int clayY = this.random.nextInt(128);
+            int clayZ = blockZ + this.random.nextInt(16);
+            (new WorldGenClay(32)).generate(this.world, this.random, new BlockPos(clayX, clayY, clayZ));
         }
 
         // Generate dirt
@@ -433,7 +462,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
 
         // Generate trees
         double treeDensity = 0.5D;
-        int treeCount = (int) ((this.noiseGen6.generateNoiseOctaves(this.noiseArray, blockX, 0, blockZ, 1, 1, 1, treeDensity, 1.0D, treeDensity)[0] / 8.0D + this.random.nextDouble() * 4.0D + 4.0D) / 3.0D);
+        int treeCount = (int) ((this.treeNoise.generateTreeNoise(blockX * treeDensity, blockZ * treeDensity) / 8.0D + this.random.nextDouble() * 4.0D + 4.0D) / 3.0D);
         int additionalTrees = 0;
         if (this.random.nextInt(10) == 0) {
             ++additionalTrees;
@@ -546,12 +575,8 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
                     this.world.setBlockState(icePos, Blocks.ICE.getDefaultState(), 2);
                 }
 
-                if (this.world.canSnowAt(snowPos, true)) {
+                if (this.world.canSnowAt(snowPos, true) || this.random.nextInt(5) + snowPos.getY() > 115) {
                     this.world.setBlockState(snowPos, Blocks.SNOW_LAYER.getDefaultState().withProperty(BlockSnow.LAYERS, this.random.nextInt(2) + 1), 2);
-                }
-
-                if (this.random.nextInt(5) + snowPos.getY() > 95) {
-                    this.world.setBlockState(snowPos, Blocks.SNOW_LAYER.getDefaultState().withProperty(BlockSnow.LAYERS, this.random.nextInt(3) + 1));
                 }
             }
         }

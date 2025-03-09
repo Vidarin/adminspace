@@ -1,37 +1,36 @@
 package com.vidarin.adminspace.entity;
 
 import com.vidarin.adminspace.init.SoundInit;
-import com.vidarin.adminspace.util.DimTP;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class EntityIntegrity extends EntityMob {
-    private EntityPlayer TARGET;
-
-    private int ticksSinceBlockBreak = 0;
-    private int prevDistance = 0;
+    private static final DataParameter<String> TARGET = EntityDataManager.createKey(EntityIntegrity.class, DataSerializers.STRING);
 
     public EntityIntegrity(World worldIn) {
         super(worldIn);
         this.setSize(0.9f, 2.9f);
         this.stepHeight = 1.5f;
+    }
+
+    @Override
+    protected void initEntityAI() {
+        this.tasks.addTask(1, new EntityAISwimming(this));
     }
 
     @Override
@@ -44,110 +43,12 @@ public class EntityIntegrity extends EntityMob {
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
     }
 
-    @Override
-    public void onLivingUpdate() throws IndexOutOfBoundsException{
-        super.onLivingUpdate();
-        this.world.getChunkFromBlockCoords(new BlockPos(this.posX, this.posY, this.posZ)).markDirty();
-
-        if (this.TARGET == null || this.TARGET.getDistance(this) > 100) {
-            this.setFramerate(120);
-            this.TARGET = this.world.getNearestAttackablePlayer(this, 40.0D, 20.0D);
-        }
-        if (this.TARGET != null) {
-            if (this.TARGET.getDistance(this) < 1.5) {
-                DimTP.tpToDimension(this.TARGET, 20, 8, 32, 8);
-                this.setDead();
-                this.setFramerate(120);
-            }
-            else {
-                this.moveEntity();
-                this.setFramerate(5);
-            }
-        }
+    public void setTarget(EntityPlayer playerIn) {
+        this.dataManager.set(TARGET, playerIn.getUniqueID().toString());
     }
 
-    private void moveEntity() throws IndexOutOfBoundsException {
-        double dx = this.TARGET.posX - this.posX;
-        double dy = this.TARGET.posY - this.posY;
-        double dz = this.TARGET.posZ - this.posZ;
-        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        double vecX = dx / distance;
-        double vecZ = dz / distance;
-
-        BlockPos targetPos = new BlockPos(this.TARGET.posX, this.TARGET.posY, this.TARGET.posZ);
-
-        List<BlockPos> peskyBlocksInTheWay = getBlocksInWay(this.posX, this.posY + 1, this.posZ, targetPos.getX(), targetPos.getY(), targetPos.getZ());
-
-        if (!peskyBlocksInTheWay.isEmpty() && ticksSinceBlockBreak >= 30) {
-            BlockPos blockToBreak = peskyBlocksInTheWay.get(0);
-            if (this.world.getBlockState(blockToBreak).getBlock().canEntityDestroy(this.world.getBlockState(blockToBreak), this.world, blockToBreak, this)) {
-                if ((blockToBreak.getX() < this.posX + 4 && blockToBreak.getX() > this.posX - 4) && (blockToBreak.getY() < this.posY + 6 && blockToBreak.getY() > this.posY - 2) && (blockToBreak.getZ() < this.posZ + 4 && blockToBreak.getZ() > this.posZ - 4)) {
-                    this.world.destroyBlock(blockToBreak, true);
-                    this.world.setBlockState(blockToBreak, Blocks.AIR.getDefaultState(), 3);
-                    this.world.notifyNeighborsOfStateChange(blockToBreak, this.world.getBlockState(blockToBreak).getBlock(), true);
-                    peskyBlocksInTheWay.remove(blockToBreak);
-                }
-                ticksSinceBlockBreak = 0;
-            }
-        } else {
-            if (this.onGround && this.posY < targetPos.getY() && this.canJump()) {
-                this.move(MoverType.SELF, vecX / 4, 0.5D, vecZ / 4);
-            } else if (!this.onGround) {
-                this.move(MoverType.SELF, vecX / 4, -0.5D, vecZ / 4);
-            } else {
-                this.move(MoverType.SELF, vecX / 4, 0, vecZ / 4);
-            }
-        }
-
-        int currentDistance = Math.round(this.TARGET.getDistance(this));
-        if (currentDistance == prevDistance) {
-            ticksSinceBlockBreak += 1;
-
-        } else {
-            ticksSinceBlockBreak = 0;
-            prevDistance = currentDistance;
-        }
-    }
-
-    private List<BlockPos> getBlocksInWay(double x1, double y1, double z1, double x2, double y2, double z2) throws IndexOutOfBoundsException{
-        List<BlockPos> blocksInWay = new ArrayList<>();
-
-        double dx = x2 - x1;
-        double dy = y2 - y1;
-        double dz = z2 - z1;
-        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        double vecX = dx / distance;
-        double vecY = dy / distance;
-        double vecZ = dz / distance;
-
-        for (int i = 1; i <= 10; i++) {
-            BlockPos pos = new BlockPos(Math.round(x1 + vecX * i), Math.round(y1 + vecY * i), Math.round(z1 + vecZ * i));
-            if (this.world.getBlockState(pos).isFullBlock()) {
-                blocksInWay.add(pos);
-            }
-        }
-        return blocksInWay;
-    }
-
-    private boolean canJump() {
-        IBlockState blockFront = this.world.getBlockState(new BlockPos(this.posX + 1, this.posY, this.posZ));
-        IBlockState blockBack = this.world.getBlockState(new BlockPos(this.posX - 1, this.posY, this.posZ));
-        IBlockState blockLeft = this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ + 1));
-        IBlockState blockRight = this.world.getBlockState(new BlockPos(this.posX, this.posY, this.posZ - 1));
-
-        IBlockState blockFrontUp = this.world.getBlockState(new BlockPos(this.posX + 1, this.posY + 1, this.posZ));
-        IBlockState blockBackUp = this.world.getBlockState(new BlockPos(this.posX - 1, this.posY + 1, this.posZ));
-        IBlockState blockLeftUp = this.world.getBlockState(new BlockPos(this.posX, this.posY + 1, this.posZ + 1));
-        IBlockState blockRightUp = this.world.getBlockState(new BlockPos(this.posX, this.posY + 1, this.posZ - 1));
-
-        return (blockFront.isFullBlock() && !blockFrontUp.isFullBlock()) || (blockBack.isFullBlock() && !blockBackUp.isFullBlock()) || (blockLeft.isFullBlock() && !blockLeftUp.isFullBlock()) || (blockRight.isFullBlock() && !blockRightUp.isFullBlock());
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void setFramerate(int framerate) {
-        if (this.TARGET != null && this.TARGET == Minecraft.getMinecraft().player) {
-            Minecraft.getMinecraft().gameSettings.limitFramerate = framerate;
-        }
+    public EntityPlayer getTarget() {
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(UUID.fromString(this.dataManager.get(TARGET)));
     }
 
     @Override
@@ -160,18 +61,6 @@ public class EntityIntegrity extends EntityMob {
         super.fall(distance, 0);
     }
 
-    @Override
-    public void onDeath(@Nonnull DamageSource cause) {
-        super.onDeath(cause);
-        this.setFramerate(120);
-    }
-
-    @Override
-    public void setDead() {
-        super.setDead();
-        this.setFramerate(120);
-    }
-
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
@@ -179,12 +68,12 @@ public class EntityIntegrity extends EntityMob {
     }
 
     @Override
-    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSourceIn) {
+    protected @Nonnull SoundEvent getHurtSound(@Nonnull DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_BLAZE_HURT; //Placeholder sound
     }
 
     @Override
-    protected SoundEvent getDeathSound() {
+    protected @Nonnull SoundEvent getDeathSound() {
         return SoundInit.DEATH_EASTER_EGG; //Should be a 1/10000 chance
     }
 }

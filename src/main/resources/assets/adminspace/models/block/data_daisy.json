@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "adminspace:blocks/data_daisy",
+    "particle": "adminspace:blocks/data_daisy"
+  }
+}

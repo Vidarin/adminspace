@@ -49,6 +49,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public @Nonnull AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
@@ -57,6 +58,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean flag)
     {
@@ -70,6 +72,7 @@ public class BlockModWall extends BlockBase {
 
     @Nullable
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
@@ -112,6 +115,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state)
     {
@@ -127,6 +131,7 @@ public class BlockModWall extends BlockBase {
 
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean isOpaqueCube(IBlockState state)
     {
@@ -165,6 +170,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
@@ -172,6 +178,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(VARIANT, BlockModWall.EnumType.byMetadata(meta));
@@ -185,6 +192,7 @@ public class BlockModWall extends BlockBase {
 
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public @Nonnull IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
@@ -203,6 +211,7 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public @Nonnull  BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
