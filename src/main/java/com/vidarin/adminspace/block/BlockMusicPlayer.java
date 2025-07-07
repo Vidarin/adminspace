@@ -26,15 +26,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import mcp.MethodsReturnNonnullByDefault;
-
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@MethodsReturnNonnullByDefault
 public class BlockMusicPlayer extends BlockJukebox {
     private final Map<BlockPos, ISound> mapSoundPositions = new HashMap<>();
 
@@ -51,7 +47,6 @@ public class BlockMusicPlayer extends BlockJukebox {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (state.getValue(HAS_RECORD))
         {

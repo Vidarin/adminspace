@@ -3,7 +3,7 @@ package com.vidarin.adminspace.gui.guis;
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
 import com.vidarin.adminspace.gui.containers.ContainerDummy;
 import com.vidarin.adminspace.network.SPacketExecuteTerminalCommand;
-import com.vidarin.adminspace.network.ModNetworkHandler;
+import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -63,7 +63,7 @@ public class GuiTerminal extends GuiContainer {
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-                ModNetworkHandler.INSTANCE.sendToServer(new SPacketExecuteTerminalCommand(input.getText(), terminal.getPos()));
+                AdminspaceNetworkHandler.INSTANCE.sendToServer(new SPacketExecuteTerminalCommand(input.getText(), terminal.getPos()));
 
                 this.mc.displayGuiScreen(null);
             }

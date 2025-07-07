@@ -13,7 +13,6 @@ import net.minecraft.network.PacketBuffer;
 import java.io.IOException;
 
 public class SPacketCompleteInstruction implements IMessage {
-
     private ItemStack bookStack;
 
     public SPacketCompleteInstruction() {}

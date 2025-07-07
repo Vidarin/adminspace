@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
 import com.vidarin.adminspace.item.ItemInstruction;
 import com.vidarin.adminspace.network.SPacketCompleteInstruction;
-import com.vidarin.adminspace.network.ModNetworkHandler;
+import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.util.Fonts;
 import io.netty.buffer.Unpooled;
 import java.io.IOException;
@@ -171,7 +171,7 @@ public class GuiInstruction extends GuiScreen
 
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeItemStack(this.bookObj);
-                ModNetworkHandler.INSTANCE.sendToServer(new SPacketCompleteInstruction(this.bookObj));
+                AdminspaceNetworkHandler.INSTANCE.sendToServer(new SPacketCompleteInstruction(this.bookObj));
             }
         }
     }

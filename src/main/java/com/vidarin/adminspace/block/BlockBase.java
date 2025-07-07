@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class BlockBase extends Block {
@@ -19,14 +20,19 @@ public class BlockBase extends Block {
         this(name, material, null);
     }
 
-    public BlockBase(String name, Material material, CreativeTabs tab) {
+    public BlockBase(String name, Material material, @Nullable CreativeTabs tab) {
+        this(name, material, tab, SoundType.METAL);
+    }
+
+    public BlockBase(String name, Material material, @Nullable CreativeTabs tab, SoundType sound) {
         super(material);
         this.setUnlocalizedName(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
-        this.setSoundType(SoundType.METAL);
-        this.setCreativeTab(tab);
+        this.setSoundType(sound);
+        if (tab != null)
+            this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
         ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));

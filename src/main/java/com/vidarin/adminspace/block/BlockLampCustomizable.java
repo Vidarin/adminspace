@@ -7,8 +7,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 public class BlockLampCustomizable extends BlockBase {
     private final int light;
 
@@ -28,7 +26,6 @@ public class BlockLampCustomizable extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         return light;
     }

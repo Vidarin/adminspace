@@ -12,9 +12,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 public class BlockAxisSided extends BlockBase {
     public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class);
 
@@ -32,7 +29,6 @@ public class BlockAxisSided extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (!worldIn.isRemote)
@@ -40,14 +36,13 @@ public class BlockAxisSided extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public @Nonnull IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(AXIS, facing.getAxis());
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState withRotation(@Nonnull IBlockState state, Rotation rot)
+    public IBlockState withRotation( IBlockState state, Rotation rot)
     {
         switch (rot)
         {
@@ -71,14 +66,14 @@ public class BlockAxisSided extends BlockBase {
     }
 
     @Override
-    protected @Nonnull BlockStateContainer createBlockState()
+    protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, AXIS);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState getStateFromMeta(int meta)
+    public IBlockState getStateFromMeta(int meta)
     {
         EnumFacing.Axis axis = EnumFacing.Axis.Y;
         int i = meta & 12;

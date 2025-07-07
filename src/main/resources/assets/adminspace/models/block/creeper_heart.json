@@ -1,0 +1,8 @@
+{
+  "ambientocclusion": false,
+  "parent": "block/cross",
+  "textures": {
+    "cross": "adminspace:blocks/creeper_heart",
+    "particle": "adminspace:blocks/creeper_heart"
+  }
+}

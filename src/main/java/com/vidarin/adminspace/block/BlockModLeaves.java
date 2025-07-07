@@ -12,8 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 public class BlockModLeaves extends BlockOldLeaf {
@@ -32,25 +30,22 @@ public class BlockModLeaves extends BlockOldLeaf {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return true;
     }
 
     @Override
-    public @Nonnull BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }

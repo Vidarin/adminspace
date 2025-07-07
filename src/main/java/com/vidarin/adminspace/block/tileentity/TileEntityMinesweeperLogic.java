@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 public class TileEntityMinesweeperLogic extends TileEntity {
     private @Nullable BlockPos center = null;
+    private boolean frozen;
     private int value; // -- VALUES --
                        // 1: unopened tile
                        // 2: unopened mine tile
@@ -35,6 +36,10 @@ public class TileEntityMinesweeperLogic extends TileEntity {
         markDirty();
     }
 
+    public void freeze() { frozen = true; }
+    public void unfreeze() { frozen = false; }
+    public boolean isFrozen() { return frozen; }
+
     @Override
     public @Nonnull NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         super.writeToNBT(compound);
@@ -42,6 +47,7 @@ public class TileEntityMinesweeperLogic extends TileEntity {
             compound.setLong("Center", center.toLong());
         }
         compound.setInteger("Value", value);
+        compound.setBoolean("Frozen", frozen);
         return compound;
     }
 
@@ -52,5 +58,6 @@ public class TileEntityMinesweeperLogic extends TileEntity {
             this.center = BlockPos.fromLong(compound.getLong("Center"));
         }
         this.value = compound.getInteger("Value");
+        this.frozen = compound.getBoolean("Frozen");
     }
 }

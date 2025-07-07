@@ -20,9 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 public class BlockModWall extends BlockBase {
@@ -50,8 +48,7 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    public @Nonnull AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         state = this.getActualState(state, source, pos);
         return AABB_BY_INDEX[getAABBIndex(state)];
@@ -59,7 +56,6 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean flag)
     {
         if (!flag)
@@ -73,7 +69,6 @@ public class BlockModWall extends BlockBase {
     @Nullable
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
         blockState = this.getActualState(blockState, worldIn, pos);
@@ -109,21 +104,19 @@ public class BlockModWall extends BlockBase {
 
 
     @Override
-    public @Nonnull String getLocalizedName()
+    public String getLocalizedName()
     {
         return "Noise Gem Wall";
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public boolean isFullCube(IBlockState state)
     {
         return false;
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
     {
         return false;
@@ -132,7 +125,6 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
@@ -154,7 +146,6 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab)
     {
         for (BlockModWall.EnumType enumType : BlockModWall.EnumType.values())
@@ -171,7 +162,6 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
         return side != EnumFacing.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
@@ -179,7 +169,7 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState getStateFromMeta(int meta)
+    public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(VARIANT, BlockModWall.EnumType.byMetadata(meta));
     }
@@ -193,8 +183,7 @@ public class BlockModWall extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    public @Nonnull IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
         boolean flag = this.canConnectTo(worldIn, pos.north(), EnumFacing.SOUTH);
         boolean flag1 = this.canConnectTo(worldIn, pos.east(), EnumFacing.WEST);
@@ -205,15 +194,14 @@ public class BlockModWall extends BlockBase {
     }
 
     @Override
-    protected @Nonnull BlockStateContainer createBlockState()
+    protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, UP, NORTH, EAST, WEST, SOUTH, VARIANT);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    public @Nonnull  BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
     }
 
@@ -251,7 +239,7 @@ public class BlockModWall extends BlockBase {
             return META_LOOKUP[meta];
         }
 
-        public @Nonnull String getName()
+        public String getName()
         {
             return this.name;
         }

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "powered=true":  { "model": "adminspace:toggle_button_on" },
+    "powered=false":  { "model": "adminspace:toggle_button_off" }
+  }
+}

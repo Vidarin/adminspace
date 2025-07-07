@@ -3,6 +3,7 @@ package com.vidarin.adminspace.init;
 import com.vidarin.adminspace.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPressurePlate.Sensitivity;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.DamageSource;
@@ -27,18 +28,15 @@ public class BlockInit {
     public static final Block voidDoor;
     public static final Block voidChest;
     public static final Block musicPlayer;
-    public static final Block toggleButtonOff;
-    public static final Block toggleButtonOn; // I had to make two separate blocks because the blockstates didn't want to work
+    public static final Block toggleButton;
     public static final Block voidLever;
 
     public static final Block voidGlass;
 
-    public static final Block voidCreep;
     public static final Block voidCorruption;
 
     public static final Block skyGround;
     public static final Block skyGround2;
-
     public static final Block moonBlock;
     public static final Block sunBlock;
 
@@ -56,12 +54,15 @@ public class BlockInit {
     public static final Block corridorTracks;
 
     public static final Block squirmingOrganism;
+    public static final Block voidBeingRock;
 
     public static final Block noiseGemOre;
     public static final Block rainbowOre;
 
     public static final Block frozenLeaves;
     public static final Block dataDaisy;
+
+    public static final Block creeperHeart;
 
     public static final Block cardReader;
     public static final Block voidGauge;
@@ -93,13 +94,14 @@ public class BlockInit {
     public static final Block trigger;
     public static final Block magicalTeleporterDeltaQuest;
     public static final Block magicalTeleporterSkySector;
+    public static final Block magicalTeleporterBeyond;
 
     static {
         BLOCKS = new ArrayList<>();
 
         //Basic blocks
-        voidTile = new BlockBase("void_tile", Material.ROCK, CreativeTabs.BUILDING_BLOCKS);
-        voidErrTile = new BlockBase("void_err_tile");
+        voidTile = new BlockBase("void_tile", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, SoundType.ANVIL);
+        voidErrTile = new BlockBase("void_err_tile", Material.ROCK, null, SoundType.ANVIL);
         voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS);
         voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile);
         voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
@@ -111,19 +113,17 @@ public class BlockInit {
         hellBulb = new BlockLamp("hell_bulb");
 
         //Simple functional blocks
-        voidDoor = new BlockModDoor("void_door", Material.IRON, null);
+        voidDoor = new BlockModDoor("void_door", Material.IRON);
         voidChest = new BlockVoidChest("void_chest");
         musicPlayer = new BlockMusicPlayer();
-        toggleButtonOff = new BlockToggleButtonOff();
-        toggleButtonOn = new BlockToggleButtonOn();
+        toggleButton = new BlockToggleButton();
         voidLever = new BlockModLever("void_lever", CreativeTabs.REDSTONE);
 
         //Transparent blocks
         voidGlass = new BlockTransparent("void_glass");
 
         //Vine-like stuff
-        voidCreep = new BlockCreep("void_creep"); //Or as RGN would call it: "blueish substance"
-        voidCorruption = new BlockCreep("void_corruption");
+        voidCorruption = new BlockModVine("void_corruption");
 
         //Sky sector dimension
         skyGround = new BlockBase("sky_ground");
@@ -147,6 +147,7 @@ public class BlockInit {
 
         //Void being stuff
         squirmingOrganism = new BlockDamaging("squirming_organism", 2, DamageSource.WITHER);
+        voidBeingRock = new BlockBase("melted_void_being_rock", Material.ROCK, null, SoundType.STONE);
 
         //Ores
         noiseGemOre = new BlockCustomDrop("noise_gem_ore", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, ItemInit.noiseGem, 1, 1);
@@ -155,6 +156,9 @@ public class BlockInit {
         //Plants
         frozenLeaves = new BlockModLeaves("frozen_leaves");
         dataDaisy = new BlockDataDaisy();
+
+        //Mob Drops
+        creeperHeart = new BlockCreeperHeart();
 
         //Decorations
         cardReader = new BlockSided("card_reader");
@@ -178,7 +182,7 @@ public class BlockInit {
         minesweeperFlag = new BlockMinesweeperTile("minesweeper_flag");
         minesweeperMine = new BlockMinesweeperTile("minesweeper_mine");
         minesweeperMineCritical = new BlockMinesweeperTile("minesweeper_mine_critical");
-        minesweeperButton = new BlockMinesweeperButton(); // TODO: fix the minesweeper stuff
+        minesweeperButton = new BlockMinesweeperButton();
 
         //Terminals
         terminal = new BlockTerminal("terminal");
@@ -188,7 +192,8 @@ public class BlockInit {
 
         //Other stuff
         trigger = new BlockTrigger("trigger", Sensitivity.MOBS);
-        magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100);
-        magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20);
+        magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100, 100);
+        magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20, 9);
+        magicalTeleporterBeyond = new BlockTeleporter("teleporter_by", 23, 100);
     }
 }

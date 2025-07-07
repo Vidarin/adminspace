@@ -1,7 +1,7 @@
 container.void_chest=Chest
 
 instruction.finalizeWarning=Note: This will overwrite the previous instruction!
-instruction.signButton=Sign
+instruction.signButton=Save
 instruction.finalizeButton=Save Changes
 
 tile.void_tile.name=Noise Gem Tile
@@ -26,11 +26,9 @@ tile.terminal_deny.name=Denier Block
 
 tile.void_chest.name=Noise Gem Chest
 tile.music_player.name=Music Player
-tile.toggle_button_on.name=Toggle Button
-tile.toggle_button_off.name=Toggle Button
+tile.toggle_button.name=Toggle Button
 tile.void_lever.name=Noise Gem Lever
 
-tile.void_creep.name=Void Creep
 tile.void_corruption.name=Void Corruption
 
 tile.void_lamp.name=Brightness 15 Block
@@ -78,16 +76,20 @@ tile.corridor_smooth.name=Corridor Tile
 tile.corridor_tracks.name=Corridor Tracks
 
 tile.squirming_organism.name=Squirming Organism
+tile.melted_void_being_rock.name=Melted Void Being Rock
 
 tile.data_daisy.name=Data Daisy
+
+tile.creeper_heart.name=Creeper's Heart
 
 tile.noise_gem_ore.name=Noise Ore
 tile.rainbow_ore.name=§cR§6a§ei§an§bb§9o§dw §cO§6r§ee
 
 tile.frozen_leaves.name=Snowy Leaves
 
-tile.teleporter_dq.name=Teleporter that is very magical and teleports you to the deltaquest dimension, which is very cool
-tile.teleporter_ss.name=Teleporter that is very boring and teleports you to the sky sector dimension, which is very boring
+tile.teleporter_dq.name=Debug Teleporter (DeltaQuest)
+tile.teleporter_ss.name=Debug Teleporter (Sky Sector)
+tile.teleporter_by.name=Debug Teleporter (The Beyond)
 
 item.cat_pass.name=Cat Pass
 

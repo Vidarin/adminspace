@@ -1,5 +1,9 @@
 package com.vidarin.adminspace.dimension.deltaquest;
 
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 
@@ -13,6 +17,12 @@ public class BiomeDeltaQuestPlains extends Biome {
         this.spawnableCreatureList.clear();
         this.spawnableMonsterList.clear();
         this.spawnableWaterCreatureList.clear();
+
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 3, 2, 5));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 5, 1, 1));
+
+        this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 4, 2, 6));
+        this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 2, 1, 4));
     }
 
     @Override

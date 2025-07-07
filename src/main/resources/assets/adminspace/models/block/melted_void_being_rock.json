@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "adminspace:blocks/melted_void_being_rock"
+  }
+}

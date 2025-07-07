@@ -21,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.Random;
 
@@ -43,8 +41,7 @@ BlockModDoor extends BlockDoor {
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
-        if (tab != null)
-            this.setCreativeTab(tab);
+        this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
         ItemInit.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
@@ -61,19 +58,16 @@ BlockModDoor extends BlockDoor {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public @Nonnull Item getItemDropped(IBlockState state, Random random, int fortune) {
+    public Item getItemDropped(IBlockState state, Random random, int fortune) {
         return Item.getItemFromBlock(this);
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public @Nonnull ItemStack getPickBlock(IBlockState state, RayTraceResult traceResult, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult traceResult, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this);
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
         if (this.blockMaterial == Material.IRON)
@@ -102,7 +96,6 @@ BlockModDoor extends BlockDoor {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void toggleDoor(World worldIn, BlockPos pos, boolean open)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -123,7 +116,6 @@ BlockModDoor extends BlockDoor {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (state.getValue(HALF) == EnumDoorHalf.UPPER)

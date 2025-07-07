@@ -5,8 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 
 public class TermError {
-    public TermError() {} // For the argumentError method
-
     public TermError(TerminalCommandHandler commandHandler, String commandArgs) {
         if (commandHandler.getWorld().isRemote) {
             EntityPlayer player = commandHandler.getPlayer();

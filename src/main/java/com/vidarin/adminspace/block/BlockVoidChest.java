@@ -5,7 +5,6 @@ import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.gui.GuiIDs;
 import com.vidarin.adminspace.init.ItemInit;
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
@@ -23,11 +22,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
-@MethodsReturnNonnullByDefault
 public class BlockVoidChest extends BlockContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -54,7 +50,6 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             player.openGui(Adminspace.INSTANCE, GuiIDs.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -64,7 +59,6 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos, this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 
@@ -78,7 +72,6 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (!worldIn.isRemote)
@@ -98,29 +91,28 @@ public class BlockVoidChest extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityVoidChest();
     }
 
     @Override
-    public EnumBlockRenderType getRenderType(@Nonnull IBlockState state) {
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(@Nonnull IBlockState state) {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean isFullCube(@Nonnull IBlockState state) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());

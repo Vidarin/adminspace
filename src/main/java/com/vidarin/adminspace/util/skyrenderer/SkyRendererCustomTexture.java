@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.IRenderHandler;
 import org.lwjgl.opengl.GL11;
 
@@ -56,7 +57,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         GlStateManager.disableFog();
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         renderSkybox(world, mc, partialTicks);
 
@@ -72,8 +73,6 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.enableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.disableBlend();
         GlStateManager.disableCull();
 
         float celestialAngle = world.getCelestialAngle(partialTicks) * 360.0F;
@@ -84,11 +83,19 @@ public class SkyRendererCustomTexture extends IRenderHandler {
 
         float size = mc.gameSettings.renderDistanceChunks * 18;
 
+        float tintStrength = 0.75f;
+        Vec3d color = world.getFogColor(partialTicks);
+
+        float r = (float)(color.x * tintStrength + (1.0 - tintStrength));
+        float g = (float)(color.y * tintStrength + (1.0 - tintStrength));
+        float b = (float)(color.z * tintStrength + (1.0 - tintStrength));
+
         for (int face = 0; face < 6; ++face) {
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
             switch (face) {
                 case 0: // North
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_N);
                     buffer.pos(-size, -size, -size).tex(0, 0).endVertex();
                     buffer.pos(size, -size, -size).tex(1, 0).endVertex();
@@ -96,6 +103,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
                     buffer.pos(-size, size, -size).tex(0, 1).endVertex();
                     break;
                 case 1: // South
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_S);
                     buffer.pos(size, -size, size).tex(0, 0).endVertex();
                     buffer.pos(-size, -size, size).tex(1, 0).endVertex();
@@ -103,6 +111,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
                     buffer.pos(size, size, size).tex(0, 1).endVertex();
                     break;
                 case 2: // East
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_E);
                     buffer.pos(size, -size, -size).tex(0, 0).endVertex();
                     buffer.pos(size, -size, size).tex(1, 0).endVertex();
@@ -110,6 +119,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
                     buffer.pos(size, size, -size).tex(0, 1).endVertex();
                     break;
                 case 3: // West
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_W);
                     buffer.pos(-size, -size, size).tex(0, 0).endVertex();
                     buffer.pos(-size, -size, -size).tex(1, 0).endVertex();
@@ -117,6 +127,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
                     buffer.pos(-size, size, size).tex(0, 1).endVertex();
                     break;
                 case 4: // Up
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_U);
                     buffer.pos(-size, size, -size).tex(0, 0).endVertex();
                     buffer.pos(size, size, -size).tex(1, 0).endVertex();
@@ -124,6 +135,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
                     buffer.pos(-size, size, size).tex(0, 1).endVertex();
                     break;
                 case 5: // Down
+                    GlStateManager.color(r, g, b, tintStrength);
                     mc.renderEngine.bindTexture(SKYBOX_TEXTURE_D);
                     buffer.pos(-size, -size, size).tex(0, 0).endVertex();
                     buffer.pos(size, -size, size).tex(1, 0).endVertex();
@@ -135,10 +147,10 @@ public class SkyRendererCustomTexture extends IRenderHandler {
             tessellator.draw();
         }
 
-        GlStateManager.enableLighting();
         GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableCull();
+        GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }
 

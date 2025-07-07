@@ -13,12 +13,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
-@ParametersAreNonnullByDefault
 public class BlockTerminal extends BlockBase implements ITileEntityProvider {
     private final String name;
 
@@ -29,7 +26,7 @@ public class BlockTerminal extends BlockBase implements ITileEntityProvider {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         TileEntityTerminal tileEntityTerminal = new TileEntityTerminal();
         tileEntityTerminal.setPermLevel(this.getPermLevel());
 
@@ -46,7 +43,6 @@ public class BlockTerminal extends BlockBase implements ITileEntityProvider {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!world.isRemote)
             player.openGui(Adminspace.INSTANCE, GuiIDs.GUI_TERMINAL, world, pos.getX(), pos.getY(), pos.getZ());

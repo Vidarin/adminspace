@@ -12,8 +12,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 public class BlockTrigger extends BlockPressurePlate {
@@ -42,26 +40,25 @@ public class BlockTrigger extends BlockPressurePlate {
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull EnumBlockRenderType getRenderType(@Nonnull IBlockState state)
+    public EnumBlockRenderType getRenderType(IBlockState state)
     {
         return EnumBlockRenderType.INVISIBLE;
     }
 
     @Override
-    public boolean isOpaqueCube(@Nonnull IBlockState state)
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public float getAmbientOcclusionLightValue(@Nonnull IBlockState state)
+    public float getAmbientOcclusionLightValue(IBlockState state)
     {
         return 1.0F;
     }
     
     @Override
-    @ParametersAreNonnullByDefault
     protected void updateState(World worldIn, BlockPos pos, IBlockState state, int oldRedstoneStrength)
     {
         int i = this.computeRedstoneStrength(worldIn, pos);

@@ -6,8 +6,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 public class BlockSemiTransparent extends BlockTransparent {
     public BlockSemiTransparent(String name) {
@@ -15,18 +13,17 @@ public class BlockSemiTransparent extends BlockTransparent {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
         return true;
     }
 
     @Override
-    public boolean isOpaqueCube(@Nonnull IBlockState state) {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(@Nonnull IBlockState state) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 }

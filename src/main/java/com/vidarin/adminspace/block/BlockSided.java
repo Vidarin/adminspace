@@ -15,9 +15,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 public class BlockSided extends BlockBase {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -35,13 +32,11 @@ public class BlockSided extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos, this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
     }
 
     @Override
-    @ParametersAreNonnullByDefault
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (!worldIn.isRemote)
@@ -61,34 +56,33 @@ public class BlockSided extends BlockBase {
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public @Nonnull IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState withRotation(IBlockState state, Rotation rot)
+    public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState withMirror(IBlockState state, Mirror mirrorIn)
+    public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override
-    protected @Nonnull BlockStateContainer createBlockState()
+    protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, FACING);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public @Nonnull IBlockState getStateFromMeta(int meta)
+    public IBlockState getStateFromMeta(int meta)
     {
         EnumFacing facing = EnumFacing.getFront(meta);
         if(facing.getAxis() == EnumFacing.Axis.Y) facing = EnumFacing.NORTH;
