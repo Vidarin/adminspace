@@ -30,6 +30,7 @@ public class WorldGenStructurePlacer extends WorldGenerator {
         settings = new PlacementSettings().setChunk(pos).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
     }
 
+    @Override
     @ParametersAreNonnullByDefault
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         this.generateStructure(worldIn, position, Rotation.NONE);

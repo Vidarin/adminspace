@@ -5,7 +5,7 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeDisposal extends Biome {
     public BiomeDisposal() {
-        super(new BiomeProperties("Depository Halls").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.6f).setRainDisabled().setWaterColor(0));
+        super(new BiomeProperties("Depository Halls").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.6f).setRainDisabled());
 
         this.topBlock = Blocks.AIR.getDefaultState();
         this.fillerBlock = Blocks.AIR.getDefaultState();

@@ -3,9 +3,13 @@ package com.vidarin.adminspace.dimension.beyond;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.util.FastNoiseLite;
+import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -16,6 +20,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -84,9 +89,23 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         return chunk;
     }
 
+    private static final int WEAK_WORLD_STRUCTURES = 15;
+
     @Override
     public void populate(int chunkX, int chunkZ) {
+        ChunkPos pos = new ChunkPos(chunkX, chunkZ);
+        int blockX = chunkX << 4;
+        int blockZ = chunkZ << 4;
 
+        if (world.rand.nextFloat() < 0.02) {
+            int i = world.rand.nextInt(WEAK_WORLD_STRUCTURES) + 1;
+            new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos, 23){{ settings.setReplacedBlock(Blocks.AIR); }}
+                    .generateWithRotation(world, new BlockPos(blockX, world.rand.nextInt((int) Math.round(world.getHeight(blockX, blockZ) * 0.9)), blockZ), randomRotation(world.rand));
+        }
+    }
+
+    private static Rotation randomRotation(Random rand) {
+        return Rotation.values()[rand.nextInt(Rotation.values().length)];
     }
 
     @Override

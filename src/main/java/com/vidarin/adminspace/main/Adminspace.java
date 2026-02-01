@@ -6,6 +6,7 @@ import com.vidarin.adminspace.inventory.GuiHandler;
 import com.vidarin.adminspace.init.*;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.proxy.CommonProxy;
+import com.vidarin.adminspace.util.BundledResourcePack;
 import com.vidarin.adminspace.worldgen.WorldGenDataDaisy;
 import com.vidarin.adminspace.worldgen.WorldGenOres;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -47,6 +48,7 @@ public class Adminspace
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Adminspace.proxy.preInit(event);
+        BundledResourcePack.init();
         AdminspaceGlobalData.init();
         CapabilityManager.INSTANCE.register(AdminspacePlayerData.IData.class, new AdminspacePlayerData.Storage(), AdminspacePlayerData.Data::new);
         EntityInit.registerEntities();

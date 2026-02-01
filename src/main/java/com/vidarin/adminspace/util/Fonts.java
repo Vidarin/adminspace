@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.util;
 
+@SuppressWarnings("unused")
 public enum Fonts {
     Black('0'),
     DarkBlue('1'),

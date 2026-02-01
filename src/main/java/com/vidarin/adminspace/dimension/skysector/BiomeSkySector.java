@@ -5,7 +5,7 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeSkySector extends Biome {
     public BiomeSkySector() {
-        super(new BiomeProperties("Sky Sector").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.6f).setRainDisabled().setWaterColor(0));
+        super(new BiomeProperties("Sky Sector").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.6f).setRainDisabled());
 
         this.topBlock = BlockInit.skyGround.getDefaultState();
         this.fillerBlock = BlockInit.skyGround.getDefaultState();
