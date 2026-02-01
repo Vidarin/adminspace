@@ -10,7 +10,7 @@ public class ItemBase extends Item {
     }
 
     public ItemBase(String name, CreativeTabs tab) {
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         if (tab != null)
             setCreativeTab(tab);

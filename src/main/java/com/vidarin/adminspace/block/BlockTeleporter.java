@@ -21,6 +21,6 @@ public class BlockTeleporter extends BlockBase {
     @Override
     public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn instanceof EntityPlayer)
-            DimTP.tpToDimension(((EntityPlayer) entityIn), dimension, 8, y, 8);
+            DimTP.tpToDimension(((EntityPlayer) entityIn), dimension, 1608, y, 1608);
     }
 }

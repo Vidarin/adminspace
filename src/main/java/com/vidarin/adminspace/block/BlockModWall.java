@@ -102,13 +102,6 @@ public class BlockModWall extends BlockBase {
         return i;
     }
 
-
-    @Override
-    public String getLocalizedName()
-    {
-        return "Noise Gem Wall";
-    }
-
     @Override
     @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)

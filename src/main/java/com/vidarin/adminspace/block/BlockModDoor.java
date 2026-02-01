@@ -21,11 +21,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 import java.util.Random;
 
-public class
-BlockModDoor extends BlockDoor {
+public class BlockModDoor extends BlockDoor {
     public BlockModDoor(String name) {
         this(name, Material.ROCK);
     }
@@ -36,7 +34,7 @@ BlockModDoor extends BlockDoor {
 
     public BlockModDoor(String name, Material material, CreativeTabs tab) {
         super(material);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -44,7 +42,7 @@ BlockModDoor extends BlockDoor {
         this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemDoor(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemDoor(this).setRegistryName(name).setTranslationKey(name));
     }
 
     private SoundEvent getDoorCloseSound()
@@ -70,7 +68,7 @@ BlockModDoor extends BlockDoor {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
     {
-        if (this.blockMaterial == Material.IRON)
+        if (this.material == Material.IRON)
         {
             return false;
         }

@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.network;
 
-import com.vidarin.adminspace.data.AdminspaceVariables;
+import com.vidarin.adminspace.data.AdminspaceWorldData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -51,15 +51,15 @@ public class SPacketUpdateVariablesMap implements IMessage {
             buf.writeByte(0);
             ByteBufUtils.writeUTF8String(buf, (String) this.value);
         }
-        if (value instanceof Integer) {
+        else if (value instanceof Integer) {
             buf.writeByte(1);
             buf.writeInt((int) this.value);
         }
-        if (value instanceof Float) {
+        else if (value instanceof Float) {
             buf.writeByte(2);
             buf.writeFloat((float) this.value);
         }
-        if (value instanceof Boolean) {
+        else if (value instanceof Boolean) {
             buf.writeByte(3);
             buf.writeBoolean((boolean) this.value);
         }
@@ -73,7 +73,8 @@ public class SPacketUpdateVariablesMap implements IMessage {
                 switch (message.map) {
                     case "ambientOcclusion":
                         int value = (int) message.value;
-                        AdminspaceVariables.get(player.world).setAmbientOcclusionValue(UUID.fromString(message.key), value);
+                        AdminspaceWorldData.get(player.world).setAmbientOcclusionValue(UUID.fromString(message.key), value);
+                        AdminspaceWorldData.get(player.world).markDirty();
                         break;
                 }
             });

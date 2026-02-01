@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.vidarin.adminspace.mixin",
+  "refmap": "mixins.adminspace.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntityCreeper"
+  ],
+  "client": [
+    "MixinMusicTicker",
+    "MixinFramebuffer"
+  ]
+}

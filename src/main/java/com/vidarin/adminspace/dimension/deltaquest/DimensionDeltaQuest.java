@@ -1,13 +1,15 @@
 package com.vidarin.adminspace.dimension.deltaquest;
 
-import com.vidarin.adminspace.data.AdminspaceVariables;
+import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.dimension.deltaquest.generator.ChunkGeneratorDeltaQuest;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.network.SPacketUpdateVariablesMap;
+import com.vidarin.adminspace.util.MathUtils;
 import com.vidarin.adminspace.util.skyrenderer.SkyRendererCustomTexture;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
@@ -76,7 +78,7 @@ public class DimensionDeltaQuest extends WorldProvider {
     @SideOnly(Side.CLIENT)
     private void resetPlayerSettings(EntityPlayer player) {
         Minecraft.getMinecraft().gameSettings.ambientOcclusion =
-                AdminspaceVariables.get(player.world).getAmbientOcclusionValue(player.getUniqueID());
+                AdminspaceWorldData.get(player.world).getAmbientOcclusionValue(player.getUniqueID());
     }
 
     @SideOnly(Side.CLIENT)
@@ -97,12 +99,16 @@ public class DimensionDeltaQuest extends WorldProvider {
     @SideOnly(Side.CLIENT)
     @Override
     public IRenderHandler getSkyRenderer() {
-        return new SkyRendererCustomTexture("deltaquest");
+        return new SkyRendererCustomTexture("deltaquest", true);
     }
 
+    @Nullable
     @Override
-    public boolean isSurfaceWorld() {
-        return false;
+    public IRenderHandler getCloudRenderer() {
+        return new IRenderHandler() {
+            @Override
+            public void render(float partialTicks, WorldClient world, Minecraft mc) {}
+        };
     }
 
     @Nullable
@@ -126,32 +132,24 @@ public class DimensionDeltaQuest extends WorldProvider {
 
         if (celestialAngle >= 0.20F && celestialAngle <= 0.30F) {
             float blend = (celestialAngle - 0.20F) / 0.10F;
-            return lerp(sunsetColor, nightColor, blend);
+            return MathUtils.lerp(sunsetColor, nightColor, blend);
         }
 
         if (celestialAngle >= 0.70F && celestialAngle <= 0.80F) {
             float blend = (celestialAngle - 0.70F) / 0.10F;
-            return lerp(nightColor, sunriseColor, blend);
+            return MathUtils.lerp(nightColor, sunriseColor, blend);
         }
 
         if (celestialAngle >= 0.15F && celestialAngle < 0.20F) {
             float blend = (celestialAngle - 0.15F) / 0.05F;
-            return lerp(dayColor, sunsetColor, blend);
+            return MathUtils.lerp(dayColor, sunsetColor, blend);
         }
 
         if (celestialAngle > 0.80F) {
             float blend = (celestialAngle - 0.80F) / 0.05F;
-            return lerp(sunriseColor, dayColor, blend);
+            return MathUtils.lerp(sunriseColor, dayColor, blend);
         }
 
         return nightColor;
     }
-
-    private Vec3d lerp(Vec3d a, Vec3d b, float t) {
-        double r = a.x * (1.0F - t) + b.x * t;
-        double g = a.y * (1.0F - t) + b.y * t;
-        double bC = a.z * (1.0F - t) + b.z * t;
-        return new Vec3d(r, g, bC);
-    }
-
 }

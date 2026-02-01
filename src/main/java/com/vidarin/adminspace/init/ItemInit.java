@@ -16,6 +16,9 @@ public class ItemInit {
     public static final Item catPass;
 
     public static final Item recordCalm5;
+    public static final Item recordCalm6;
+    public static final Item recordElsewhere;
+    public static final Item recordMoonwalk;
 
     public static final Item accept;
     public static final Item deny;
@@ -33,7 +36,10 @@ public class ItemInit {
 
         catPass = new ItemCatPass();
 
-        recordCalm5 = new ItemSpecialRecord("calm_5", SoundInit.RECORD_CALM_5);
+        recordCalm5 = new ItemSpecialRecord("calm_5", "? - Calm 5", SoundInit.RECORD_CALM_5);
+        recordCalm6 = new ItemSpecialRecord("calm_6", "? - Calm 6", SoundInit.RECORD_CALM_6);
+        recordElsewhere = new ItemSpecialRecord("elsewhere", "? - Elsewhere", SoundInit.RECORD_ELSEWHERE);
+        recordMoonwalk = new ItemSpecialRecord("moonwalk", "? - Moonwalk", SoundInit.RECORD_MOONWALK);
 
         accept = new ItemBase("accept");
         deny = new ItemBase("deny");

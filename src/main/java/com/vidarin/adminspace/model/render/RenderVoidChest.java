@@ -42,10 +42,6 @@ public class RenderVoidChest extends TileEntitySpecialRenderer<TileEntityVoidChe
             j = 180;
         }
 
-        if (i == 3) {
-            j = 0;
-        }
-
         if (i == 4) {
             j = 90;
         }

@@ -1,16 +1,15 @@
 package com.vidarin.adminspace.util;
 
-public enum Fonts
-{
+public enum Fonts {
     Black('0'),
-    Dark_Blue('1'),
-    Dark_Green('2'),
-    Dark_Cyan('3'),
-    Dark_Red('4'),
-    Dark_Purple('5'),
+    DarkBlue('1'),
+    DarkGreen('2'),
+    DarkCyan('3'),
+    DarkRed('4'),
+    DarkPurple('5'),
     Gold('6'),
     Gray('7'),
-    Dark_Gray('8'),
+    DarkGray('8'),
     Blue('9'),
     Green('a'),
     Cyan('b'),

@@ -3,9 +3,14 @@
   "block.void_door_close": { "category": "block", "sounds": [{ "name": "adminspace:blocks/void_door_close", "stream": false }] },
   "entity.death_easter_egg": { "category": "entity", "sounds": [{ "name": "adminspace:entities/death_easter_egg", "stream": false }] },
   "music.corridors.corridor_music": { "category": "music", "sounds": [{ "name": "adminspace:music/corridors/corridor_music", "stream": true }] },
-  "music.skysector.sky_sector_music": { "category": "music", "sounds": [{ "name": "adminspace:music/skysector/sky_sector_music", "stream": true }] },
+  "music.skysector.sky_sector_music": { "category": "music", "sounds": [{ "name": "adminspace:music/skysector/purple_gaze", "stream": true }] },
   "music.disposal.disposal_music": { "category": "music", "sounds": [{ "name": "adminspace:music/disposal/disposal_music", "stream": true }] },
+  "music.beyond.simulation_rumbling": { "category": "music", "sounds": [{ "name": "adminspace:music/beyond/simulation_rumbling", "stream": true }] },
+  "music.beyond.beyond_entrance": { "category": "music", "sounds": [{ "name": "adminspace:music/beyond/beyond_entrance", "stream": true }] },
   "music.disc.calm_5": { "category": "record", "sounds": [{ "name": "adminspace:music/disc/calm_5", "stream": true }] },
+  "music.disc.calm_6": { "category": "record", "sounds": [{ "name": "adminspace:music/disc/calm_6", "stream": true }] },
+  "music.disc.elsewhere": { "category": "record", "sounds": [{ "name": "adminspace:music/disc/elsewhere", "stream": true }] },
+  "music.disc.moonwalk": { "category": "record", "sounds": [{ "name": "adminspace:music/disc/moonwalk", "stream": true }] },
   "item.dismantler.dash": { "category": "player", "sounds": [{ "name": "adminspace:items/dismantler_dash", "stream": false }] },
   "item.dismantler.recharge": { "category": "player", "sounds": [{ "name": "adminspace:items/dismantler_recharge", "stream": false }] }
 }

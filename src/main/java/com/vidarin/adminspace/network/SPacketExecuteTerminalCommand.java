@@ -42,11 +42,7 @@ public class SPacketExecuteTerminalCommand implements IMessage {
                 if (terminal != null) {
                     TerminalCommandHandler commandHandler = terminal.getCommandHandler();
                     commandHandler.sendCommandParams(player, player.world, terminal);
-                    try {
-                        commandHandler.runCommand(message.command);
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
+                    commandHandler.runCommand(message.command);
                 }
             });
             return null;

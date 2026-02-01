@@ -44,25 +44,14 @@ public class BlockAxisSided extends BlockBase {
     @SuppressWarnings("deprecation")
     public IBlockState withRotation( IBlockState state, Rotation rot)
     {
-        switch (rot)
-        {
-            case COUNTERCLOCKWISE_90:
-            case CLOCKWISE_90:
-                switch (state.getValue(AXIS))
-                {
-                    case X:
-                        return state.withProperty(AXIS, EnumFacing.Axis.Z);
-
-                    case Z:
-                        return state.withProperty(AXIS, EnumFacing.Axis.X);
-
-                    default:
-                        return state;
-                }
-
-            default:
-                return state;
-        }
+        return switch (rot) {
+            case COUNTERCLOCKWISE_90, CLOCKWISE_90 -> switch (state.getValue(AXIS)) {
+                case X -> state.withProperty(AXIS, EnumFacing.Axis.Z);
+                case Z -> state.withProperty(AXIS, EnumFacing.Axis.X);
+                default -> state;
+            };
+            default -> state;
+        };
     }
 
     @Override

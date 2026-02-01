@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.block.tileentity;
 
-import com.vidarin.adminspace.gui.containers.ContainerVoidChest;
+import com.vidarin.adminspace.inventory.container.ContainerVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.init.SoundInit;
 import net.minecraft.entity.player.EntityPlayer;

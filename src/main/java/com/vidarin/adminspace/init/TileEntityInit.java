@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntityInit {
     public static void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileEntityVoidChest.class, new ResourceLocation(Adminspace.MODID + ":void_chest"));
-        GameRegistry.registerTileEntity(TileEntityTerminal.class, new ResourceLocation(Adminspace.MODID + ":terminal"));
-        GameRegistry.registerTileEntity(TileEntityMinesweeperLogic.class, new ResourceLocation(Adminspace.MODID + ":minesweeper_logic"));
+        GameRegistry.registerTileEntity(TileEntityVoidChest.class, new ResourceLocation(Adminspace.MODID, "void_chest"));
+        GameRegistry.registerTileEntity(TileEntityTerminal.class, new ResourceLocation(Adminspace.MODID, "terminal"));
+        GameRegistry.registerTileEntity(TileEntityMinesweeperLogic.class, new ResourceLocation(Adminspace.MODID, "minesweeper_logic"));
     }
 }

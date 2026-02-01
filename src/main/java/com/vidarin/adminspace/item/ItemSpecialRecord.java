@@ -16,40 +16,35 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class ItemSpecialRecord extends ItemBase {
-    private final String recordName;
+    private final String trackName;
+    private final SoundEvent sound;
 
-    public ItemSpecialRecord(String name, SoundEvent soundIn)
-    {
-        super("record_" + name, CreativeTabs.MISC);
-        this.recordName = name;
+    public ItemSpecialRecord(String registryName, String trackName, SoundEvent sound) {
+        super("record_" + registryName, CreativeTabs.MISC);
+        this.trackName = trackName;
+        this.sound = sound;
         this.maxStackSize = 1;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     @ParametersAreNonnullByDefault
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        tooltip.add(this.getRecordName());
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(this.getTrackName());
     }
 
     @SideOnly(Side.CLIENT)
-    public String getRecordName()
-    {
-        switch (recordName) {
-            case "calm_5":
-                return "? - Calm 5";
-        }
-        return "whoops dev forgor to add name for disc";
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public SoundEvent getSound() {
+        return sound;
     }
 
     @Override
     public @Nonnull EnumRarity getRarity(@Nonnull ItemStack stack)
     {
         return EnumRarity.RARE;
-    }
-
-    public String getUntranslatedRecordName() {
-        return recordName;
     }
 }

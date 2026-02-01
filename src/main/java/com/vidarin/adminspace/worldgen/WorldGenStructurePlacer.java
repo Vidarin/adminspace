@@ -6,6 +6,7 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -16,18 +17,17 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
 import java.util.Random;
 
-public class WorldGenStructurePlacer extends WorldGenerator
-{
-    public static final WorldServer worldServer = Objects.requireNonNull(FMLCommonHandler.instance().getMinecraftServerInstance().getServer()).getWorld(0);
-    public static final PlacementSettings settings = new PlacementSettings().setChunk(null).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
+public class WorldGenStructurePlacer extends WorldGenerator {
+    public final WorldServer worldServer;
+    public final PlacementSettings settings;
+    public final String structureName;
 
-    public static String structureName;
-
-    public WorldGenStructurePlacer(String name) {
+    public WorldGenStructurePlacer(String name, ChunkPos pos, int dimId) {
         structureName = name;
+        worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimId);
+        settings = new PlacementSettings().setChunk(pos).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
     }
 
     @ParametersAreNonnullByDefault
@@ -45,7 +45,7 @@ public class WorldGenStructurePlacer extends WorldGenerator
         final Template template = this.loadTemplate(world);
         if (template != null) {
             settings.setRotation(rot);
-            template.addBlocksToWorldChunk(world, pos, settings);
+            template.addBlocksToWorld(world, pos, settings);
         }
     }
 
@@ -58,20 +58,12 @@ public class WorldGenStructurePlacer extends WorldGenerator
     }
 
     private BlockPos posByRotation(BlockPos pos, Rotation rotation, BlockPos endPos) {
-        switch (rotation) {
-            case CLOCKWISE_90: {
-                return pos.add(endPos.getZ() - 1, 0, 0);
-            }
-            case CLOCKWISE_180: {
-                return pos.add(endPos.getX() - 1, 0, endPos.getZ() - 1);
-            }
-            case COUNTERCLOCKWISE_90: {
-                return pos.add(0, 0, endPos.getX() - 1);
-            }
-            default: {
-                return pos;
-            }
-        }
+        return switch (rotation) {
+            case CLOCKWISE_90 -> pos.add(endPos.getZ() - 1, 0, 0);
+            case CLOCKWISE_180 -> pos.add(endPos.getX() - 1, 0, endPos.getZ() - 1);
+            case COUNTERCLOCKWISE_90 -> pos.add(0, 0, endPos.getX() - 1);
+            default -> pos;
+        };
     }
 
     @Nullable

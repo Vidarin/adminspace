@@ -115,28 +115,28 @@ public class ChunkGeneratorCorridors implements IChunkGenerator {
         boolean canConnectWE = false;
 
         if (world.isChunkGeneratedAt(chunkX, chunkZ + 1)) {
-            Chunk northChunk = world.getChunkFromChunkCoords(chunkX, chunkZ + 1);
+            Chunk northChunk = world.getChunk(chunkX, chunkZ + 1);
             if (checkBlockState(northChunk, 15, 15)) {
                 canConnectNS = true;
             }
         }
 
         if (world.isChunkGeneratedAt(chunkX + 1, chunkZ)) {
-            Chunk eastChunk = world.getChunkFromChunkCoords(chunkX + 1, chunkZ);
+            Chunk eastChunk = world.getChunk(chunkX + 1, chunkZ);
             if (checkBlockState(eastChunk, 0, 0)) {
                 canConnectWE = true;
             }
         }
 
         if (world.isChunkGeneratedAt(chunkX, chunkZ - 1)) {
-            Chunk southChunk = world.getChunkFromChunkCoords(chunkX, chunkZ - 1);
+            Chunk southChunk = world.getChunk(chunkX, chunkZ - 1);
             if (checkBlockState(southChunk, 15, 15)) {
                 canConnectNS = true;
             }
         }
 
         if (world.isChunkGeneratedAt(chunkX - 1, chunkZ)) {
-            Chunk westChunk = world.getChunkFromChunkCoords(chunkX - 1, chunkZ);
+            Chunk westChunk = world.getChunk(chunkX - 1, chunkZ);
             if (checkBlockState(westChunk, 0, 0)) {
                 canConnectWE = true;
             }

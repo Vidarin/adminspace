@@ -10,10 +10,7 @@ public class explode { //This is a joke (no shit)
         World world = commandHandler.getWorld();
         TileEntityTerminal terminal = commandHandler.getTerminal();
         BlockPos pos = terminal.getPos();
-        int permLevel = commandHandler.getPermLevel();
 
-        if (permLevel >= 1) {
-            world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 20, true);
-        }
+        world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 20, true);
     }
 }

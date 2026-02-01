@@ -26,7 +26,7 @@ public class BlockBase extends Block {
 
     public BlockBase(String name, Material material, @Nullable CreativeTabs tab, SoundType sound) {
         super(material);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -35,6 +35,6 @@ public class BlockBase extends Block {
             this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 }

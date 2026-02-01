@@ -4,6 +4,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +26,7 @@ public class BlockCreeperHeart extends BlockBase {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
@@ -51,14 +52,14 @@ public class BlockCreeperHeart extends BlockBase {
     }
 
     @Override
-    public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state) {
-        super.onBlockDestroyedByPlayer(world, pos, state);
-        world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 0.5F, false);
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+        super.onBlockHarvested(worldIn, pos, state, player);
+        worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 0.5F, false);
     }
 
     @Override
-    public void onBlockDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
-        super.onBlockDestroyedByExplosion(world, pos, explosion);
+    public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
+        super.onBlockExploded(world, pos, explosion);
         world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 1.5F, true);
     }
 }

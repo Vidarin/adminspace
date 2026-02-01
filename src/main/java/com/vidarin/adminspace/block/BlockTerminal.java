@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.block;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
-import com.vidarin.adminspace.gui.GuiIDs;
+import com.vidarin.adminspace.inventory.GuiIDs;
 import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

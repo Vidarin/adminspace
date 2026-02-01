@@ -11,10 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMusicTicker {
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     public void adminspace$update(CallbackInfo ci) {
-        try {
-            if (Minecraft.getMinecraft().world != null)
-                if (Minecraft.getMinecraft().world.provider.getMusicType() == null)
-                    ci.cancel();
-        } catch (NullPointerException ignore) {}
+        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.provider != null)
+            if (Minecraft.getMinecraft().world.provider.getMusicType() == null)
+                ci.cancel();
     }
 }

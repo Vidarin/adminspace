@@ -33,8 +33,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+            if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                 if (logic.getCenter() == null) {
                     if (logic.isFrozen()) logic.unfreeze();
                     logic.setCenter(pos);
@@ -90,8 +89,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
         if (!worldIn.isRemote) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+            if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                 if (logic.getCenter() != null && !logic.isFrozen()) {
                     switch (logic.getValue()) {
                         case 1:
@@ -122,8 +120,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                 BlockPos newPos = startPos.add(offset);
                 if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile || world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperButton) {
                     TileEntity tileEntity = world.getTileEntity(newPos);
-                    if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                        TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+                    if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                         if (logic.getValue() == 2 || logic.getValue() == 4 || logic.getValue() == 6) {
                             ++adjacentMines;
                         }
@@ -132,8 +129,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
             }
             if (adjacentMines == 0) {
                 TileEntity tileEntity = world.getTileEntity(startPos);
-                if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                    TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+                if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                     BlockPos center = logic.getCenter();
                     world.setBlockState(startPos, BlockInit.minesweeper0.getDefaultState(), 3);
                     tileEntity = world.getTileEntity(startPos);
@@ -147,8 +143,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                     BlockPos newPos = startPos.add(offset);
                     if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile || world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperButton) {
                         tileEntity = world.getTileEntity(newPos);
-                        if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                            TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+                        if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                             if (logic.getCenter() != null) {
                                 if (logic.getValue() <= 2) {
                                     open(newPos, world);
@@ -190,8 +185,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                         break;
                 }
                 TileEntity tileEntity = world.getTileEntity(startPos);
-                if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                    TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+                if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                     BlockPos center = logic.getCenter();
                     world.setBlockState(startPos, state, 3);
                     tileEntity = world.getTileEntity(startPos);
@@ -213,8 +207,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                 if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile)
                     world.setBlockState(newPos, BlockInit.minesweeperButton.getDefaultState(), 3);
                 TileEntity tileEntity = world.getTileEntity(newPos);
-                if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                    TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+                if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                     logic.setCenter(centerPos);
                     if (logic.isFrozen()) logic.unfreeze();
                     if (rand.nextInt(10) == 0 && centerPos != newPos) logic.setValue(2);
@@ -234,8 +227,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
             revealMines(newPos, world, new HashSet<>(Collections.singletonList(pos)));
         }
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityMinesweeperLogic) {
-            TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+        if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
             logic.setValue(4);
         }
     }
@@ -245,8 +237,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
             BlockPos newPos = pos.add(offset);
             if (visited.contains(newPos)) continue;
             TileEntity tileEntity = world.getTileEntity(newPos);
-            if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+            if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                 if (logic.getValue() % 2 == 0) {
                     world.setBlockState(newPos, BlockInit.minesweeperMine.getDefaultState(), 3);
                     logic.setValue(4);
@@ -262,8 +253,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
         if (!visited.add(pos)) return;
 
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityMinesweeperLogic) {
-            TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+        if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
 
             if (logic.getValue() == 2 || logic.getValue() == 4 || logic.getValue() == 5) {
                 result.allMinesFlagged = false;
@@ -275,7 +265,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
         }
     }
 
-    public static class WinCheckResult {
-        public boolean allMinesFlagged = true;
+    private static class WinCheckResult {
+        private boolean allMinesFlagged = true;
     }
 }

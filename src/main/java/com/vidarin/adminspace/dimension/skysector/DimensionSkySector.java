@@ -1,15 +1,22 @@
 package com.vidarin.adminspace.dimension.skysector;
 
+import com.vidarin.adminspace.data.AdminspaceWorldData;
+import com.vidarin.adminspace.dimension.skysector.generator.ChunkGeneratorSkySector;
+import com.vidarin.adminspace.dimension.skysector.generator.SectorInfo;
+import com.vidarin.adminspace.dimension.skysector.generator.SkyInfo;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.SoundInit;
+import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.util.DimTP;
+import com.vidarin.adminspace.util.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
@@ -25,8 +32,10 @@ import java.util.*;
 
 @MethodsReturnNonnullByDefault
 public class DimensionSkySector extends WorldProvider {
-    private final ArrayList<EntityPlayerMP> players = new ArrayList<>();
+    private final List<EntityPlayerMP> players = new ArrayList<>();
+    private final List<EntityPlayerMP> playersToTeleport = new ArrayList<>();
     private final Map<UUID, Integer> ticksInDimension = new HashMap<>();
+    private Map<Vec2i, SectorInfo> sectorMap = new HashMap<>();
 
     public DimensionSkySector() {
         this.biomeProvider = new BiomeProviderSingle(BiomeInit.SKY_SECTOR_DIM);
@@ -56,19 +65,39 @@ public class DimensionSkySector extends WorldProvider {
         ticksInDimension.remove(player.getUniqueID());
     }
 
+    public void updateSectorMap(Vec2i key, SectorInfo value) {
+        this.sectorMap.put(key, value);
+        AdminspaceWorldData.get(this.world).putSectorToMap(key, value);
+        AdminspaceWorldData.get(this.world).markDirty();
+    }
+
     @Override
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
         for (EntityPlayerMP player : players) {
+            int ticks = ticksInDimension.get(player.getUniqueID());
             if (player.posY < -50) {
-                DimTP.tpToDimension(player, 22, 0, 100, 0);
-                break;
+                playersToTeleport.add(player);
             }
-            if (ticksInDimension.get(player.getUniqueID()) % 4444 == 0) {
+            if (ticks % 4444 == 0) {
                 playDimensionMusic();
             }
-            ticksInDimension.replace(player.getUniqueID(), ticksInDimension.get(player.getUniqueID()) + 1);
+            ticksInDimension.replace(player.getUniqueID(), ticks + 1);
+
+            Vec2i sectorPosition = new Vec2i((int) (player.posX / 25600), (int) (player.posZ / 25600));
+            if (!sectorMap.containsKey(sectorPosition)) sectorMap = AdminspaceWorldData.get(this.world).getSkySectorMap();
+            if (sectorMap.containsKey(sectorPosition)) {
+                SectorInfo sector = sectorMap.get(sectorPosition);
+                Vec2i skyPosition = new Vec2i((int) Math.abs((player.posX % 25600) / 3200), (int) Math.abs((player.posZ % 25600) / 3200));
+                if (sector.hasSky(skyPosition)) {
+                    SkyInfo sky = sector.getSky(skyPosition);
+                    if (sky.state == SkyInfo.SkyState.DANGEROUS || sky.state == SkyInfo.SkyState.DESTROYED) {
+                        player.sendStatusMessage(new TextComponentTranslation("message.dangerous_sky", sector.id, sky.id), true);
+                    }
+                } else Adminspace.LOGGER.warn("Could not find sky at position ({}, {})", skyPosition.x, skyPosition.y);
+            } else Adminspace.LOGGER.warn("Could not find sector at position ({}, {})", sectorPosition.x, sectorPosition.y);
         }
+        playersToTeleport.forEach(player -> DimTP.tpToDimension(player, 22, 0, 100, 0));
     }
 
     @SideOnly(Side.CLIENT)

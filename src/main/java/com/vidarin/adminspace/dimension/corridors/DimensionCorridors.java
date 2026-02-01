@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
@@ -60,10 +59,11 @@ public class DimensionCorridors extends WorldProvider {
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
         for (EntityPlayerMP player : players) {
-            if (ticksInDimension.get(player.getUniqueID()) % 2222 == 0) {
+            int ticks = ticksInDimension.get(player.getUniqueID());
+            if (ticks % 2222 == 0) {
                 playDimensionMusic();
             }
-            ticksInDimension.replace(player.getUniqueID(), ticksInDimension.get(player.getUniqueID()) + 1);
+            ticksInDimension.replace(player.getUniqueID(), ticks + 1);
         }
     }
 

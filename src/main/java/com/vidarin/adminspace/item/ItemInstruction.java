@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.item;
 
-import com.vidarin.adminspace.gui.guis.GuiInstruction;
+import com.vidarin.adminspace.inventory.gui.GuiInstruction;
 import com.vidarin.adminspace.init.ItemInit;
 import com.vidarin.adminspace.util.Fonts;
 import io.netty.buffer.Unpooled;

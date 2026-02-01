@@ -9,7 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockTransparent extends BlockBase{
+public class BlockTransparent extends BlockBase {
+    public boolean alwaysRenderSides = false;
+
     public BlockTransparent(String name) {
         this(name, Material.GLASS);
     }
@@ -23,13 +25,20 @@ public class BlockTransparent extends BlockBase{
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
+    }
+
+    public BlockTransparent alwaysRenderSides() {
+        this.alwaysRenderSides = true;
+        return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
+        if (alwaysRenderSides) return true;
+
         IBlockState iblockstate = access.getBlockState(pos.offset(side));
         Block block = iblockstate.getBlock();
         boolean result = blockState == iblockstate || block == this;

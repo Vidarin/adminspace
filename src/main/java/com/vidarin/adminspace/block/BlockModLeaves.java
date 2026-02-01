@@ -17,7 +17,7 @@ import java.util.Objects;
 public class BlockModLeaves extends BlockOldLeaf {
     public BlockModLeaves(String name) {
         super();
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -26,7 +26,7 @@ public class BlockModLeaves extends BlockOldLeaf {
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK));
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BlockModLeaves extends BlockOldLeaf {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 

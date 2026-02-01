@@ -33,8 +33,7 @@ public class BlockMinesweeperTile extends BlockBase implements ITileEntityProvid
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityMinesweeperLogic) {
-                TileEntityMinesweeperLogic logic = (TileEntityMinesweeperLogic) tileEntity;
+            if (tileEntity instanceof TileEntityMinesweeperLogic logic) {
                 if (logic.isFrozen()) return true;
                 BlockPos center = logic.getCenter();
                 switch (logic.getValue()) {

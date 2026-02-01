@@ -12,7 +12,7 @@ import java.util.Objects;
 public class BlockModLever extends BlockLever {
     public BlockModLever(String name, CreativeTabs tab) {
         super();
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -20,6 +20,6 @@ public class BlockModLever extends BlockLever {
         this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 }

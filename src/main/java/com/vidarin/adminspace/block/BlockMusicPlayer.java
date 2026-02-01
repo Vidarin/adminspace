@@ -2,7 +2,6 @@ package com.vidarin.adminspace.block;
 
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
-import com.vidarin.adminspace.init.SoundInit;
 import com.vidarin.adminspace.item.ItemSpecialRecord;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.SoundType;
@@ -36,14 +35,14 @@ public class BlockMusicPlayer extends BlockJukebox {
 
     public BlockMusicPlayer() {
         super();
-        this.setUnlocalizedName("music_player");
+        this.setTranslationKey("music_player");
         this.setRegistryName("music_player");
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName("music_player"));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class BlockMusicPlayer extends BlockJukebox {
             IBlockState blockState = worldIn.getBlockState(pos);
             ItemStack itemStack = playerIn.getHeldItem(hand);
 
-            ((BlockJukebox)BlockInit.musicPlayer).insertRecord(worldIn, pos, blockState, itemStack);
+            this.insertRecord(worldIn, pos, blockState, itemStack);
             if (!worldIn.isRemote) {
                 worldIn.playEvent(null, 1010, pos, Item.getIdFromItem(itemStack.getItem()));
                 itemStack.shrink(1);
@@ -70,15 +69,12 @@ public class BlockMusicPlayer extends BlockJukebox {
             worldIn.setBlockState(pos, state, 2);
             return true;
         }
-        else if (playerIn.getHeldItem(hand).getItem() instanceof ItemSpecialRecord) {
+        else if (playerIn.getHeldItem(hand).getItem() instanceof ItemSpecialRecord record) {
             ItemStack itemStack = playerIn.getHeldItem(hand);
 
             ((BlockJukebox.TileEntityJukebox) Objects.requireNonNull(worldIn.getTileEntity(pos))).setRecord(itemStack.copy());
             if (!worldIn.isRemote) {
-                switch (((ItemSpecialRecord) playerIn.getHeldItem(hand).getItem()).getUntranslatedRecordName()) {
-                    case "calm_5":
-                        this.playSpecialRecord(SoundInit.RECORD_CALM_5, pos, "? - Calm 5");
-                }
+                this.playSpecialRecord(record.getSound(), pos, record.getTrackName());
                 itemStack.shrink(1);
                 playerIn.addStat(StatList.RECORD_PLAYED);
             }
@@ -96,9 +92,8 @@ public class BlockMusicPlayer extends BlockJukebox {
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof BlockJukebox.TileEntityJukebox)
+            if (tileentity instanceof TileEntityJukebox tileEntityJukebox)
             {
-                BlockJukebox.TileEntityJukebox tileEntityJukebox = (BlockJukebox.TileEntityJukebox)tileentity;
                 ItemStack itemStack = tileEntityJukebox.getRecord();
 
                 if (!itemStack.isEmpty())

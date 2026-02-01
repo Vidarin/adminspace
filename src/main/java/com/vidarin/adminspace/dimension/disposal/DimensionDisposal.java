@@ -9,6 +9,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
@@ -63,10 +64,12 @@ public class DimensionDisposal extends WorldProvider {
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
         for (EntityPlayerMP player : players) {
-            if (ticksInDimension.get(player.getUniqueID()) % 1200 == 0) {
+            int ticks = ticksInDimension.get(player.getUniqueID());
+            if (ticks % 1200 == 0) {
                 playDimensionMusic();
             }
-            ticksInDimension.replace(player.getUniqueID(), ticksInDimension.get(player.getUniqueID()) + 1);
+            ticksInDimension.replace(player.getUniqueID(), ticks + 1);
+            player.sendStatusMessage(new TextComponentString("This dimension is not finished."), true);
         }
     }
 
@@ -79,46 +82,5 @@ public class DimensionDisposal extends WorldProvider {
     @Override
     public MusicTicker.MusicType getMusicType() {
         return null;
-    }
-
-    @Override
-    public boolean isSurfaceWorld() {
-        return false;
-    }
-
-    @Override
-    public boolean hasSkyLight() {
-        return false;
-    }
-
-    @Override
-    public boolean isSkyColored() {
-        return false;
-    }
-
-    @Override
-    public Vec3d getSkyColor(@Nonnull Entity cameraEntity, float partialTicks) {
-        return new Vec3d(0, 0, 0);
-    }
-
-    @Override
-    public float getCloudHeight() {
-        return 8.0f;
-    }
-
-    @Override
-    public Vec3d getFogColor(float i1, float i2) {
-        return new Vec3d(0, 0, 0);
-    }
-
-    @Nullable
-    @Override
-    public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
-        return null;
-    }
-
-    @Override
-    public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        return 0.0f;
     }
 }

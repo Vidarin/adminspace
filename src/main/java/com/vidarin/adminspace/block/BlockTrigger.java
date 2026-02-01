@@ -26,7 +26,7 @@ public class BlockTrigger extends BlockPressurePlate {
 
     public BlockTrigger(String name, Material material, CreativeTabs tab, BlockPressurePlate.Sensitivity sens) {
         super(material, sens);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -35,7 +35,7 @@ public class BlockTrigger extends BlockPressurePlate {
         this.disableStats();
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 
     @Override

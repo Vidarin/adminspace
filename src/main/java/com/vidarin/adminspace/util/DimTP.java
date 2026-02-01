@@ -33,12 +33,11 @@ public class DimTP extends Teleporter {
     }
 
     public static void tpToDimension(EntityPlayer player, int dimensionId, double x, double y, double z) {
-        if (player instanceof EntityPlayerMP) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) player;
+        if (player instanceof EntityPlayerMP playerMP) {
             MinecraftServer server = player.getEntityWorld().getMinecraftServer();
             WorldServer serverWorld = Objects.requireNonNull(server).getWorld(dimensionId);
 
-            playerMP.mcServer.getPlayerList().transferPlayerToDimension(playerMP, dimensionId, new DimTP(serverWorld, x, y, z));
+            playerMP.server.getPlayerList().transferPlayerToDimension(playerMP, dimensionId, new DimTP(serverWorld, x, y, z));
             player.setPositionAndUpdate(x, y, z);
         }
     }

@@ -35,6 +35,6 @@ public class AdminspaceMixinLoader implements IFMLLoadingPlugin, IEarlyMixinLoad
 
     @Override
     public List<String> getMixinConfigs() {
-        return Collections.singletonList("adminspace.mixin.json");
+        return Collections.singletonList("mixins.adminspace.json");
     }
 }

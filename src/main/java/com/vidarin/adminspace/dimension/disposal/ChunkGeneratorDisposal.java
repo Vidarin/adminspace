@@ -2,11 +2,9 @@ package com.vidarin.adminspace.dimension.disposal;
 
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
-import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -19,7 +17,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
 public class ChunkGeneratorDisposal implements IChunkGenerator {
-    private final Map<ChunkPos, String> megastructureMap = new HashMap<>();
 
     private final World world;
     private final Random rand;
@@ -39,19 +36,26 @@ public class ChunkGeneratorDisposal implements IChunkGenerator {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @Nonnull Chunk generateChunk(int chunkX, int chunkZ) {
         this.rand.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
         this.chunkPrimer = new ChunkPrimer();
         this.blockFiller = new WorldGenBlockFiller(this.chunkPrimer, this.world);
 
-        blockFiller.fillBlocks(0, 0, 0, 15, 1, 15, Blocks.BEDROCK.getDefaultState());
+        blockFiller.fillBlocks(0, 0, 0, 15, 9, 15, Blocks.DIRT.getDefaultState());
+        blockFiller.fillBlocks(0, 10, 0, 15, 10, 15, Blocks.GRASS.getDefaultState());
 
-        if (chunkX == 0 && chunkZ == 0)
-            for (int z = 1; z <= 8; z++) {
-                for (int x = 0; x < 8; x++) {
-                    megastructureMap.put(new ChunkPos(x, z), "skysector/sky_megastructure_terminal_" + ((x * 8) + z));
-                }
-            }
+        int rx = rand.nextInt(13) + 1;
+        int rz = rand.nextInt(13) + 1;
+        int randMeta = rand.nextInt(15);
+
+        blockFiller.fillBlocks(rx, 11, rz, rx, 13, rz, Blocks.WOOL.getStateFromMeta(randMeta));
+
+        if (rand.nextBoolean()) {
+            blockFiller.fillBlocks(rx - 1, 11, rz, rx + 1, 11, rz, Blocks.WOOL.getStateFromMeta(randMeta));
+        } else {
+            blockFiller.fillBlocks(rx, 11, rz - 1, rx, 11, rz + 1, Blocks.WOOL.getStateFromMeta(randMeta));
+        }
 
         Chunk chunk = new Chunk(world, chunkPrimer, chunkX, chunkZ);
 
@@ -66,10 +70,7 @@ public class ChunkGeneratorDisposal implements IChunkGenerator {
     }
 
     @Override
-    public void populate(int x, int z) {
-        if (megastructureMap.containsKey(new ChunkPos(x, z)))
-            new WorldGenStructurePlacer(megastructureMap.get(new ChunkPos(x, z))).generate(world, rand, new BlockPos(x * 16, 1, z * 16));
-    }
+    public void populate(int x, int z) {}
 
     @Override
     public boolean generateStructures(@Nonnull Chunk chunkIn, int x, int z) {

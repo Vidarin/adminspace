@@ -4,6 +4,8 @@ instruction.finalizeWarning=Note: This will overwrite the previous instruction!
 instruction.signButton=Save
 instruction.finalizeButton=Save Changes
 
+message.dangerous_sky=Sector %s Sky %s is not a player friendly area. Please exit to the next sky.
+
 tile.void_tile.name=Noise Gem Tile
 tile.void_err_tile.name=Error Containment
 
@@ -15,7 +17,7 @@ tile.concealment_block.name=Concealment Block
 
 tile.void_glass.name=Experiment Glass
 
-item.null.name=Noise Gem Door
+tile.void_door.name=Noise Gem Door
 
 tile.trigger.name=Invisible Trigger
 
@@ -97,6 +99,9 @@ item.noise_gem.name=Noise Gem
 item.rainbow_gem.name=§cR§6a§ei§an§bb§9o§dw §cG§6e§em
 
 item.record_calm_5.name=Music Disc
+item.record_calm_6.name=Music Disc
+item.record_elsewhere.name=Music Disc
+item.record_moonwalk.name=Music Disc
 
 item.accept.name=assets_tiles_accept
 item.deny.name=assets_tiles_deny

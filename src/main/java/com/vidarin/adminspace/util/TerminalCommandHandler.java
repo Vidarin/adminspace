@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.util;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
-import com.vidarin.adminspace.util.terminalcommands.TermError;
+import com.vidarin.adminspace.util.terminalcommands.TermUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class TerminalCommandHandler {
         this.permLevel = terminal.permLevel;
     }
 
-    public void runCommand(String command) throws ClassNotFoundException {
+    public void runCommand(String command) {
         String path = "";
         String commandArgs = "";
         try {
@@ -42,7 +42,7 @@ public class TerminalCommandHandler {
             cls = Class.forName(classPath);
         }
         catch (ClassNotFoundException e) {
-            cls = TermError.class;
+            cls = TermUtil.class;
         }
 
         try {

@@ -17,7 +17,7 @@ public class BlockModStairs extends BlockStairs {
 
     public BlockModStairs(String name, CreativeTabs tab, Block block) {
         super(block.getDefaultState());
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -27,6 +27,6 @@ public class BlockModStairs extends BlockStairs {
         this.useNeighborBrightness = true;
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 }

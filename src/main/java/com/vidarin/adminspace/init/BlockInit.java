@@ -105,16 +105,13 @@ public class BlockInit {
         voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS);
         voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile);
         voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
-        concealmentBlock = new BlockConcealmentBlock();
-
-        //Lamps
-        voidLamp = new BlockLamp("void_lamp");
+        voidLamp = new BlockLamp("void_lamp", 15);
         voidLampOff = new BlockBase("void_lamp_off");
-        hellBulb = new BlockLamp("hell_bulb");
+        hellBulb = new BlockLamp("hell_bulb", 15);
 
         //Simple functional blocks
-        voidDoor = new BlockModDoor("void_door", Material.IRON);
-        voidChest = new BlockVoidChest("void_chest");
+        voidDoor = new BlockModDoor("void_door", Material.IRON, CreativeTabs.REDSTONE);
+        voidChest = new BlockModChest("void_chest");
         musicPlayer = new BlockMusicPlayer();
         toggleButton = new BlockToggleButton();
         voidLever = new BlockModLever("void_lever", CreativeTabs.REDSTONE);
@@ -127,18 +124,18 @@ public class BlockInit {
 
         //Sky sector dimension
         skyGround = new BlockBase("sky_ground");
-        skyGround2 = new BlockLamp("sky_ground_2");
+        skyGround2 = new BlockLamp("sky_ground_2", 15);
         moonBlock = new BlockBase("moon_block");
         sunBlock = new BlockBase("sun_block");
 
         //Corridor dimension
         corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON);
         corridorTiledPipes = new BlockBase("corridor_tiled_pipes", Material.IRON);
-        corridorLantern = new BlockLampCustomizable("corridor_lantern", 9);
-        corridorLight = new BlockLampCustomizable("corridor_light", 12);
+        corridorLantern = new BlockLamp("corridor_lantern", 9);
+        corridorLight = new BlockLamp("corridor_light", 12);
         corridorMachinery = new BlockBase("corridor_machinery", Material.IRON);
-        corridorNetting = new BlockSemiTransparent("corridor_netting");
-        corridorSupports = new BlockSemiTransparent("corridor_supports");
+        corridorNetting = new BlockTransparent("corridor_netting").alwaysRenderSides();
+        corridorSupports = new BlockTransparent("corridor_supports").alwaysRenderSides();
         corridorPillar = new BlockAxisSided("corridor_pillar");
         corridorRailing = new BlockModFence("corridor_railing");
         corridorRailingBlock = new BlockBase("corridor_railing_block");
@@ -192,6 +189,9 @@ public class BlockInit {
 
         //Other stuff
         trigger = new BlockTrigger("trigger", Sensitivity.MOBS);
+        concealmentBlock = new BlockConcealmentBlock();
+
+        //Debug
         magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100, 100);
         magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20, 9);
         magicalTeleporterBeyond = new BlockTeleporter("teleporter_by", 23, 100);

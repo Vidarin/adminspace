@@ -120,7 +120,7 @@ public class ItemDismantler extends ItemBase {
             }
             else {
                 playerIn.attackEntityFrom(DamageSource.GENERIC, 8);
-                if (playerIn.world.isRemote) playerIn.sendMessage(new TextComponentString(Fonts.Dark_Red + "This Dismantler is not bound to you!"));
+                if (playerIn.world.isRemote) playerIn.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
                 return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
             }
         }
@@ -136,7 +136,7 @@ public class ItemDismantler extends ItemBase {
             assert compound != null;
             if (!compound.getBoolean("Activated")) tooltip.add(Fonts.Gray + "Activation Code: " + compound.getString("Activation_Code"));
             else tooltip.add(Fonts.Blue + "ACTIVATED");
-            tooltip.add(Fonts.Dark_Gray + "Bound to " + compound.getString("Owner"));
+            tooltip.add(Fonts.DarkGray + "Bound to " + compound.getString("Owner"));
         } else
             tooltip.add(Fonts.Red + "UNBOUND");}
 
@@ -167,7 +167,7 @@ public class ItemDismantler extends ItemBase {
         assert stack.getTagCompound() != null;
         if (!attacker.getName().equals(stack.getTagCompound().getString("Owner"))) {
             attacker.attackEntityFrom(DamageSource.GENERIC, 8);
-            if (attacker.world.isRemote) attacker.sendMessage(new TextComponentString(Fonts.Dark_Red + "This Dismantler is not bound to you!"));
+            if (attacker.world.isRemote) attacker.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
         }
 
         return true;
@@ -183,7 +183,7 @@ public class ItemDismantler extends ItemBase {
         assert stack.getTagCompound() != null;
         if (!entityLiving.getName().equals(stack.getTagCompound().getString("Owner"))) {
             entityLiving.attackEntityFrom(DamageSource.GENERIC, 8);
-            if (entityLiving.world.isRemote) entityLiving.sendMessage(new TextComponentString(Fonts.Dark_Red + "This Dismantler is not bound to you!"));
+            if (entityLiving.world.isRemote) entityLiving.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
         }
 
         return true;

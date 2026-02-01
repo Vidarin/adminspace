@@ -43,8 +43,6 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
     double[] field_915_h;
     private Biome[] biomesForGeneration;
 
-    private WorldGenBlockFiller blockFiller;
-    
     public ChunkGeneratorDeltaQuest(World world, long seed) {
         this.sandNoise = new double[256];
         this.gravelNoise = new double[256];
@@ -195,11 +193,11 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
 
     @Override
     public @Nonnull Chunk generateChunk(int chunkX, int chunkZ) {
-        this.random.setSeed((long) chunkX * 341873128712L + (long) chunkZ * 132897987541L);
+        this.random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
         this.biomesForGeneration = this.getBiomesForGeneration(this.biomesForGeneration, chunkX * 16, chunkZ * 16);
 
         ChunkPrimer chunkPrimer = new ChunkPrimer();
-        this.blockFiller = new WorldGenBlockFiller(chunkPrimer, this.world);
+        WorldGenBlockFiller blockFiller = new WorldGenBlockFiller(chunkPrimer, this.world);
 
         this.generateTerrain(chunkX, chunkZ, chunkPrimer);
         this.replaceBlocks(chunkX, chunkZ, chunkPrimer);
@@ -275,7 +273,6 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
                 if (var14 > 1.0) {
                     var14 = 1.0;
                 }
-                final double var15 = 0.0;
                 double var16 = this.field_915_h[var11] / 8000.0;
                 if (var16 < 0.0) {
                     var16 = -var16;
@@ -323,16 +320,6 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
                         final double var24 = (var18 - (width - 4)) / 3.0f;
                         var19 = var19 * (1.0 - var24) + -10.0 * var24;
                     }
-                    if (var18 < var15) {
-                        double var25 = (var15 - var18) / 4.0;
-                        if (var25 < 0.0) {
-                            var25 = 0.0;
-                        }
-                        if (var25 > 1.0) {
-                            var25 = 1.0;
-                        }
-                        var19 = var19 * (1.0 - var25) + -10.0 * var25;
-                    }
                     noiseIn[var10] = var19;
                     ++var10;
                 }
@@ -341,11 +328,13 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         return noiseIn;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void populate(int chunkX, int chunkZ) {
         BlockSand.fallInstantly = true;
         int blockX = chunkX * 16;
         int blockZ = chunkZ * 16;
+        if (this.biomesForGeneration == null) this.biomesForGeneration = this.getBiomesForGeneration(null, blockX, blockZ);
         Biome biome = this.biomesForGeneration[136];
         this.random.setSeed(this.world.getSeed());
         long seed1 = this.random.nextLong() / 2L * 2L + 1L;
@@ -370,24 +359,6 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
             }
         }
 
-        // Generate water and lava
-        for (int i = 0; i < 50; ++i) {
-            int waterX = blockX + this.random.nextInt(16) + 8;
-            int waterY = this.random.nextInt(this.random.nextInt(120) + 8);
-            int waterZ = blockZ + this.random.nextInt(16) + 8;
-            (new WorldGenLiquids(Blocks.WATER)).generate(this.world, this.random, new BlockPos(waterX, waterY, waterZ));
-            this.world.markAndNotifyBlock(new BlockPos(waterX, waterY, waterZ), world.getChunkFromChunkCoords(chunkX, chunkZ), world.getBlockState(new BlockPos(waterX, waterY, waterZ)), Blocks.LAVA.getDefaultState(), 3);
-        }
-
-        for (int i = 0; i < 20; ++i) {
-            int lavaX = blockX + this.random.nextInt(16) + 8;
-            int lavaY = this.random.nextInt(this.random.nextInt(this.random.nextInt(112) + 8) + 8);
-            int lavaZ = blockZ + this.random.nextInt(16) + 8;
-            (new WorldGenLiquids(Blocks.LAVA)).generate(this.world, this.random, new BlockPos(lavaX, lavaY, lavaZ));
-            this.world.markAndNotifyBlock(new BlockPos(lavaX, lavaY, lavaZ), world.getChunkFromChunkCoords(chunkX, chunkZ), world.getBlockState(new BlockPos(lavaX, lavaY, lavaZ)), Blocks.WATER.getDefaultState(), 3);
-
-        }
-
         // Generate dungeons
         if (this.random.nextInt(5) == 0) {
             int dungeonX = blockX + this.random.nextInt(16) + 8;
@@ -404,7 +375,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
             (new WorldGenClay(32)).generate(this.world, this.random, new BlockPos(clayX, clayY, clayZ));
         }
 
-        // Generate dirt
+        // Generate dirt patches
         for (int i = 0; i < 6; ++i) {
             int dirtX = blockX + this.random.nextInt(16);
             int dirtY = this.random.nextInt(128);
@@ -412,7 +383,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
             (new WorldGenMinable(Blocks.DIRT.getDefaultState(), 32)).generate(this.world, this.random, new BlockPos(dirtX, dirtY, dirtZ));
         }
 
-        // Generate gravel
+        // Generate gravel patches
         for (int i = 0; i < 3; ++i) {
             int gravelX = blockX + this.random.nextInt(16);
             int gravelY = this.random.nextInt(128);

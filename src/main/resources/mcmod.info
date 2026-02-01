@@ -2,13 +2,13 @@
 {
   "modid": "adminspace",
   "name": "Adminspace",
-  "description": "",
+  "description": "Your world has been weakened",
   "version": "0.0.0",
   "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",
   "authorList": ["Vidarin"],
-  "credits": "",
+  "credits": "Music - \"tbotv guy's music and sometimes other stuff\"",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

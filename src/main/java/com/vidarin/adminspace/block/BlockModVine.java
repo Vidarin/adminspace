@@ -19,7 +19,7 @@ public class BlockModVine extends BlockVine {
 
     public BlockModVine(String name, CreativeTabs tab) {
         super();
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
@@ -27,7 +27,7 @@ public class BlockModVine extends BlockVine {
         this.setCreativeTab(tab);
 
         BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(Objects.requireNonNull(this.getRegistryName())));
+        ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
 
     @Override
