@@ -13,20 +13,17 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 public class WorldGenStructurePlacer extends WorldGenerator {
-    public final WorldServer worldServer;
     public final PlacementSettings settings;
     public final String structureName;
 
-    public WorldGenStructurePlacer(String name, ChunkPos pos, int dimId) {
+    public WorldGenStructurePlacer(String name, ChunkPos pos) {
         structureName = name;
-        worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimId);
         settings = new PlacementSettings().setChunk(pos).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
     }
 
@@ -69,9 +66,11 @@ public class WorldGenStructurePlacer extends WorldGenerator {
 
     @Nullable
     private Template loadTemplate(final World world) {
-        final MinecraftServer mcServer = world.getMinecraftServer();
-        final TemplateManager manager = worldServer.getStructureTemplateManager();
-        final ResourceLocation location = new ResourceLocation(Adminspace.MODID, structureName);
-        return manager.get(mcServer, location);
+        if (world instanceof WorldServer worldServer) {
+            final MinecraftServer mcServer = world.getMinecraftServer();
+            final TemplateManager manager = worldServer.getStructureTemplateManager();
+            final ResourceLocation location = new ResourceLocation(Adminspace.MODID, structureName);
+            return manager.get(mcServer, location);
+        } throw new IllegalArgumentException("Tried to generate structure on client!");
     }
 }

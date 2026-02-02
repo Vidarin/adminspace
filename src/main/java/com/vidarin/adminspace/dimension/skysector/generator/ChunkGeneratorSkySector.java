@@ -360,14 +360,16 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
     public void populate(int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
 
+        if (world.isRemote) return;
+
         if (insideStructureChunks.contains(pos)) {
             int i = rand.nextInt(CORRIDOR_STRUCTURES) + 1;
-            new WorldGenStructurePlacer("skysector/sky_corridor_" + i, pos, 20)
+            new WorldGenStructurePlacer("skysector/sky_corridor_" + i, pos)
                     .generate(world, rand, new BlockPos(chunkX << 4, 8, chunkZ << 4));
             insideStructureChunks.remove(pos);
         }
         if (spawnStructureChunks.contains(pos)) {
-            new WorldGenStructurePlacer("skysector/sky_spawn", pos, 20)
+            new WorldGenStructurePlacer("skysector/sky_spawn", pos)
                     .generate(world, rand, new BlockPos(chunkX << 4, 8, chunkZ << 4));
             spawnStructureChunks.remove(pos);
         }

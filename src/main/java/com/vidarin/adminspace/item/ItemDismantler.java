@@ -79,6 +79,14 @@ public class ItemDismantler extends ItemBase {
                     NBTTagCompound compound = Objects.requireNonNull(stack.getTagCompound());
                     if (System.currentTimeMillis() - compound.getLong("Last_Use") > 1200 && compound.getBoolean("In_Cooldown")) {
                         player.playSound(SoundInit.DISMANTLER_RECHARGE, 0.8F, 1.0F);
+                    }
+                }
+            }
+        } else {
+            if (stack.getItem() instanceof ItemDismantler) {
+                if (stack.hasTagCompound()) {
+                    NBTTagCompound compound = Objects.requireNonNull(stack.getTagCompound());
+                    if (System.currentTimeMillis() - compound.getLong("Last_Use") > 1200 && compound.getBoolean("In_Cooldown")) {
                         compound.setBoolean("In_Cooldown", false);
                     }
                 }
@@ -119,7 +127,7 @@ public class ItemDismantler extends ItemBase {
                 }
             }
             else {
-                playerIn.attackEntityFrom(DamageSource.GENERIC, 8);
+                playerIn.attackEntityFrom(DamageSource.GENERIC, 3);
                 if (playerIn.world.isRemote) playerIn.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
                 return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
             }
@@ -166,7 +174,7 @@ public class ItemDismantler extends ItemBase {
 
         assert stack.getTagCompound() != null;
         if (!attacker.getName().equals(stack.getTagCompound().getString("Owner"))) {
-            attacker.attackEntityFrom(DamageSource.GENERIC, 8);
+            attacker.attackEntityFrom(DamageSource.GENERIC, 3);
             if (attacker.world.isRemote) attacker.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
         }
 
@@ -182,7 +190,7 @@ public class ItemDismantler extends ItemBase {
 
         assert stack.getTagCompound() != null;
         if (!entityLiving.getName().equals(stack.getTagCompound().getString("Owner"))) {
-            entityLiving.attackEntityFrom(DamageSource.GENERIC, 8);
+            entityLiving.attackEntityFrom(DamageSource.GENERIC, 3);
             if (entityLiving.world.isRemote) entityLiving.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
         }
 

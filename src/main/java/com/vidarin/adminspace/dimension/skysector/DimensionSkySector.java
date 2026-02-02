@@ -8,11 +8,11 @@ import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.SoundInit;
 import com.vidarin.adminspace.main.Adminspace;
+import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
+import com.vidarin.adminspace.network.CPacketSinglePlayerSoundEffect;
 import com.vidarin.adminspace.util.DimTP;
 import com.vidarin.adminspace.util.Vec2i;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
@@ -23,8 +23,6 @@ import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -74,13 +72,17 @@ public class DimensionSkySector extends WorldProvider {
     @Override
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
+
+        playersToTeleport.forEach(player -> DimTP.tpToDimension(player, 22, 0, 100, 0));
+        playersToTeleport.clear();
+
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
             if (player.posY < -50) {
                 playersToTeleport.add(player);
             }
             if (ticks % 4444 == 0) {
-                playDimensionMusic();
+                playDimensionMusic(player);
             }
             ticksInDimension.replace(player.getUniqueID(), ticks + 1);
 
@@ -97,12 +99,10 @@ public class DimensionSkySector extends WorldProvider {
                 } else Adminspace.LOGGER.warn("Could not find sky at position ({}, {})", skyPosition.x, skyPosition.y);
             } else Adminspace.LOGGER.warn("Could not find sector at position ({}, {})", sectorPosition.x, sectorPosition.y);
         }
-        playersToTeleport.forEach(player -> DimTP.tpToDimension(player, 22, 0, 100, 0));
     }
 
-    @SideOnly(Side.CLIENT)
-    private void playDimensionMusic() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMusicRecord(SoundInit.SKY_SECTOR_MUSIC));
+    private void playDimensionMusic(EntityPlayerMP player) {
+        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.SKY_SECTOR_MUSIC, 1F, 1F), player);
     }
 
     @Nullable

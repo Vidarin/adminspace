@@ -5,7 +5,7 @@ import com.vidarin.adminspace.util.TerminalCommandHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class explode { //This is a joke (no shit)
+public class explode { //This is obviously a joke
     public explode(TerminalCommandHandler commandHandler, String commandArgs) {
         World world = commandHandler.getWorld();
         TileEntityTerminal terminal = commandHandler.getTerminal();

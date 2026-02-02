@@ -97,9 +97,9 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         int blockX = chunkX << 4;
         int blockZ = chunkZ << 4;
 
-        if (world.rand.nextFloat() < 0.02) {
+        if (!world.isRemote && world.rand.nextFloat() < 0.02) {
             int i = world.rand.nextInt(WEAK_WORLD_STRUCTURES) + 1;
-            new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos, 23){{ settings.setReplacedBlock(Blocks.AIR); }}
+            new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos){{ settings.setReplacedBlock(Blocks.AIR); }}
                     .generateWithRotation(world, new BlockPos(blockX, world.rand.nextInt((int) Math.round(world.getHeight(blockX, blockZ) * 0.9)), blockZ), randomRotation(world.rand));
         }
     }

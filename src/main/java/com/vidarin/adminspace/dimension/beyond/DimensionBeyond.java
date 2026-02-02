@@ -3,10 +3,10 @@ package com.vidarin.adminspace.dimension.beyond;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.SoundInit;
+import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
+import com.vidarin.adminspace.network.CPacketSinglePlayerSoundEffect;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
@@ -14,8 +14,6 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -63,15 +61,14 @@ public class DimensionBeyond extends WorldProvider {
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
             if (ticks >= 0 && ticks % 960 == 0) {
-                playDimensionMusic();
+                playDimensionMusic(player);
             }
             ticksInDimension.replace(player.getUniqueID(), ticks + 1);
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    private void playDimensionMusic() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMusicRecord(SoundInit.SIMULATION_RUMBLING));
+    private void playDimensionMusic(EntityPlayerMP player) {
+        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.SIMULATION_RUMBLING, 1F, 1F), player);
     }
 
     @Nullable

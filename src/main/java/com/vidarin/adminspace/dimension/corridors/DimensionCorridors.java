@@ -3,9 +3,9 @@ package com.vidarin.adminspace.dimension.corridors;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.SoundInit;
-import net.minecraft.client.Minecraft;
+import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
+import com.vidarin.adminspace.network.CPacketSinglePlayerSoundEffect;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
@@ -13,8 +13,6 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import mcp.MethodsReturnNonnullByDefault;
 
@@ -61,15 +59,14 @@ public class DimensionCorridors extends WorldProvider {
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
             if (ticks % 2222 == 0) {
-                playDimensionMusic();
+                playDimensionMusic(player);
             }
             ticksInDimension.replace(player.getUniqueID(), ticks + 1);
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    private void playDimensionMusic() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMusicRecord(SoundInit.CORRIDOR_MUSIC));
+    private void playDimensionMusic(EntityPlayerMP player) {
+        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.CORRIDOR_MUSIC, 1F, 1F), player);
     }
 
     @Nullable

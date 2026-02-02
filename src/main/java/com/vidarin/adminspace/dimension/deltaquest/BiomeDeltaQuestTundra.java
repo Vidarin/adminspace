@@ -26,21 +26,21 @@ public class BiomeDeltaQuestTundra extends Biome {
 
     @Override
     public int getFoliageColorAtPos(@Nonnull BlockPos pos) {
-        return 0xFFFFFF;
+        return 0x48F84C;
     }
 
     @Override
     public int getModdedBiomeFoliageColor(int original) {
-        return 0xFFFFFF;
+        return 0x48F84C;
     }
 
     @Override
     public int getGrassColorAtPos(@Nonnull BlockPos pos) {
-        return 0xFFFFFF;
+        return 0x48F84C;
     }
 
     @Override
     public int getModdedBiomeGrassColor(int original) {
-        return 0xFFFFFF;
+        return 0x48F84C;
     }
 }
