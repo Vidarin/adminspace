@@ -11,7 +11,8 @@ import java.util.Random;
 
 public class TermUtil {
     /** Reflectively called if you type a nonexistent class in {@link TerminalCommandHandler} */
-    public TermUtil(TerminalCommandHandler commandHandler, String commandArgs) {
+    @SuppressWarnings("unused")
+    public static void execute(TerminalCommandHandler commandHandler, String[] args) {
         syntaxError(commandHandler);
     }
 
@@ -43,7 +44,7 @@ public class TermUtil {
         return true;
     }
 
-    private static String getFancyErrorMessage(Random rand, String type) {
+    public static String getFancyErrorMessage(Random rand, String type) {
         return String.format(Fonts.Red + "< FATAL ERROR OF TYPE %s AT ADDRESS %X >", type, rand.nextInt(0xEFFF) + 0x1000);
     }
 }

@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.init;
 
+import com.vidarin.adminspace.block.TestBlocks;
 import com.vidarin.adminspace.block.tileentity.TileEntityMinesweeperLogic;
 import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
@@ -12,5 +13,7 @@ public class TileEntityInit {
         GameRegistry.registerTileEntity(TileEntityVoidChest.class, new ResourceLocation(Adminspace.MODID, "void_chest"));
         GameRegistry.registerTileEntity(TileEntityTerminal.class, new ResourceLocation(Adminspace.MODID, "terminal"));
         GameRegistry.registerTileEntity(TileEntityMinesweeperLogic.class, new ResourceLocation(Adminspace.MODID, "minesweeper_logic"));
+
+        GameRegistry.registerTileEntity(TestBlocks.Visibility.TileEntityVisibilityTest.class, new ResourceLocation(Adminspace.MODID, "visibility_test"));
     }
 }

@@ -43,7 +43,7 @@ public class WorldGenStructurePlacer extends WorldGenerator {
         final Template template = this.loadTemplate(world);
         if (template != null) {
             settings.setRotation(rot);
-            template.addBlocksToWorld(world, pos, settings);
+            template.addBlocksToWorldChunk(world, pos, settings);
         }
     }
 

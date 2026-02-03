@@ -95,6 +95,7 @@ public class BlockInit {
     public static final Block magicalTeleporterDeltaQuest;
     public static final Block magicalTeleporterSkySector;
     public static final Block magicalTeleporterBeyond;
+    public static final Block testBlockVisibility;
 
     static {
         BLOCKS = new ArrayList<>();
@@ -195,5 +196,6 @@ public class BlockInit {
         magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100, 100);
         magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20, 9);
         magicalTeleporterBeyond = new BlockTeleporter("teleporter_by", 23, 100);
+        testBlockVisibility = new TestBlocks.Visibility();
     }
 }

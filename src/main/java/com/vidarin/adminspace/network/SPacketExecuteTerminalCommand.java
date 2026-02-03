@@ -4,6 +4,7 @@ import com.vidarin.adminspace.block.tileentity.TileEntityTerminal;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -24,13 +25,18 @@ public class SPacketExecuteTerminalCommand implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, this.command);
-        buf.writeLong(this.terminalPos.toLong());
+        buf.writeInt(this.terminalPos.getX());
+        buf.writeInt(this.terminalPos.getY());
+        buf.writeInt(this.terminalPos.getZ());
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         this.command = ByteBufUtils.readUTF8String(buf);
-        this.terminalPos = BlockPos.fromLong(buf.readLong());
+        int x = buf.readInt();
+        int y = buf.readInt();
+        int z = buf.readInt();
+        terminalPos = new BlockPos(x, y, z);
     }
 
     public static class Handler implements IMessageHandler<SPacketExecuteTerminalCommand, IMessage> {
@@ -38,8 +44,8 @@ public class SPacketExecuteTerminalCommand implements IMessage {
         public IMessage onMessage(SPacketExecuteTerminalCommand message, MessageContext ctx) {
             EntityPlayerMP player = ctx.getServerHandler().player;
             player.getServerWorld().addScheduledTask(() -> {
-                TileEntityTerminal terminal = (TileEntityTerminal) player.world.getTileEntity(message.terminalPos);
-                if (terminal != null) {
+                TileEntity te =  player.world.getTileEntity(message.terminalPos);
+                if (te instanceof TileEntityTerminal terminal) {
                     TerminalCommandHandler commandHandler = terminal.getCommandHandler();
                     commandHandler.sendCommandParams(player, player.world, terminal);
                     commandHandler.runCommand(message.command);

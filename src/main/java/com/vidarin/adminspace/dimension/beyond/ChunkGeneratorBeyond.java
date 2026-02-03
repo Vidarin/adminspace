@@ -89,19 +89,21 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         return chunk;
     }
 
-    private static final int WEAK_WORLD_STRUCTURES = 15;
-
     @Override
     public void populate(int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         int blockX = chunkX << 4;
         int blockZ = chunkZ << 4;
 
-        if (!world.isRemote && world.rand.nextFloat() < 0.02) {
-            int i = world.rand.nextInt(WEAK_WORLD_STRUCTURES) + 1;
-            new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos){{ settings.setReplacedBlock(Blocks.AIR); }}
-                    .generateWithRotation(world, new BlockPos(blockX, world.rand.nextInt((int) Math.round(world.getHeight(blockX, blockZ) * 0.9)), blockZ), randomRotation(world.rand));
-        }
+        generateWeakWorldStructure(world, pos, blockX, blockZ);
+    }
+
+    private static final int WEAK_WORLD_STRUCTURES = 15;
+
+    static void generateWeakWorldStructure(World world, ChunkPos pos, int x, int z) {
+        int i = world.rand.nextInt(WEAK_WORLD_STRUCTURES) + 1;
+        new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos){{ settings.setReplacedBlock(Blocks.AIR); }}
+                .generateWithRotation(world, new BlockPos(x, world.rand.nextInt(Math.round(world.getHeight(x, z) * 0.9F)) + 1, z), randomRotation(world.rand));
     }
 
     private static Rotation randomRotation(Random rand) {
@@ -109,18 +111,18 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
     }
 
     @Override
-    public boolean generateStructures(Chunk chunk, int x, int z) {return false;}
+    public boolean generateStructures(Chunk chunk, int x, int z) { return false; }
 
     @Override
-    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {return Collections.emptyList();}
+    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) { return Collections.emptyList(); }
 
     @Nullable
     @Override
-    public BlockPos getNearestStructurePos(World world, String structureName, BlockPos pos, boolean findUnexplored) {return null;}
+    public BlockPos getNearestStructurePos(World world, String structureName, BlockPos pos, boolean findUnexplored) { return null; }
 
     @Override
     public void recreateStructures(Chunk chunk, int x, int z) {}
 
     @Override
-    public boolean isInsideStructure(World world, String structureName, BlockPos pos) {return false;}
+    public boolean isInsideStructure(World world, String structureName, BlockPos pos) { return false; }
 }

@@ -4,38 +4,42 @@ import com.vidarin.adminspace.util.TerminalCommandHandler;
 import com.vidarin.adminspace.util.terminalcommands.TermUtil;
 import net.minecraft.entity.player.EntityPlayer;
 
+@SuppressWarnings("unused")
 public class set {
-    public set(TerminalCommandHandler commandHandler, String commandArgs) {
+    public static void execute(TerminalCommandHandler commandHandler, String[] args) {
         EntityPlayer player = commandHandler.getPlayer();
 
         if (TermUtil.checkPerms(commandHandler, 1)) {
-            try {
-                double x;
-                try {
-                    x = Integer.parseInt(commandArgs.split("/")[0]);
-                } catch (NumberFormatException e) {
-                    x = player.posX;
-                    TermUtil.argumentError(commandHandler);
-                }
-                double y;
-                try {
-                    y = Integer.parseInt(commandArgs.split("/")[1]);
-                } catch (NumberFormatException e) {
-                    y = player.posY;
-                    TermUtil.argumentError(commandHandler);
-                }
-                double z;
-                try {
-                    z = Integer.parseInt(commandArgs.split("/")[2]);
-                } catch (NumberFormatException e) {
-                    z = player.posZ;
-                    TermUtil.argumentError(commandHandler);
-                }
-
-                player.setPositionAndUpdate(x, y, z);
-            } catch (ArrayIndexOutOfBoundsException e) {
+            if (args.length < 3) {
                 TermUtil.argumentError(commandHandler);
+                return;
             }
+
+            double x;
+            try {
+                x = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                TermUtil.argumentError(commandHandler);
+                return;
+            }
+
+            double y;
+            try {
+                y = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                TermUtil.argumentError(commandHandler);
+                return;
+            }
+
+            double z;
+            try {
+                z = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                TermUtil.argumentError(commandHandler);
+                return;
+            }
+
+            player.setPositionAndUpdate(x, y, z);
         }
     }
 }

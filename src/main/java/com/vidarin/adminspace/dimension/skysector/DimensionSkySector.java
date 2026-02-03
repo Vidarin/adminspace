@@ -78,31 +78,36 @@ public class DimensionSkySector extends WorldProvider {
 
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
-            if (player.posY < -50) {
-                playersToTeleport.add(player);
-            }
-            if (ticks % 4444 == 0) {
-                playDimensionMusic(player);
-            }
+
+            if (player.posY < -50) playersToTeleport.add(player);
+
+            if (ticks % 4444 == 0) playDimensionMusic(player);
+
             ticksInDimension.replace(player.getUniqueID(), ticks + 1);
 
             Vec2i sectorPosition = new Vec2i((int) (player.posX / 25600), (int) (player.posZ / 25600));
             if (!sectorMap.containsKey(sectorPosition)) sectorMap = AdminspaceWorldData.get(this.world).getSkySectorMap();
+
             if (sectorMap.containsKey(sectorPosition)) {
+
                 SectorInfo sector = sectorMap.get(sectorPosition);
                 Vec2i skyPosition = new Vec2i((int) Math.abs((player.posX % 25600) / 3200), (int) Math.abs((player.posZ % 25600) / 3200));
+
                 if (sector.hasSky(skyPosition)) {
+
                     SkyInfo sky = sector.getSky(skyPosition);
                     if (sky.state == SkyInfo.SkyState.DANGEROUS || sky.state == SkyInfo.SkyState.DESTROYED) {
                         player.sendStatusMessage(new TextComponentTranslation("message.dangerous_sky", sector.id, sky.id), true);
                     }
+
                 } else Adminspace.LOGGER.warn("Could not find sky at position ({}, {})", skyPosition.x, skyPosition.y);
+
             } else Adminspace.LOGGER.warn("Could not find sector at position ({}, {})", sectorPosition.x, sectorPosition.y);
         }
     }
 
     private void playDimensionMusic(EntityPlayerMP player) {
-        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.SKY_SECTOR_MUSIC, 1F, 1F), player);
+        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.SKY_SECTOR_MUSIC, 0.8F, 1F), player);
     }
 
     @Nullable

@@ -79,6 +79,7 @@ public class ItemDismantler extends ItemBase {
                     NBTTagCompound compound = Objects.requireNonNull(stack.getTagCompound());
                     if (System.currentTimeMillis() - compound.getLong("Last_Use") > 1200 && compound.getBoolean("In_Cooldown")) {
                         player.playSound(SoundInit.DISMANTLER_RECHARGE, 0.8F, 1.0F);
+                        compound.setBoolean("In_Cooldown", false);
                     }
                 }
             }

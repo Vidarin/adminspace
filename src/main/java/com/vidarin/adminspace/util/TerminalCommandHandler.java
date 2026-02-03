@@ -6,8 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class TerminalCommandHandler {
 
@@ -46,10 +46,9 @@ public class TerminalCommandHandler {
         }
 
         try {
-            Constructor<?> constructor = cls.getConstructor(TerminalCommandHandler.class, String.class);
-            constructor.newInstance(this, commandArgs);
-        }
-        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            Method method = cls.getMethod("execute", TerminalCommandHandler.class, String[].class);
+            method.invoke(null, this, commandArgs.split("/"));
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 

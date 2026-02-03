@@ -9,6 +9,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
@@ -26,6 +27,9 @@ import java.util.UUID;
 public class DimensionBeyond extends WorldProvider {
     private final ArrayList<EntityPlayerMP> players = new ArrayList<>();
     private final Map<UUID, Integer> ticksInDimension = new HashMap<>();
+
+    private int ticksSinceWeakWorldFall = 0;
+    private int timeUntilWeakWorldFall = 0;
 
     public DimensionBeyond() {
         this.biomeProvider = new BiomeProviderSingle(BiomeInit.BEYOND_DIM);
@@ -58,12 +62,28 @@ public class DimensionBeyond extends WorldProvider {
     @Override
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
+
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
-            if (ticks >= 0 && ticks % 960 == 0) {
-                playDimensionMusic(player);
-            }
+            if (ticks >= 0 && ticks % 960 == 0) playDimensionMusic(player);
             ticksInDimension.replace(player.getUniqueID(), ticks + 1);
+        }
+
+        if (!players.isEmpty()) {
+            if (timeUntilWeakWorldFall == 0) timeUntilWeakWorldFall = world.rand.nextInt(65536) + 16384;
+
+            if (ticksSinceWeakWorldFall > timeUntilWeakWorldFall) {
+                ticksSinceWeakWorldFall = 0;
+                timeUntilWeakWorldFall = world.rand.nextInt(65536) - 16384;
+
+                EntityPlayerMP theChosenOne = players.get(world.rand.nextInt(players.size()));
+                int x = ((int) theChosenOne.posX + world.rand.nextInt(1024) - 2048) >> 4;
+                int z = ((int) theChosenOne.posZ + world.rand.nextInt(1024) - 2048) >> 4;
+
+                ChunkGeneratorBeyond.generateWeakWorldStructure(world, new ChunkPos(x, z), x << 4, z << 4);
+            }
+
+            ticksSinceWeakWorldFall++;
         }
     }
 
