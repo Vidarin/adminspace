@@ -53,7 +53,7 @@ package com.vidarin.adminspace.util;
 // perform a file-wide replace on the following strings (including /*FNLfloat*/)
 // /*FNLfloat*/ double
 // /*FNLfloat*/ double
-
+@SuppressWarnings("all")
 public class FastNoiseLite
 {
     public enum NoiseType

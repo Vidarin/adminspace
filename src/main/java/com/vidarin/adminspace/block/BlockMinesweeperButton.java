@@ -4,6 +4,7 @@ import com.vidarin.adminspace.block.tileentity.TileEntityMinesweeperLogic;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.util.Fonts;
+import com.vidarin.adminspace.util.MathUtils;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -106,17 +107,10 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
         }
     }
 
-    private static final BlockPos[] DIRECTIONS = {
-            new BlockPos(1, 0, 0), new BlockPos(1, 0, 1),
-            new BlockPos(0, 0, 1), new BlockPos(-1, 0, 1),
-            new BlockPos(-1, 0, 0), new BlockPos(-1, 0, -1),
-            new BlockPos(0, 0, -1), new BlockPos(1, 0, -1)
-    };
-
     private void open(BlockPos startPos, World world) {
         if (!world.isRemote) {
             int adjacentMines = 0;
-            for (BlockPos offset : DIRECTIONS) {
+            for (BlockPos offset : MathUtils.DIRECTIONS) {
                 BlockPos newPos = startPos.add(offset);
                 if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile || world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperButton) {
                     TileEntity tileEntity = world.getTileEntity(newPos);
@@ -139,7 +133,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                         logic.setValue(3);
                     }
                 }
-                for (BlockPos offset : DIRECTIONS) {
+                for (BlockPos offset : MathUtils.DIRECTIONS) {
                     BlockPos newPos = startPos.add(offset);
                     if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile || world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperButton) {
                         tileEntity = world.getTileEntity(newPos);
@@ -201,7 +195,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
 
     protected void start(BlockPos centerPos, BlockPos startPos, World world, Random rand, Set<BlockPos> visited) {
         if (!world.isRemote) {
-            for (BlockPos offset : DIRECTIONS) {
+            for (BlockPos offset : MathUtils.DIRECTIONS) {
                 BlockPos newPos = startPos.add(offset);
                 if (visited.contains(newPos)) continue;
                 if (world.getBlockState(newPos).getBlock() instanceof BlockMinesweeperTile)
@@ -222,7 +216,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
     private void gameOver(BlockPos pos, World world) {
         world.setBlockState(pos, BlockInit.minesweeperMineCritical.getDefaultState(), 3);
         world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 2.0F, true);
-        for (BlockPos offset : DIRECTIONS) {
+        for (BlockPos offset : MathUtils.DIRECTIONS) {
             BlockPos newPos = pos.add(offset);
             revealMines(newPos, world, new HashSet<>(Collections.singletonList(pos)));
         }
@@ -233,7 +227,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
     }
 
     private void revealMines(BlockPos pos, World world, Set<BlockPos> visited) {
-        for (BlockPos offset : DIRECTIONS) {
+        for (BlockPos offset : MathUtils.DIRECTIONS) {
             BlockPos newPos = pos.add(offset);
             if (visited.contains(newPos)) continue;
             TileEntity tileEntity = world.getTileEntity(newPos);
@@ -259,7 +253,7 @@ public class BlockMinesweeperButton extends BlockBase implements ITileEntityProv
                 result.allMinesFlagged = false;
             }
 
-            for (BlockPos offset : DIRECTIONS) {
+            for (BlockPos offset : MathUtils.DIRECTIONS) {
                 checkWin(pos.add(offset), world, visited, result);
             }
         }

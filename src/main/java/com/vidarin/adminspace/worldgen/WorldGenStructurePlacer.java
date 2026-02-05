@@ -22,14 +22,15 @@ public class WorldGenStructurePlacer extends WorldGenerator {
     public final PlacementSettings settings;
     public final String structureName;
 
-    public WorldGenStructurePlacer(String name, ChunkPos pos) {
+    @SuppressWarnings("DataFlowIssue")
+    public WorldGenStructurePlacer(String name, @Nullable ChunkPos pos) {
         structureName = name;
         settings = new PlacementSettings().setChunk(pos).setIgnoreEntities(false).setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
     }
 
     @Override
     @ParametersAreNonnullByDefault
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(World worldIn, @Nullable Random rand, BlockPos position) {
         this.generateStructure(worldIn, position, Rotation.NONE);
         return true;
     }

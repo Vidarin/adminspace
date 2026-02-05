@@ -15,4 +15,8 @@ public final class PlayerDataHelper {
     public static void setPlayerVisitedBeyond(EntityPlayerMP player) {
         AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketUpdatePlayerData(CPacketUpdatePlayerData.Type.VisitedBeyond, true), player);
     }
+
+    public static void cleansePlayer(EntityPlayerMP player) {
+        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketUpdatePlayerData(CPacketUpdatePlayerData.Type.VisitedBeyond, false), player);
+    }
 }

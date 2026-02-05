@@ -3,15 +3,12 @@ package com.vidarin.adminspace.main;
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.data.AdminspaceGlobalData;
 import com.vidarin.adminspace.data.AdminspacePlayerData;
-import com.vidarin.adminspace.data.PlayerDataHelper;
-import com.vidarin.adminspace.init.SoundInit;
+import com.vidarin.adminspace.dimension.beyond.DimensionBeyond;
 import com.vidarin.adminspace.inventory.gui.GuiResourcePackNotice;
 import com.vidarin.adminspace.model.render.RenderVoidChest;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
 import com.vidarin.adminspace.init.TileEntityInit;
-import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
-import com.vidarin.adminspace.network.CPacketSinglePlayerSoundEffect;
 import com.vidarin.adminspace.util.SpookyTextRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -37,6 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = Adminspace.MODID)
 public class AdminspaceEventHandler {
+
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(BlockInit.BLOCKS.toArray(new Block[0]));
@@ -69,11 +67,7 @@ public class AdminspaceEventHandler {
     @SubscribeEvent
     public static void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.player instanceof EntityPlayerMP player) {
-            if (event.toDim == 23) { // The beyond
-                PlayerDataHelper.setPlayerVisitedBeyond(player);
-                PlayerDataHelper.sendBlindnessUpdate(player, 210);
-                AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.BEYOND_ENTRANCE, 1F, 1F), player);
-            }
+            if (event.toDim == 23) DimensionBeyond.onPlayerChangedDimension(player);
         }
     }
 

@@ -29,13 +29,10 @@ public class TerminalCommandHandler {
     public void runCommand(String command) {
         String path = "";
         String commandArgs = "";
-        try {
-            path = command.split(";")[0];
-            commandArgs = command.replaceAll(path + ";", "");
-        }
-        catch (ArrayIndexOutOfBoundsException ignored) {}
+        path = command.split(";")[0];
+        commandArgs = command.replaceAll(path + ";", "");
 
-        String classPath = "com.vidarin.adminspace.util.terminalcommands." + path;
+        String classPath = "com.vidarin.adminspace.util.terminalcommands." + path.replaceAll("void", "_void");
 
         Class<?> cls;
         try {

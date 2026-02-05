@@ -17,6 +17,7 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), id));
     }
 
+    @SuppressWarnings("InstantiationOfUtilityClass")
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);

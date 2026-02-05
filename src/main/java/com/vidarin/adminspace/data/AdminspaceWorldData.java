@@ -3,6 +3,7 @@ package com.vidarin.adminspace.data;
 import com.vidarin.adminspace.dimension.skysector.generator.SectorInfo;
 import com.vidarin.adminspace.util.Vec2i;
 import net.minecraft.nbt.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 
@@ -12,10 +13,13 @@ import java.util.*;
 public class AdminspaceWorldData extends WorldSavedData {
     private static final String DATA_NAME = "adminspace_variables";
 
-    /* MAP REGISTRY */
+    /* REGISTRY */
     private Map<String, Object> PLAYER_AMBIENT_OCCLUSION_SETTING = new HashMap<>();
+
     private final Map<Vec2i, SectorInfo> SKY_SECTOR_MAP = new HashMap<>();
     private final List<Vec2i> SKY_SECTOR_MAP_KEYLIST = new ArrayList<>();
+
+    private BlockPos BEYOND_SPAWN_POS = null;
 
     public AdminspaceWorldData() {
         super(DATA_NAME);
@@ -29,6 +33,7 @@ public class AdminspaceWorldData extends WorldSavedData {
     @Override
     public void readFromNBT(@Nonnull NBTTagCompound compound) {
         PLAYER_AMBIENT_OCCLUSION_SETTING = readMapFromNBT(compound, "ambient_occlusion_setting");
+
         SKY_SECTOR_MAP_KEYLIST.clear();
         SKY_SECTOR_MAP.clear();
         NBTTagList keyList = compound.getTagList("sky_sector_map_keylist", 11);
@@ -39,11 +44,17 @@ public class AdminspaceWorldData extends WorldSavedData {
             String key = String.format("sector_info_%s_%s", position.x, position.y);
             SKY_SECTOR_MAP.put(position, SectorInfo.readFromNBT(compound, key));
         }
+
+        if (compound.hasKey("beyond_spawn_pos")) {
+            int[] beyondSpawnPosArray = compound.getIntArray("beyond_spawn_pos");
+            BEYOND_SPAWN_POS = new BlockPos(beyondSpawnPosArray[0], beyondSpawnPosArray[1], beyondSpawnPosArray[2]);
+        }
     }
 
     @Override
     public @Nonnull NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         compound = writeMapToNBT(compound, PLAYER_AMBIENT_OCCLUSION_SETTING, "ambient_occlusion_setting");
+
         for (Map.Entry<Vec2i, SectorInfo> sectorEntry : SKY_SECTOR_MAP.entrySet()) {
             compound = sectorEntry.getValue().writeToNBT(compound);
             if (!SKY_SECTOR_MAP_KEYLIST.contains(sectorEntry.getKey())) SKY_SECTOR_MAP_KEYLIST.add(sectorEntry.getKey());
@@ -54,6 +65,8 @@ public class AdminspaceWorldData extends WorldSavedData {
             keyList.appendTag(keyTag);
         }
         compound.setTag("sky_sector_map_keylist", keyList);
+
+        if (BEYOND_SPAWN_POS != null) compound.setIntArray("beyond_spawn_pos", new int[]{BEYOND_SPAWN_POS.getX(), BEYOND_SPAWN_POS.getY(), BEYOND_SPAWN_POS.getZ()});
         return compound;
     }
 
@@ -114,19 +127,13 @@ public class AdminspaceWorldData extends WorldSavedData {
     }
 
     /* GETTERS AND SETTERS */
-    public int getAmbientOcclusionValue(UUID playerId) {
-        return (int) PLAYER_AMBIENT_OCCLUSION_SETTING.getOrDefault(playerId.toString(), 0);
-    }
+    public int getAmbientOcclusionValue(UUID playerId) { return (int) PLAYER_AMBIENT_OCCLUSION_SETTING.getOrDefault(playerId.toString(), 0); }
+    public void setAmbientOcclusionValue(UUID playerId, int value) { PLAYER_AMBIENT_OCCLUSION_SETTING.put(playerId.toString(), value); }
 
-    public void setAmbientOcclusionValue(UUID playerId, int value) {
-        PLAYER_AMBIENT_OCCLUSION_SETTING.put(playerId.toString(), value);
-    }
+    public Map<Vec2i, SectorInfo> getSkySectorMap() { return SKY_SECTOR_MAP; }
+    public void putSectorToMap(Vec2i key, SectorInfo value) { SKY_SECTOR_MAP.put(key, value); }
 
-    public Map<Vec2i, SectorInfo> getSkySectorMap() {
-        return SKY_SECTOR_MAP;
-    }
-
-    public void putSectorToMap(Vec2i key, SectorInfo value) {
-        SKY_SECTOR_MAP.put(key, value);
-    }
+    public boolean hasSetBeyondSpawnPos() { return BEYOND_SPAWN_POS != null; }
+    public BlockPos getBeyondSpawnPos() { return BEYOND_SPAWN_POS; }
+    public void setBeyondSpawnPos(BlockPos pos) { BEYOND_SPAWN_POS = pos; }
 }

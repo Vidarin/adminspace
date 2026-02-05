@@ -1,6 +1,5 @@
 package com.vidarin.adminspace.util;
 
-import com.vidarin.adminspace.data.AdminspacePlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,8 +18,6 @@ public final class VisibilityUtil {
     }
 
     public static boolean isPosVisibleIgnoreRange(EntityPlayer player, Vec3d target, @Nullable AxisAlignedBB range) {
-        if (AdminspacePlayerData.getData(player).getBlindedDuration() > 0) return false;
-
         World world = player.world;
 
         Vec3d eyes = player.getPositionEyes(1F);

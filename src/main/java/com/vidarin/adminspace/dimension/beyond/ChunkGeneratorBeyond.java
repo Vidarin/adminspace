@@ -1,8 +1,10 @@
 package com.vidarin.adminspace.dimension.beyond;
 
+import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.util.FastNoiseLite;
+import com.vidarin.adminspace.util.MathUtils;
 import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.EnumCreatureType;
@@ -32,6 +34,7 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
     private final FastNoiseLite spikeNoiseGen;
     private final FastNoiseLite detailNoiseGen;
 
+
     public ChunkGeneratorBeyond(World world, long seed) {
         this.world = world;
 
@@ -51,22 +54,25 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         this.detailNoiseGen.SetFrequency(0.12F);
     }
 
+    private final int[][] spikeHeights = new int[16][16];
+
     @Override
     public Chunk generateChunk(int chunkX, int chunkZ) {
         ChunkPrimer primer = new ChunkPrimer();
 
-        int baseHeight = 60;
-        double scaleFactor = 50.0;
+        final int baseHeight = 60;
+        final double scaleFactor = 50.0;
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-
                 int worldX = (chunkX << 4) + x;
                 int worldZ = (chunkZ << 4) + z;
 
                 int height = baseHeight + (int) (spikeNoiseGen.GetNoise(worldX, worldZ) * scaleFactor);
 
-                double detailHeight = (Math.abs(detailNoiseGen.GetNoise(worldX, worldZ)) - 0.5) * (20.0 / (double) height) * (scaleFactor / 3.0);
+                spikeHeights[x][z] = height;
+
+                double detailHeight = (Math.abs(detailNoiseGen.GetNoise(worldX, worldZ)) - 0.5) * (20.0 / (double) height) * (scaleFactor / 4.0);
 
                 height += Math.toIntExact(Math.round(detailHeight));
 
@@ -77,6 +83,8 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
                 }
             }
         }
+
+        tryFindSpikePeak(chunkX, chunkZ, 8, 8);
 
         Chunk chunk = new Chunk(world, primer, chunkX, chunkZ);
 
@@ -89,18 +97,41 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         return chunk;
     }
 
+    private void tryFindSpikePeak(int chunkX, int chunkZ, int x, int z) {
+        AdminspaceWorldData worldData = AdminspaceWorldData.get(world);
+        if (worldData.hasSetBeyondSpawnPos()) return;
+        if (x == 0 || x == 15 || z == 0 || z == 15) return;
+
+        int height = spikeHeights[x][z];
+
+        int newHeight;
+        for (BlockPos offset : MathUtils.DIRECTIONS) {
+            int newX = x + offset.getX();
+            int newZ = z + offset.getZ();
+
+            newHeight = spikeHeights[newX][newZ];
+
+            if (newHeight > height) {
+                tryFindSpikePeak(chunkX, chunkZ, newX, newZ);
+                return;
+            }
+        }
+
+        if (height > 40) worldData.setBeyondSpawnPos(new BlockPos((chunkX << 4) + x, height, (chunkZ << 4) + z));
+    }
+
     @Override
     public void populate(int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         int blockX = chunkX << 4;
         int blockZ = chunkZ << 4;
 
-        generateWeakWorldStructure(world, pos, blockX, blockZ);
+        if (world.rand.nextFloat() < 0.005) generateWeakWorldStructure(world, pos, blockX, blockZ);
     }
 
     private static final int WEAK_WORLD_STRUCTURES = 15;
 
-    static void generateWeakWorldStructure(World world, ChunkPos pos, int x, int z) {
+    static void generateWeakWorldStructure(World world, @Nullable ChunkPos pos, int x, int z) {
         int i = world.rand.nextInt(WEAK_WORLD_STRUCTURES) + 1;
         new WorldGenStructurePlacer("beyond/beyond_weak_world_" + i, pos){{ settings.setReplacedBlock(Blocks.AIR); }}
                 .generateWithRotation(world, new BlockPos(x, world.rand.nextInt(Math.round(world.getHeight(x, z) * 0.9F)) + 1, z), randomRotation(world.rand));

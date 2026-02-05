@@ -1,8 +1,16 @@
 package com.vidarin.adminspace.util;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class MathUtils {
+    public static final BlockPos[] DIRECTIONS = {
+            new BlockPos(1, 0, 0), new BlockPos(1, 0, 1),
+            new BlockPos(0, 0, 1), new BlockPos(-1, 0, 1),
+            new BlockPos(-1, 0, 0), new BlockPos(-1, 0, -1),
+            new BlockPos(0, 0, -1), new BlockPos(1, 0, -1)
+    };
+
     public static int spiralIndex(Vec2i vec) {
         int x = vec.x;
         int y = vec.y;
