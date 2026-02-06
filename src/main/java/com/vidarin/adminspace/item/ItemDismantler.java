@@ -108,10 +108,10 @@ public class ItemDismantler extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    @SuppressWarnings("DataFlowIssue")
     public @Nonnull ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         if (playerIn.getHeldItem(handIn).hasTagCompound()) {
             NBTTagCompound compound = playerIn.getHeldItem(handIn).getTagCompound();
-            assert compound != null;
 
             if (playerIn.getName().equals(compound.getString("Owner"))) {
                 if (compound.getBoolean("Activated")) {
@@ -139,10 +139,11 @@ public class ItemDismantler extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    @SuppressWarnings("DataFlowIssue")
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTagCompound()) {
             NBTTagCompound compound = stack.getTagCompound();
-            assert compound != null;
+
             if (!compound.getBoolean("Activated")) tooltip.add(Fonts.Gray + "Activation Code: " + compound.getString("Activation_Code"));
             else tooltip.add(Fonts.Blue + "ACTIVATED");
             tooltip.add(Fonts.DarkGray + "Bound to " + compound.getString("Owner"));
@@ -169,11 +170,11 @@ public class ItemDismantler extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    @SuppressWarnings("DataFlowIssue")
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
         stack.damageItem(2, attacker);
 
-        assert stack.getTagCompound() != null;
         if (!attacker.getName().equals(stack.getTagCompound().getString("Owner"))) {
             attacker.attackEntityFrom(DamageSource.GENERIC, 3);
             if (attacker.world.isRemote) attacker.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));
@@ -184,12 +185,12 @@ public class ItemDismantler extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    @SuppressWarnings("DataFlowIssue")
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
     {
         if (worldIn.getBlockState(pos).getBlockHardness(worldIn, pos) >= 0.0D)
             stack.damageItem(1, entityLiving);
 
-        assert stack.getTagCompound() != null;
         if (!entityLiving.getName().equals(stack.getTagCompound().getString("Owner"))) {
             entityLiving.attackEntityFrom(DamageSource.GENERIC, 3);
             if (entityLiving.world.isRemote) entityLiving.sendMessage(new TextComponentString(Fonts.DarkRed + "This Dismantler is not bound to you!"));

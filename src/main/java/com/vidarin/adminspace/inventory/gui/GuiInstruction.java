@@ -59,6 +59,7 @@ public class GuiInstruction extends GuiScreen
     private GuiButton buttonFinalize;
     private GuiButton buttonCancel;
 
+    @SuppressWarnings("DataFlowIssue")
     public GuiInstruction(EntityPlayer player, ItemStack book, boolean isUnsigned)
     {
         this.editingPlayer = player;
@@ -68,7 +69,6 @@ public class GuiInstruction extends GuiScreen
         if (book.hasTagCompound())
         {
             NBTTagCompound nbttagcompound = book.getTagCompound();
-            assert nbttagcompound != null;
             this.bookPages = nbttagcompound.getTagList("pages", 8).copy();
             this.bookTotalPages = this.bookPages.tagCount();
 
@@ -138,6 +138,7 @@ public class GuiInstruction extends GuiScreen
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private void sendBookToServer() {
         if (this.bookIsUnsigned && this.bookIsModified)
         {
@@ -158,7 +159,6 @@ public class GuiInstruction extends GuiScreen
                 if (this.bookObj.hasTagCompound())
                 {
                     NBTTagCompound nbttagcompound = this.bookObj.getTagCompound();
-                    assert nbttagcompound != null;
                     nbttagcompound.setTag("pages", this.bookPages);
                 }
                 else

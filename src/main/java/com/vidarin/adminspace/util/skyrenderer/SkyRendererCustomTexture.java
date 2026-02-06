@@ -159,8 +159,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
 
     private void renderCelestialObjects(WorldClient world, Minecraft mc, float partialTicks) {
         float celestialAngle = world.getCelestialAngle(partialTicks);
-        assert SUN_TEXTURE != null;
-        assert MOON_TEXTURE != null;
+        if (SUN_TEXTURE == null || MOON_TEXTURE == null) return;
 
         // Render Sun
         GlStateManager.pushMatrix();

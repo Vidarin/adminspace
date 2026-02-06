@@ -129,12 +129,12 @@ public class ItemInstruction extends ItemBase {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public @Nonnull String getItemStackDisplayName(ItemStack stack)
     {
         if (stack.hasTagCompound())
         {
             NBTTagCompound nbttagcompound = stack.getTagCompound();
-            assert nbttagcompound != null;
             String s = nbttagcompound.getString("title");
 
             if (!StringUtils.isNullOrEmpty(s))
@@ -148,12 +148,12 @@ public class ItemInstruction extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    @SuppressWarnings("DataFlowIssue")
     public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced)
     {
         if (stack.hasTagCompound())
         {
             NBTTagCompound nbttagcompound = stack.getTagCompound();
-            assert nbttagcompound != null;
             String s = nbttagcompound.getString("author");
 
             if (!StringUtils.isNullOrEmpty(s))
@@ -167,7 +167,7 @@ public class ItemInstruction extends ItemBase {
 
     private void resolveContents(ItemStack stack, EntityPlayer player)
     {
-        if (stack.getTagCompound() != null)
+        if (stack.hasTagCompound() && stack.getTagCompound() != null)
         {
             NBTTagCompound nbttagcompound = stack.getTagCompound();
 
@@ -187,8 +187,8 @@ public class ItemInstruction extends ItemBase {
                         try
                         {
                             itextcomponent = ITextComponent.Serializer.fromJsonLenient(s);
-                            assert itextcomponent != null;
-                            itextcomponent = TextComponentUtils.processComponent(player, itextcomponent, player);
+                            if (itextcomponent == null) itextcomponent = new TextComponentString(s);
+                            else itextcomponent = TextComponentUtils.processComponent(player, itextcomponent, player);
                         }
                         catch (Exception var9)
                         {
@@ -203,7 +203,7 @@ public class ItemInstruction extends ItemBase {
                     if (player instanceof EntityPlayerMP && player.getHeldItemMainhand() == stack)
                     {
                         Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
-                        assert slot != null;
+                        if (slot == null) return;
                         ((EntityPlayerMP)player).connection.sendPacket(new SPacketSetSlot(0, slot.slotNumber, stack));
                     }
                 }
