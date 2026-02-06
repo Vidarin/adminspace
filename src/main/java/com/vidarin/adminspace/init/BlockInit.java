@@ -186,7 +186,7 @@ public class BlockInit {
         adminspaceWall = new BlockBase("adminspace_wall");
         adminspaceCatwalk = new BlockBase("adminspace_catwalk");
         keySlotter = new BlockKeySlotter();
-        mojangBlock = new BlockBase("mojang_block");
+        mojangBlock = new BlockLamp("mojang_block", 5);
         serverContainer = new BlockBase("server_container"); //TODO functionality
 
         //Minesweeper

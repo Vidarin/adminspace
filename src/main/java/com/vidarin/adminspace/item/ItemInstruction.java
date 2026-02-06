@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class ItemInstruction extends ItemBase {
-
     public ItemInstruction() {
         super("instruction", null);
         this.setMaxStackSize(1);
@@ -79,7 +78,7 @@ public class ItemInstruction extends ItemBase {
 
         if (item == ItemInit.instruction)
         {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiInstruction(player, stack, true));
+            Minecraft.getMinecraft().displayGuiScreen(new GuiInstruction(player, stack));
         }
     }
 
@@ -160,8 +159,6 @@ public class ItemInstruction extends ItemBase {
             {
                 tooltip.add(Fonts.Gray + I18n.format("book.byAuthor", s));
             }
-
-            tooltip.add(Fonts.Gray + I18n.format("book.generation." + nbttagcompound.getInteger("generation")));
         }
     }
 

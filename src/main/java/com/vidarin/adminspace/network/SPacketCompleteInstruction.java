@@ -48,8 +48,10 @@ public class SPacketCompleteInstruction implements IMessage {
 
                     if (bookTag != null && bookTag.hasKey("pages", 8)) {
                         ItemStack signedBook = new ItemStack(ItemInit.instruction);
-                        NBTTagCompound signedTag = new NBTTagCompound();
+                        signedBook.setTagCompound(new NBTTagCompound());
+                        NBTTagCompound signedTag = signedBook.getTagCompound();
 
+                        //noinspection DataFlowIssue
                         signedTag.setTag("pages", bookTag.getTagList("pages", 8));
                         signedTag.setString("author", ctx.getServerHandler().player.getName());
                         signedTag.setString("title", bookTag.getString("title"));
