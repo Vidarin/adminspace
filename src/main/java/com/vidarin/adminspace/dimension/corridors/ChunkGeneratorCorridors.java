@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.dimension.corridors;
 
-import com.vidarin.adminspace.block.BlockAxisSided;
+import com.vidarin.adminspace.block.BlockColumn;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
@@ -155,13 +155,13 @@ public class ChunkGeneratorCorridors implements IChunkGenerator {
 
     private void decorateBridge() {
         if (Objects.equals(bridgeGenerationResult, "X1") || Objects.equals(bridgeGenerationResult, "X2")) { //West - East
-            blockFiller.fillBlocks(0, 10, 6, 15, 10, 6, BlockInit.corridorTracks.getDefaultState().withProperty(BlockAxisSided.AXIS, Axis.Z));
+            blockFiller.fillBlocks(0, 10, 6, 15, 10, 6, BlockInit.corridorTracks.getDefaultState().withProperty(BlockColumn.AXIS, Axis.Z));
             blockFiller.fillBlocks(0, 10, 3, 15, 10, 3, BlockInit.corridorRailingBlock.getDefaultState());
             blockFiller.fillBlocks(0, 10, 9, 15, 10, 9, BlockInit.corridorRailingBlock.getDefaultState());
             blockFiller.fillDottedLine(0, 15, 3, 10, 2, true, BlockInit.corridorLantern.getDefaultState());
             blockFiller.fillDottedLine(0, 15, 9, 10, 2, true, BlockInit.corridorLantern.getDefaultState());
         } else if (Objects.equals(bridgeGenerationResult, "Z1") || Objects.equals(bridgeGenerationResult, "Z2")) { //North - South
-            blockFiller.fillBlocks(9, 10, 0, 9, 10, 15, BlockInit.corridorTracks.getDefaultState().withProperty(BlockAxisSided.AXIS, Axis.X));
+            blockFiller.fillBlocks(9, 10, 0, 9, 10, 15, BlockInit.corridorTracks.getDefaultState().withProperty(BlockColumn.AXIS, Axis.X));
             blockFiller.fillBlocks(6, 10, 0, 6, 10, 15, BlockInit.corridorRailingBlock.getDefaultState());
             blockFiller.fillBlocks(12, 10, 0, 12, 10, 15, BlockInit.corridorRailingBlock.getDefaultState());
             blockFiller.fillDottedLine(0, 15, 6, 10, 2, false, BlockInit.corridorLantern.getDefaultState());
@@ -175,8 +175,8 @@ public class ChunkGeneratorCorridors implements IChunkGenerator {
             blockFiller.fillDottedLine(0, 15, 9, 10, 2, true, BlockInit.corridorLantern.getDefaultState());
             blockFiller.fillBlocks(7, 10, 0, 11, 10, 15, BlockInit.corridorSmooth.getDefaultState());
             blockFiller.fillBlocks(0, 10, 4, 15, 10, 8, BlockInit.corridorSmooth.getDefaultState());
-            blockFiller.fillBlocks(0, 10, 6, 15, 10, 6, BlockInit.corridorTracks.getDefaultState().withProperty(BlockAxisSided.AXIS, Axis.Z));
-            blockFiller.fillBlocks(9, 10, 0, 9, 10, 15, BlockInit.corridorTracks.getDefaultState().withProperty(BlockAxisSided.AXIS, Axis.X));
+            blockFiller.fillBlocks(0, 10, 6, 15, 10, 6, BlockInit.corridorTracks.getDefaultState().withProperty(BlockColumn.AXIS, Axis.Z));
+            blockFiller.fillBlocks(9, 10, 0, 9, 10, 15, BlockInit.corridorTracks.getDefaultState().withProperty(BlockColumn.AXIS, Axis.X));
         }
     }
 

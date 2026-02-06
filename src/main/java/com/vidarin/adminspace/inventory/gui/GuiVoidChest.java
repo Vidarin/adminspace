@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiVoidChest extends GuiContainer {
-    private static final ResourceLocation VOID_CHEST_GUI_TEXTURE = new ResourceLocation(Adminspace.MODID + ":textures/gui/void_chest.png");
+    private static final ResourceLocation VOID_CHEST_GUI_TEXTURE = new ResourceLocation(Adminspace.MODID, "textures/gui/void_chest.png");
     private final InventoryPlayer playerInv;
     private final TileEntityVoidChest chest;
 
@@ -40,8 +40,8 @@ public class GuiVoidChest extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(VOID_CHEST_GUI_TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+        int x = (this.width - this.xSize) / 2;
+        int y = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
     }
 }

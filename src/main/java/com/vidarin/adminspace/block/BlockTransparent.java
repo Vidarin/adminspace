@@ -9,6 +9,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
+import javax.annotation.Nullable;
+
 public class BlockTransparent extends BlockBase {
     public boolean alwaysRenderSides = false;
 
@@ -20,7 +22,7 @@ public class BlockTransparent extends BlockBase {
         this(name, material, null);
     }
 
-    public BlockTransparent(String name, Material material, CreativeTabs tab) {
+    public BlockTransparent(String name, Material material, @Nullable CreativeTabs tab) {
         super(name, material, tab);
     }
 

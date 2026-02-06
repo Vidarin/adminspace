@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": { "model": "adminspace:admin_column" },
+    "axis=z": { "model": "adminspace:admin_column", "x": 90 },
+    "axis=x": { "model": "adminspace:admin_column", "x": 90, "y": 90 }
+  }
+}

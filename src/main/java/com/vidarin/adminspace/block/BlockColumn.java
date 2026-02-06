@@ -12,18 +12,20 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAxisSided extends BlockBase {
+import javax.annotation.Nullable;
+
+public class BlockColumn extends BlockBase {
     public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class);
 
-    public BlockAxisSided(String name) {
+    public BlockColumn(String name) {
         this(name, Material.ROCK);
     }
 
-    public BlockAxisSided(String name, Material material) {
+    public BlockColumn(String name, Material material) {
         this(name, material, null);
     }
 
-    public BlockAxisSided(String name, Material material, CreativeTabs tab) {
+    public BlockColumn(String name, Material material, @Nullable CreativeTabs tab) {
         super(name, material, tab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));
     }

@@ -16,7 +16,7 @@ import javax.annotation.*;
 import net.minecraft.init.*;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.layer.GenLayer;
-import net.minecraft.world.gen.layer.GenLayerZoom;
+import net.minecraft.world.gen.layer.GenLayerFuzzyZoom;
 import net.minecraft.world.gen.layer.IntCache;
 
 public class ChunkGeneratorDeltaQuest implements IChunkGenerator
@@ -66,19 +66,23 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         final int width = noiseZ + 1;
         final byte depth = 17;
         final int var8 = noiseZ + 1;
+        //noinspection SuspiciousNameCombination
         this.noiseArray = this.generateNoise(this.noiseArray, chunkX * noiseZ, chunkZ * noiseZ, width, depth, var8);
         for (int var9 = 0; var9 < noiseZ; ++var9) {
             for (int var10 = 0; var10 < noiseZ; ++var10) {
                 for (int var11 = 0; var11 < 16; ++var11) {
                     final double var12 = 0.125;
                     double var13 = this.noiseArray[((var9) * var8 + var10) * depth + var11];
-                    double var14 = this.noiseArray[((var9) * var8 + var10 + 1) * depth + var11];
-                    double var15 = this.noiseArray[((var9 + 1) * var8 + var10) * depth + var11];
-                    double var16 = this.noiseArray[((var9 + 1) * var8 + var10 + 1) * depth + var11];
+                    int var100 = ((var9) * var8 + var10 + 1) * depth;
+                    double var14 = this.noiseArray[var100 + var11];
+                    int var101 = ((var9 + 1) * var8 + var10) * depth;
+                    double var15 = this.noiseArray[var101 + var11];
+                    int var102 = ((var9 + 1) * var8 + var10 + 1) * depth;
+                    double var16 = this.noiseArray[var102 + var11];
                     final double var17 = (this.noiseArray[((var9) * var8 + var10) * depth + var11 + 1] - var13) * var12;
-                    final double var18 = (this.noiseArray[((var9) * var8 + var10 + 1) * depth + var11 + 1] - var14) * var12;
-                    final double var19 = (this.noiseArray[((var9 + 1) * var8 + var10) * depth + var11 + 1] - var15) * var12;
-                    final double var20 = (this.noiseArray[((var9 + 1) * var8 + var10 + 1) * depth + var11 + 1] - var16) * var12;
+                    final double var18 = (this.noiseArray[var100 + var11 + 1] - var14) * var12;
+                    final double var19 = (this.noiseArray[var101 + var11 + 1] - var15) * var12;
+                    final double var20 = (this.noiseArray[var102 + var11 + 1] - var16) * var12;
                     for (int var21 = 0; var21 < 8; ++var21) {
                         final double var22 = 0.25;
                         double var23 = var13;
@@ -119,6 +123,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
     }
     
+    @SuppressWarnings("DataFlowIssue")
     public void replaceBlocks(int chunkX, int chunkZ, ChunkPrimer chunk) {
         final byte baseLevel = 64;
         final double height = 0.03125;
@@ -191,6 +196,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public @Nonnull Chunk generateChunk(int chunkX, int chunkZ) {
         this.random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
@@ -233,7 +239,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
 
         GenLayer baseLayer = new GenLayerCustomBiomes(this.world.getSeed(), ALLOWED_BIOMES);
-        GenLayer deltaQuestGenBiomes = GenLayerZoom.magnify(1000L, baseLayer, 7);
+        GenLayer deltaQuestGenBiomes = GenLayerFuzzyZoom.magnify(1000L, baseLayer, 7);
 
         int[] biomesInts = deltaQuestGenBiomes.getInts(x, z, 16, 16);
 
@@ -252,6 +258,7 @@ public class ChunkGeneratorDeltaQuest implements IChunkGenerator
         }
     }
     
+    @SuppressWarnings("SameParameterValue")
     private double[] generateNoise(double[] noiseIn, int noiseX, int noiseZ, int height, int width, int depth) {
         if (noiseIn == null) {
             noiseIn = new double[height * width * depth];

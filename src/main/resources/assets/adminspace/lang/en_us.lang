@@ -38,25 +38,37 @@ tile.void_lamp_off.name=Brightness 0 Block
 tile.hell_bulb.name=Hell Bulb
 
 tile.card_reader.name=Card Reader
-tile.void_gauge.name=Void Gauge
+tile.void_gauge.name=Noise Gem Gauge
 tile.small_monitor.name=Small Monitor
-tile.void_gauge_all.name=4-Sided Void Gauge
+tile.void_gauge_all.name=4-Sided Noise Gem Gauge
 tile.small_monitor_all.name=4-Sided Small Monitor
+tile.void_fan.name=Noise Gem Fan
 
-tile.minesweeper_0.name=Minesweeper Tile
-tile.minesweeper_1.name=Minesweeper Tile
-tile.minesweeper_2.name=Minesweeper Tile
-tile.minesweeper_3.name=Minesweeper Tile
-tile.minesweeper_4.name=Minesweeper Tile
-tile.minesweeper_5.name=Minesweeper Tile
-tile.minesweeper_6.name=Minesweeper Tile
-tile.minesweeper_7.name=Minesweeper Tile
-tile.minesweeper_8.name=Minesweeper Tile
-tile.minesweeper_flag.name=Minesweeper Tile
-tile.minesweeper_mine.name=Minesweeper Tile
-tile.minesweeper_mine_critical.name=YOU LOST!
+tile.fan.name=Server Cooling Fan
+tile.admin_column.name=Admin Column
+tile.admin_tech.name=Admin Technology
+tile.adminspace_glass.name=Adminspace Glass
+tile.adminspace_terminal.name=Adminspace
+tile.adminspace_tile.name=Adminspace Tile
+tile.adminspace_wall.name=Adminspace Wall
+tile.adminspace_catwalk.name=Adminspace Catwalk
+tile.key_slotter.name=Key Slotter
+tile.mojang_block.name=Mojang Block
+tile.server_container.name=Server Container
+
+tile.minesweeper_0.name=Minesweeper Tile (0)
+tile.minesweeper_1.name=Minesweeper Tile (1)
+tile.minesweeper_2.name=Minesweeper Tile (2)
+tile.minesweeper_3.name=Minesweeper Tile (3)
+tile.minesweeper_4.name=Minesweeper Tile (4)
+tile.minesweeper_5.name=Minesweeper Tile (5)
+tile.minesweeper_6.name=Minesweeper Tile (6)
+tile.minesweeper_7.name=Minesweeper Tile (7)
+tile.minesweeper_8.name=Minesweeper Tile (8)
+tile.minesweeper_flag.name=Minesweeper Tile (flag)
+tile.minesweeper_mine.name=Minesweeper Tile (mine)
+tile.minesweeper_mine_critical.name=Minesweeper Tile (mine)
 tile.minesweeper_button.name=Minesweeper Tile
-
 
 tile.sky_ground.name=Void Block
 tile.sky_ground_2.name=Active Void Block
@@ -107,6 +119,9 @@ item.accept.name=assets_tiles_accept
 item.deny.name=assets_tiles_deny
 
 item.instruction.name=Empty Instruction
+
+item.void_key.name=Void Key
+item.void_key.desc=Unlock Yourself
 
 item.repeller.name=Repeller
 item.dismantler.name=Dismantler

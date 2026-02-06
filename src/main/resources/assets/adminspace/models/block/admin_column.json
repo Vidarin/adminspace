@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "adminspace:blocks/admin_column_top",
+    "side": "adminspace:blocks/admin_column_side"
+  }
+}

@@ -69,8 +69,19 @@ public class BlockInit {
     public static final Block smallMonitor;
     public static final Block voidGaugeAll;
     public static final Block smallMonitorAll;
-    public static final Block fan;
     public static final Block voidFan;
+
+    public static final Block fan;
+    public static final Block adminColumn;
+    public static final Block adminTech;
+    public static final Block adminspaceGlass;
+    public static final Block adminspaceTerminal;
+    public static final Block adminspaceTile;
+    public static final Block adminspaceWall;
+    public static final Block adminspaceCatwalk;
+    public static final Block keySlotter;
+    public static final Block mojangBlock;
+    public static final Block serverContainer;
 
     public static final Block minesweeper0;
     public static final Block minesweeper1;
@@ -137,11 +148,11 @@ public class BlockInit {
         corridorMachinery = new BlockBase("corridor_machinery", Material.IRON);
         corridorNetting = new BlockTransparent("corridor_netting").alwaysRenderSides();
         corridorSupports = new BlockTransparent("corridor_supports").alwaysRenderSides();
-        corridorPillar = new BlockAxisSided("corridor_pillar");
+        corridorPillar = new BlockColumn("corridor_pillar");
         corridorRailing = new BlockModFence("corridor_railing");
         corridorRailingBlock = new BlockBase("corridor_railing_block");
         corridorSmooth = new BlockBase("corridor_smooth");
-        corridorTracks = new BlockAxisSided("corridor_tracks");
+        corridorTracks = new BlockColumn("corridor_tracks");
 
         //Void being stuff
         squirmingOrganism = new BlockDamaging("squirming_organism", 2, DamageSource.WITHER);
@@ -164,8 +175,19 @@ public class BlockInit {
         smallMonitor = new BlockSided("small_monitor");
         voidGaugeAll = new BlockBase("void_gauge_all");
         smallMonitorAll = new BlockBase("small_monitor_all");
-        fan = new BlockBase("fan");
         voidFan = new BlockBase("void_fan");
+
+        //Adminspace
+        fan = new BlockBase("fan");
+        adminColumn = new BlockColumn("admin_column");
+        adminTech = new BlockBase("admin_tech");
+        adminspaceGlass = new BlockTranslucent("adminspace_glass");
+        adminspaceTile = new BlockBase("adminspace_tile");
+        adminspaceWall = new BlockBase("adminspace_wall");
+        adminspaceCatwalk = new BlockBase("adminspace_catwalk");
+        keySlotter = new BlockKeySlotter();
+        mojangBlock = new BlockBase("mojang_block");
+        serverContainer = new BlockBase("server_container"); //TODO functionality
 
         //Minesweeper
         minesweeper0 = new BlockMinesweeperTile("minesweeper_0");
@@ -185,6 +207,7 @@ public class BlockInit {
         //Terminals
         terminal = new BlockTerminal("terminal");
         mainTerminal = new BlockTerminal("main_terminal");
+        adminspaceTerminal = new BlockBase("adminspace_terminal"); //TODO functionality
         terminalAccept = new BlockTerminalAccept();
         terminalDeny = new BlockTerminalDeny();
 

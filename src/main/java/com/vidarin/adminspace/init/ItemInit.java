@@ -25,6 +25,8 @@ public class ItemInit {
 
     public static final Item instruction;
 
+    public static final Item voidKey;
+
     public static final Item repeller;
     public static final Item dismantler;
 
@@ -45,6 +47,8 @@ public class ItemInit {
         deny = new ItemBase("deny");
 
         instruction = new ItemInstruction();
+
+        voidKey = new ItemVoidKey();
 
         repeller = new ItemRepeller();
         dismantler = new ItemDismantler();
