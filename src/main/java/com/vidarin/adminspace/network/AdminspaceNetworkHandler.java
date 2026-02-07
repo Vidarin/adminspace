@@ -14,5 +14,6 @@ public class AdminspaceNetworkHandler {
 
         INSTANCE.registerMessage(CPacketUpdatePlayerData.Handler.class, CPacketUpdatePlayerData.class, 100, Side.CLIENT);
         INSTANCE.registerMessage(CPacketSinglePlayerSoundEffect.Handler.class, CPacketSinglePlayerSoundEffect.class, 101, Side.CLIENT);
+        INSTANCE.registerMessage(CPacketOpenInstruction.Handler.class, CPacketOpenInstruction.class, 102, Side.CLIENT);
     }
 }

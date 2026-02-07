@@ -2,8 +2,10 @@ package com.vidarin.adminspace.network;
 
 import com.vidarin.adminspace.init.ItemInit;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -13,25 +15,25 @@ import net.minecraft.network.PacketBuffer;
 import java.io.IOException;
 
 public class SPacketCompleteInstruction implements IMessage {
-    private ItemStack bookStack;
+    private ItemStack stack;
 
     public SPacketCompleteInstruction() {}
 
-    public SPacketCompleteInstruction(ItemStack bookStack) {
-        this.bookStack = bookStack;
+    public SPacketCompleteInstruction(ItemStack stack) {
+        this.stack = stack;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         PacketBuffer packetBuffer = new PacketBuffer(buf);
-        packetBuffer.writeItemStack(bookStack);
+        packetBuffer.writeItemStack(stack);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         PacketBuffer packetBuffer = new PacketBuffer(buf);
         try {
-            this.bookStack = packetBuffer.readItemStack();
+            this.stack = packetBuffer.readItemStack();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,24 +43,24 @@ public class SPacketCompleteInstruction implements IMessage {
 
         @Override
         public IMessage onMessage(SPacketCompleteInstruction message, MessageContext ctx) {
-            ctx.getServerHandler().player.getServerWorld().addScheduledTask(() -> {
-                ItemStack bookStack = message.bookStack;
-                if (bookStack.getItem() == ItemInit.instruction) {
-                    NBTTagCompound bookTag = bookStack.getTagCompound();
+            EntityPlayerMP player = ctx.getServerHandler().player;
+            player.getServerWorld().addScheduledTask(() -> {
+                ItemStack stack = message.stack;
+                if (stack.getItem() == ItemInit.instruction) {
+                    NBTTagCompound tag = stack.getTagCompound();
 
-                    if (bookTag != null && bookTag.hasKey("pages", 8)) {
-                        ItemStack signedBook = new ItemStack(ItemInit.instruction);
-                        signedBook.setTagCompound(new NBTTagCompound());
-                        NBTTagCompound signedTag = signedBook.getTagCompound();
+                    if (tag != null && tag.hasKey("pages", Constants.NBT.TAG_LIST)) {
+                        ItemStack newStack = new ItemStack(ItemInit.instruction);
+                        newStack.setTagCompound(new NBTTagCompound());
+                        NBTTagCompound newTag = newStack.getTagCompound();
 
-                        //noinspection DataFlowIssue
-                        signedTag.setTag("pages", bookTag.getTagList("pages", 8));
-                        signedTag.setString("author", ctx.getServerHandler().player.getName());
-                        signedTag.setString("title", bookTag.getString("title"));
+                        if (newTag != null) {
+                            newTag.setTag("pages", tag.getTagList("pages", Constants.NBT.TAG_STRING));
+                            newTag.setString("author", player.getName());
+                            newTag.setString("title", tag.getString("title"));
+                        }
 
-                        signedBook.setTagCompound(signedTag);
-
-                        ctx.getServerHandler().player.setHeldItem(EnumHand.MAIN_HAND, signedBook);
+                        player.setHeldItem(EnumHand.MAIN_HAND, newStack);
                     }
                 }
             });
