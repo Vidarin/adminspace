@@ -6,7 +6,7 @@ import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.network.SPacketUpdateVariablesMap;
-import com.vidarin.adminspace.util.MathUtils;
+import com.vidarin.adminspace.util.MathUtil;
 import com.vidarin.adminspace.util.skyrenderer.SkyRendererCustomTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -132,22 +132,22 @@ public class DimensionDeltaQuest extends WorldProvider {
 
         if (celestialAngle >= 0.20F && celestialAngle <= 0.30F) {
             float blend = (celestialAngle - 0.20F) / 0.10F;
-            return MathUtils.lerp(sunsetColor, nightColor, blend);
+            return MathUtil.lerp(sunsetColor, nightColor, blend);
         }
 
         if (celestialAngle >= 0.70F && celestialAngle <= 0.80F) {
             float blend = (celestialAngle - 0.70F) / 0.10F;
-            return MathUtils.lerp(nightColor, sunriseColor, blend);
+            return MathUtil.lerp(nightColor, sunriseColor, blend);
         }
 
         if (celestialAngle >= 0.15F && celestialAngle < 0.20F) {
             float blend = (celestialAngle - 0.15F) / 0.05F;
-            return MathUtils.lerp(dayColor, sunsetColor, blend);
+            return MathUtil.lerp(dayColor, sunsetColor, blend);
         }
 
         if (celestialAngle > 0.80F) {
             float blend = (celestialAngle - 0.80F) / 0.05F;
-            return MathUtils.lerp(sunriseColor, dayColor, blend);
+            return MathUtil.lerp(sunriseColor, dayColor, blend);
         }
 
         return nightColor;

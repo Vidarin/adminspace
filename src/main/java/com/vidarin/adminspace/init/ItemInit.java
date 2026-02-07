@@ -26,6 +26,7 @@ public class ItemInit {
     public static final Item instruction;
 
     public static final Item voidKey;
+    public static final Item serverDrive;
 
     public static final Item repeller;
     public static final Item dismantler;
@@ -39,9 +40,9 @@ public class ItemInit {
         catPass = new ItemCatPass();
 
         recordCalm5 = new ItemSpecialRecord("calm_5", "? - Calm 5", SoundInit.RECORD_CALM_5);
-        recordCalm6 = new ItemSpecialRecord("calm_6", "? - Calm 6", SoundInit.RECORD_CALM_6);
-        recordElsewhere = new ItemSpecialRecord("elsewhere", "? - Elsewhere", SoundInit.RECORD_ELSEWHERE);
-        recordMoonwalk = new ItemSpecialRecord("moonwalk", "? - Moonwalk", SoundInit.RECORD_MOONWALK);
+        recordCalm6 = new ItemSpecialRecord("calm_6", "ꕚ - Calm 6", SoundInit.RECORD_CALM_6);
+        recordElsewhere = new ItemSpecialRecord("elsewhere", "⁑ - Elsewhere", SoundInit.RECORD_ELSEWHERE);
+        recordMoonwalk = new ItemSpecialRecord("moonwalk", "କ◌େହ◌ି ନ◌ୁହ - Moonwalk", SoundInit.RECORD_MOONWALK);
 
         accept = new ItemBase("accept");
         deny = new ItemBase("deny");
@@ -49,6 +50,7 @@ public class ItemInit {
         instruction = new ItemInstruction();
 
         voidKey = new ItemVoidKey();
+        serverDrive = new ItemBase("server_drive");
 
         repeller = new ItemRepeller();
         dismantler = new ItemDismantler();

@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.dimension.skysector.generator;
 
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.util.MathUtils;
+import com.vidarin.adminspace.util.MathUtil;
 import com.vidarin.adminspace.util.Vec2i;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -20,7 +20,7 @@ public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
     public SectorInfo(Vec2i position, ActivityLevel activityLevel) {
         this.position = position;
         this.activityLevel = activityLevel;
-        this.id = MathUtils.spiralIndex(position);
+        this.id = MathUtil.spiralIndex(position);
         this.SKY_MAP = new HashMap<>();
     }
 

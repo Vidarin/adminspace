@@ -30,6 +30,12 @@ public class ItemVoidKey extends ItemBase {
 
     @Override
     @ParametersAreNonnullByDefault
+    public boolean hasEffect(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(Fonts.Gray + I18n.format("item.void_key.desc"));
     }

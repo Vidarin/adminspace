@@ -32,8 +32,8 @@ public class GuiVoidChest extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.fontRenderer.drawString(this.chest.getDisplayName().getUnformattedText(), 8 ,6, 4210752);
-        this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 94, 4210752);
+        this.fontRenderer.drawString(this.chest.getDisplayName().getUnformattedText(), 8 ,6, 0x404040);
+        this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 94, 0x404040);
     }
 
     @Override

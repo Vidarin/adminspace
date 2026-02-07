@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.init;
 
 import com.vidarin.adminspace.block.*;
+import com.vidarin.adminspace.block.special.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPressurePlate.Sensitivity;
 import net.minecraft.block.SoundType;
@@ -82,6 +83,7 @@ public class BlockInit {
     public static final Block keySlotter;
     public static final Block mojangBlock;
     public static final Block serverContainer;
+    public static final Block monitor;
 
     public static final Block minesweeper0;
     public static final Block minesweeper1;
@@ -119,7 +121,7 @@ public class BlockInit {
         voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
         voidLamp = new BlockLamp("void_lamp", 15);
         voidLampOff = new BlockBase("void_lamp_off");
-        hellBulb = new BlockLamp("hell_bulb", 15);
+        hellBulb = new BlockLamp("hell_bulb", 12);
 
         //Simple functional blocks
         voidDoor = new BlockModDoor("void_door", Material.IRON, CreativeTabs.REDSTONE);
@@ -187,7 +189,8 @@ public class BlockInit {
         adminspaceCatwalk = new BlockBase("adminspace_catwalk");
         keySlotter = new BlockKeySlotter();
         mojangBlock = new BlockLamp("mojang_block", 5);
-        serverContainer = new BlockBase("server_container"); //TODO functionality
+        serverContainer = new BlockServerContainer();
+        monitor = new BlockBase("monitor"); //TODO functionality
 
         //Minesweeper
         minesweeper0 = new BlockMinesweeperTile("minesweeper_0");
@@ -205,8 +208,8 @@ public class BlockInit {
         minesweeperButton = new BlockMinesweeperButton();
 
         //Terminals
-        terminal = new BlockTerminal("terminal");
-        mainTerminal = new BlockTerminal("main_terminal");
+        terminal = new BlockTerminal("terminal", BlockTerminal.PERM_LEVEL_NORMAL);
+        mainTerminal = new BlockTerminal("main_terminal", BlockTerminal.PERM_LEVEL_MAIN);
         adminspaceTerminal = new BlockBase("adminspace_terminal"); //TODO functionality
         terminalAccept = new BlockTerminalAccept();
         terminalDeny = new BlockTerminalDeny();

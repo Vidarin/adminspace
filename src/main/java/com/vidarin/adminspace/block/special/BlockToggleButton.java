@@ -1,5 +1,6 @@
-package com.vidarin.adminspace.block;
+package com.vidarin.adminspace.block.special;
 
+import com.vidarin.adminspace.block.BlockBase;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -11,7 +12,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class BlockToggleButton extends BlockBase {
     public static final PropertyBool POWERED = PropertyBool.create("powered");
 
@@ -32,7 +37,7 @@ public class BlockToggleButton extends BlockBase {
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
+    protected @NotNull BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, POWERED);
     }
 
@@ -56,7 +61,7 @@ public class BlockToggleButton extends BlockBase {
 
     @Override
     @SuppressWarnings("deprecation")
-    public IBlockState getStateFromMeta(int meta) {
+    public @NotNull IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(POWERED, meta > 0);
     }
 

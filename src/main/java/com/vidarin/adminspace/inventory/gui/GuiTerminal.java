@@ -110,7 +110,7 @@ public class GuiTerminal extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.fontRenderer.drawString("Input RAW Command", this.width / 2 - 50 ,this.height / 5, 16777215);
+        this.fontRenderer.drawString("Input RAW Command", this.width / 2 - 50 ,this.height / 5, 0xFFFFFF);
         this.input.drawTextBox();
     }
 }

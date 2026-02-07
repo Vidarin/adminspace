@@ -3,7 +3,6 @@ package com.vidarin.adminspace.block;
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.init.BlockInit;
-import com.vidarin.adminspace.inventory.GuiIDs;
 import com.vidarin.adminspace.init.ItemInit;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
@@ -22,7 +21,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Objects;
+import javax.annotation.Nullable;
 
 public class BlockModChest extends BlockContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
@@ -35,13 +34,14 @@ public class BlockModChest extends BlockContainer {
         this(name, material, null);
     }
 
-    public BlockModChest(String name, Material material, CreativeTabs tab) {
+    public BlockModChest(String name, Material material, @Nullable CreativeTabs tab) {
         super(material);
         this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
+        //noinspection DataFlowIssue
         this.setCreativeTab(tab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 
@@ -52,7 +52,7 @@ public class BlockModChest extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            player.openGui(Adminspace.INSTANCE, GuiIDs.GUI_VOID_CHEST, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            Adminspace.openGui(player, worldIn, pos);
         }
 
         return true;
@@ -96,6 +96,7 @@ public class BlockModChest extends BlockContainer {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }

@@ -1,4 +1,6 @@
 container.void_chest=Chest
+container.server_container=ADMINS ONLY! Server Container
+container.adminspace=Adminspace
 
 instruction.finalizeWarning=Note: This will overwrite the previous instruction!
 instruction.signButton=Save
@@ -55,6 +57,7 @@ tile.adminspace_catwalk.name=Adminspace Catwalk
 tile.key_slotter.name=Key Slotter
 tile.mojang_block.name=Mojang Block
 tile.server_container.name=Server Container
+tile.monitor.name=Monitor
 
 tile.minesweeper_0.name=Minesweeper Tile (0)
 tile.minesweeper_1.name=Minesweeper Tile (1)
@@ -122,6 +125,7 @@ item.instruction.name=Empty Instruction
 
 item.void_key.name=Void Key
 item.void_key.desc=Unlock Yourself
+item.server_drive.name=Server Drive
 
 item.repeller.name=Repeller
 item.dismantler.name=Dismantler

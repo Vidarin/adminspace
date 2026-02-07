@@ -1,9 +1,8 @@
-package com.vidarin.adminspace.block;
+package com.vidarin.adminspace.block.special;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityKeySlotter;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
-import com.vidarin.adminspace.inventory.GuiIDs;
 import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -18,7 +17,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class BlockKeySlotter extends BlockContainer {
     public BlockKeySlotter() {
@@ -34,11 +36,12 @@ public class BlockKeySlotter extends BlockContainer {
     }
 
     @Override
-    public @Nullable TileEntity createNewTileEntity(World worldIn, int meta) {
+    public @Nullable TileEntity createNewTileEntity(@NotNull World worldIn, int meta) {
         return new TileEntityKeySlotter(worldIn);
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             ItemStack stack = playerIn.getHeldItem(hand);
@@ -47,11 +50,11 @@ public class BlockKeySlotter extends BlockContainer {
 
             if (!te.hasKey()) {
                 if (stack.getItem() == ItemInit.voidKey) { stack.shrink(1); te.setHasKey(true); }
-                else playerIn.openGui(Adminspace.INSTANCE, GuiIDs.GUI_KEY_SLOTTER, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                else Adminspace.openGui(playerIn, worldIn, pos);
             } else {
                 if (stack.isEmpty()) { playerIn.setHeldItem(hand, new ItemStack(ItemInit.voidKey)); te.setHasKey(false); }
                 else if (stack.getItem() == ItemInit.voidKey) { stack.grow(1); te.setHasKey(false); }
-                else playerIn.openGui(Adminspace.INSTANCE, GuiIDs.GUI_KEY_SLOTTER, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                else Adminspace.openGui(playerIn, worldIn, pos);
             }
         }
 
@@ -60,7 +63,7 @@ public class BlockKeySlotter extends BlockContainer {
 
     @Override
     @SuppressWarnings("deprecation")
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public @NotNull EnumBlockRenderType getRenderType(@NotNull IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 }

@@ -1,13 +1,22 @@
 package com.vidarin.adminspace.block.tileentity;
 
+import com.vidarin.adminspace.inventory.container.ContainerDummy;
+import com.vidarin.adminspace.inventory.gui.GuiTerminal;
+import com.vidarin.adminspace.inventory.IGuiProvider;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityTerminal extends TileEntity {
-    private final TerminalCommandHandler commandHandler = new TerminalCommandHandler() {
+public class TileEntityTerminal extends TileEntity implements IGuiProvider {
+    protected final TerminalCommandHandler commandHandler = new TerminalCommandHandler() {
         @Override
         public void setCommandStored(String command) {
             super.setCommandStored(command);
@@ -41,8 +50,12 @@ public class TileEntityTerminal extends TileEntity {
     }
 
     @Override
-    public void validate() {
-        this.blockType = null;
-        super.validate();
+    public @NotNull GuiScreen getGui(EntityPlayer player, World world, BlockPos pos) {
+        return new GuiTerminal(this, player);
+    }
+
+    @Override
+    public @NotNull Container getContainer(EntityPlayer player, World world, BlockPos pos) {
+        return new ContainerDummy(true);
     }
 }

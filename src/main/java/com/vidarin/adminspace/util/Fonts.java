@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.util;
 
 @SuppressWarnings("unused")
-public enum Fonts {
+public enum Fonts { //It's faster to type than TextFormatting ok?
     Black('0'),
     DarkBlue('1'),
     DarkGreen('2'),

@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.util.terminalcommands.lvl.block;
 
+import com.vidarin.adminspace.block.special.BlockTerminal;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
 import com.vidarin.adminspace.util.terminalcommands.TermUtil;
 import net.minecraft.block.Block;
@@ -14,7 +15,7 @@ public class set {
     public static void execute(TerminalCommandHandler commandHandler, String[] args) {
         World world = commandHandler.getWorld();
 
-        if (TermUtil.checkPerms(commandHandler, 2)) {
+        if (TermUtil.checkPerms(commandHandler, BlockTerminal.PERM_LEVEL_MAIN)) {
             if (args.length < 4) {
                 TermUtil.argumentError(commandHandler);
                 return;

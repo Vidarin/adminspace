@@ -1,5 +1,6 @@
-package com.vidarin.adminspace.block;
+package com.vidarin.adminspace.block.special;
 
+import com.vidarin.adminspace.block.BlockBase;
 import com.vidarin.adminspace.item.ItemDismantler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -7,6 +8,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 public class BlockConcealmentBlock extends BlockBase {
@@ -15,6 +17,7 @@ public class BlockConcealmentBlock extends BlockBase {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
         super.onBlockClicked(worldIn, pos, playerIn);
         if (!playerIn.getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {

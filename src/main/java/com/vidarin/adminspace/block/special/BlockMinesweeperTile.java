@@ -1,5 +1,6 @@
-package com.vidarin.adminspace.block;
+package com.vidarin.adminspace.block.special;
 
+import com.vidarin.adminspace.block.BlockBase;
 import com.vidarin.adminspace.block.tileentity.TileEntityMinesweeperLogic;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.util.Fonts;
@@ -14,10 +15,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
 public class BlockMinesweeperTile extends BlockBase implements ITileEntityProvider {
     public BlockMinesweeperTile(String name) {
         super(name);

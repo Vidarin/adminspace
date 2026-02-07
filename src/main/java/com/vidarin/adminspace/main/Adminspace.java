@@ -9,6 +9,9 @@ import com.vidarin.adminspace.proxy.CommonProxy;
 import com.vidarin.adminspace.util.BundledResourcePack;
 import com.vidarin.adminspace.worldgen.WorldGenDataDaisy;
 import com.vidarin.adminspace.worldgen.WorldGenOres;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -22,8 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Adminspace.MODID, name = Adminspace.NAME, version = Adminspace.VERSION)
-public class Adminspace
-{
+public class Adminspace {
     public static final String MODID = "adminspace";
     public static final String NAME = "Adminspace";
     public static final String VERSION = "0.0.0";
@@ -38,6 +40,10 @@ public class Adminspace
 
     static {
         SoundInit.registerSounds();
+    }
+
+    public static void openGui(EntityPlayer player, World world, BlockPos pos) {
+        player.openGui(INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static void registerWorldGen() {

@@ -4,7 +4,7 @@ import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.util.FastNoiseLite;
-import com.vidarin.adminspace.util.MathUtils;
+import com.vidarin.adminspace.util.MathUtil;
 import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.EnumCreatureType;
@@ -105,7 +105,7 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         int height = spikeHeights[x][z];
 
         int newHeight;
-        for (BlockPos offset : MathUtils.DIRECTIONS) {
+        for (BlockPos offset : MathUtil.DIRECTIONS) {
             int newX = x + offset.getX();
             int newZ = z + offset.getZ();
 

@@ -1,4 +1,4 @@
-package com.vidarin.adminspace.block;
+package com.vidarin.adminspace.block.special;
 
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
@@ -11,9 +11,12 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 public class BlockTrigger extends BlockPressurePlate {
 
     public BlockTrigger(String name, BlockPressurePlate.Sensitivity sens) {
@@ -24,13 +27,14 @@ public class BlockTrigger extends BlockPressurePlate {
         this(name, material, null, sens);
     }
 
-    public BlockTrigger(String name, Material material, CreativeTabs tab, BlockPressurePlate.Sensitivity sens) {
+    public BlockTrigger(String name, Material material, @Nullable CreativeTabs tab, BlockPressurePlate.Sensitivity sens) {
         super(material, sens);
         this.setTranslationKey(name);
         this.setRegistryName(name);
         this.setHardness(-1.0f);
         this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
+        //noinspection DataFlowIssue
         this.setCreativeTab(tab);
         this.disableStats();
 
@@ -40,15 +44,9 @@ public class BlockTrigger extends BlockPressurePlate {
 
     @Override
     @SuppressWarnings("deprecation")
-    public EnumBlockRenderType getRenderType(IBlockState state)
+    public @NotNull EnumBlockRenderType getRenderType(IBlockState state)
     {
         return EnumBlockRenderType.INVISIBLE;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
     }
 
     @Override
