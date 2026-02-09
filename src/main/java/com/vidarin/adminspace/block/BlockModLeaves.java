@@ -12,8 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-import java.util.Objects;
-
 public class BlockModLeaves extends BlockOldLeaf {
     public BlockModLeaves(String name) {
         super();
@@ -30,6 +28,7 @@ public class BlockModLeaves extends BlockOldLeaf {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return true;
     }
@@ -46,6 +45,7 @@ public class BlockModLeaves extends BlockOldLeaf {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
