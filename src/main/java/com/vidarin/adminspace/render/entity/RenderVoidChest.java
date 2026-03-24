@@ -1,8 +1,8 @@
-package com.vidarin.adminspace.model.render;
+package com.vidarin.adminspace.render.entity;
 
 import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.model.ModelVoidChest;
+import com.vidarin.adminspace.render.model.ModelVoidChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;

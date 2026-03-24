@@ -7,7 +7,7 @@ import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.network.SPacketUpdateVariablesMap;
 import com.vidarin.adminspace.util.MathUtil;
-import com.vidarin.adminspace.util.skyrenderer.SkyRendererCustomTexture;
+import com.vidarin.adminspace.render.sky.SkyRendererCustomTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;

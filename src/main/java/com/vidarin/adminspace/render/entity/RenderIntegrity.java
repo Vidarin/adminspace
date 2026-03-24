@@ -1,8 +1,8 @@
-package com.vidarin.adminspace.model.render;
+package com.vidarin.adminspace.render.entity;
 
 import com.vidarin.adminspace.entity.EntityIntegrity;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.model.ModelEntityIntegrity;
+import com.vidarin.adminspace.render.model.ModelEntityIntegrity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

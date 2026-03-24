@@ -1,4 +1,4 @@
-package com.vidarin.adminspace.util.skyrenderer;
+package com.vidarin.adminspace.render.sky;
 
 import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.client.Minecraft;

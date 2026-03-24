@@ -5,7 +5,7 @@ import com.vidarin.adminspace.data.AdminspaceGlobalData;
 import com.vidarin.adminspace.data.AdminspacePlayerData;
 import com.vidarin.adminspace.dimension.beyond.DimensionBeyond;
 import com.vidarin.adminspace.inventory.gui.GuiResourcePackNotice;
-import com.vidarin.adminspace.model.render.RenderVoidChest;
+import com.vidarin.adminspace.render.entity.RenderVoidChest;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
 import com.vidarin.adminspace.init.TileEntityInit;

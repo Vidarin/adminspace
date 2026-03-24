@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.main;
 
 import com.vidarin.adminspace.entity.EntityIntegrity;
-import com.vidarin.adminspace.model.render.RenderIntegrity;
+import com.vidarin.adminspace.render.entity.RenderIntegrity;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class RegisterRenderers {
