@@ -3,7 +3,8 @@ package com.vidarin.adminspace.util;
 import net.minecraft.util.EnumFacing;
 
 public class BlockHolder<T> {
-    private final int xSize, ySize, zSize;
+    private int xSize, zSize;
+    private final int ySize;
     private final Object[][][] blocks;
 
     public BlockHolder(int xSize, int ySize, int zSize) {
@@ -17,6 +18,12 @@ public class BlockHolder<T> {
     public T get(int x, int y, int z) {
         checkBounds(x, y, z);
         return (T) blocks[x][y][z];
+    }
+
+    @SuppressWarnings("unchecked")
+    public T getOrElse(int x, int y, int z, T fallback) {
+        if (x < 0 || x >= xSize || y < 0 || y >= ySize || z < 0 || z >= zSize) return fallback;
+        else return (T) blocks[x][y][z];
     }
 
     public void set(int x, int y, int z, T value) {
@@ -37,7 +44,9 @@ public class BlockHolder<T> {
     public void rotate(EnumFacing target) {
         if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return;
 
-        BlockHolder<T> copy = new BlockHolder<>(xSize, ySize, zSize);
+        boolean flipXZ = target == EnumFacing.WEST || target == EnumFacing.EAST;
+
+        BlockHolder<T> copy = flipXZ ? new BlockHolder<>(zSize, ySize, xSize) : new BlockHolder<>(xSize, ySize, zSize);
 
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
@@ -47,6 +56,12 @@ public class BlockHolder<T> {
                     copy.set(rotated[0], y, rotated[1], value);
                 }
             }
+        }
+
+        if (flipXZ) {
+            int temp = xSize;
+            xSize = zSize;
+            zSize = temp;
         }
 
         for (int x = 0; x < xSize; x++) {
