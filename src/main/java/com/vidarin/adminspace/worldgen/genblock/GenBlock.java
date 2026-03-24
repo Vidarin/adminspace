@@ -34,26 +34,17 @@ public class GenBlock<T> {
         for (BlockNode<T> child : children) {
             if (child.cube().symbol().isTerminal()) continue;
 
-            Shape<Pair<BlockHolder<T>, Cube>> shape = rules.get(child.cube(), this.rand);
+            Iterable<Shape<Pair<BlockHolder<T>, Cube>>> shapes = rules.get(child.cube(), this.rand);
 
-            BlockHolder<T> blockHolder = shape.shape().getLeft();
-            Cube cube = shape.shape().getRight();
+            for (Shape<Pair<BlockHolder<T>, Cube>> shape : shapes) {
+                BlockHolder<T> blockHolder = shape.shape().getLeft();
+                Cube cube = shape.shape().getRight();
 
-            for (int x = 0; x < blockHolder.getXSize(); x++) {
-                for (int y = 0; y < blockHolder.getYSize(); y++) {
-                    for (int z = 0; z < blockHolder.getZSize(); z++) {
-                        this.blocks.set(
-                                cube.from().getX() + x,
-                                cube.from().getY() + y,
-                                cube.from().getZ() + z,
-                                blockHolder.get(x, y, z)
-                        );
-                    }
-                }
+                this.blocks.copy(blockHolder, cube.from().getX(), cube.from().getY(), cube.from().getZ());
+
+                Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.metadata());
+                child.children().add(new BlockNode<>(cubeShape, new ArrayList<>()));
             }
-
-            Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.metadata());
-            child.children().add(new BlockNode<>(cubeShape, new ArrayList<>()));
         }
     }
 

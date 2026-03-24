@@ -10,13 +10,13 @@ import java.util.Set;
 public interface RuleSet<P, S> extends Set<Rule<P, S>> {
     @Override boolean add(Rule<P, S> rule);
 
-    Shape<S> get(Shape<P> predecessor, Random rand);
+    Iterable<Shape<S>> get(Shape<P> predecessor, Random rand);
 
-    default Shape<S> get(Shape<P> predecessor) {
+    default Iterable<Shape<S>> get(Shape<P> predecessor) {
         return get(predecessor, new Random());
     }
 
-    default Shape<S> get(Shape<P> predecessor, long seed) {
+    default Iterable<Shape<S>> get(Shape<P> predecessor, long seed) {
         return get(predecessor, new Random(seed));
     }
 

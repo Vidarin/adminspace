@@ -15,7 +15,7 @@ public class SimpleRuleSet<P, S> implements RuleSet<P, S> {
     private int size = 0;
 
     @Override
-    public @Nullable Shape<S> get(Shape<P> predecessor, Random rand) {
+    public @Nullable Iterable<Shape<S>> get(Shape<P> predecessor, Random rand) {
         if (rules.containsKey(predecessor.symbol().identifier())) {
             List<Rule<P, S>> list = rules.get(predecessor.symbol().identifier());
 

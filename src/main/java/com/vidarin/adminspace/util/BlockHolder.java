@@ -37,6 +37,14 @@ public class BlockHolder<T> {
         }
     }
 
+    public void copy(BlockHolder<T> other, int xOff, int yOff, int zOff) {
+        for (int x = 0; x < other.getXSize(); x++) {
+            for (int y = 0; y < other.getYSize(); y++) {
+                System.arraycopy(other.blocks[x][y], 0, this.blocks[x + xOff][y + yOff], zOff, other.zSize);
+            }
+        }
+    }
+
     /**
      * Rotates the entire cube so that the face that was facing NORTH now faces the target direction.
      * Only horizontal rotations are supported.
@@ -64,11 +72,7 @@ public class BlockHolder<T> {
             zSize = temp;
         }
 
-        for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < ySize; y++) {
-                if (zSize >= 0) System.arraycopy(copy.blocks[x][y], 0, this.blocks[x][y], 0, zSize);
-            }
-        }
+        this.copy(copy, 0, 0, 0);
     }
 
     private int[] rotateCoords(int x, int z, EnumFacing target) {
