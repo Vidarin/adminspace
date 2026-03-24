@@ -1,8 +1,12 @@
 package com.vidarin.adminspace.util;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,7 +26,7 @@ public final class VisibilityUtil {
 
         Vec3d eyes = player.getPositionEyes(1F);
 
-        RayTraceResult rayTrace = world.rayTraceBlocks(eyes, target, false, true, false);
+        RayTraceResult rayTrace = rayTrace(world, eyes, target);
 
         if (rayTrace == null || rayTrace.typeOfHit == RayTraceResult.Type.MISS) return true;
 
@@ -130,6 +134,99 @@ public final class VisibilityUtil {
 
     public static boolean canPlayerSeePosition(EntityPlayer player, Vec3d target, double frustumAngle, AxisAlignedBB range) {
         return isPlayerLookingAt(player, target, frustumAngle) && isPosVisibleIgnoreRange(player, target, range);
+    }
+
+    @Nullable
+    public static RayTraceResult rayTrace(World world, Vec3d source, Vec3d dest) {
+        if (!Double.isNaN(source.x) && !Double.isNaN(source.y) && !Double.isNaN(source.z)) {
+            if (!Double.isNaN(dest.x) && !Double.isNaN(dest.y) && !Double.isNaN(dest.z)) {
+                int srcX = MathHelper.floor(dest.x);
+                int srcY = MathHelper.floor(dest.y);
+                int srcZ = MathHelper.floor(dest.z);
+                int destX = MathHelper.floor(source.x);
+                int destY = MathHelper.floor(source.y);
+                int destZ = MathHelper.floor(source.z);
+                BlockPos destPos = new BlockPos(destX, destY, destZ);
+                IBlockState destState = world.getBlockState(destPos);
+                Block destBlock = destState.getBlock();
+
+                if ((destState.getCollisionBoundingBox(world, destPos) != Block.NULL_AABB) && destBlock.canCollideCheck(destState, false)) {
+                    return destState.collisionRayTrace(world, destPos, source, dest);
+                }
+
+                int triesLeft = 200;
+
+                while (triesLeft-- >= 0) {
+                    if (Double.isNaN(source.x) || Double.isNaN(source.y) || Double.isNaN(source.z)) return null;
+                    if (destX == srcX && destY == srcY && destZ == srcZ) return null;
+
+                    boolean diffX = true;
+                    boolean diffY = true;
+                    boolean diffZ = true;
+                    double tryX = 999.0D;
+                    double tryY = 999.0D;
+                    double tryZ = 999.0D;
+
+                    if (srcX > destX) tryX = destX + 1.0D;
+                    else if (srcX < destX) tryX = destX;
+                    else diffX = false;
+
+                    if (srcY > destY) tryY = destY + 1.0D;
+                    else if (srcY < destY) tryY = destY;
+                    else diffY = false;
+
+                    if (srcZ > destZ) tryZ = destZ + 1.0D;
+                    else if (srcZ < destZ) tryZ = destZ;
+                    else diffZ = false;
+
+                    double newX = 999.0D;
+                    double newY = 999.0D;
+                    double newZ = 999.0D;
+                    double distX = dest.x - source.x;
+                    double distY = dest.y - source.y;
+                    double distZ = dest.z - source.z;
+
+                    if (diffX) newX = (tryX - source.x) / distX;
+                    if (diffY) newY = (tryY - source.y) / distY;
+                    if (diffZ) newZ = (tryZ - source.z) / distZ;
+
+                    if (newX == -0.0D) newX = -1.0E-4D;
+                    if (newY == -0.0D) newY = -1.0E-4D;
+                    if (newZ == -0.0D) newZ = -1.0E-4D;
+
+                    EnumFacing facing;
+
+                    if (newX < newY && newX < newZ) {
+                        facing = srcX > destX ? EnumFacing.WEST : EnumFacing.EAST;
+                        source = new Vec3d(tryX, source.y + distY * newX, source.z + distZ * newX);
+                    }
+                    else if (newY < newZ) {
+                        facing = srcY > destY ? EnumFacing.DOWN : EnumFacing.UP;
+                        source = new Vec3d(source.x + distX * newY, tryY, source.z + distZ * newY);
+                    }
+                    else {
+                        facing = srcZ > destZ ? EnumFacing.NORTH : EnumFacing.SOUTH;
+                        source = new Vec3d(source.x + distX * newZ, source.y + distY * newZ, tryZ);
+                    }
+
+                    destX = MathHelper.floor(source.x) - (facing == EnumFacing.EAST ? 1 : 0);
+                    destY = MathHelper.floor(source.y) - (facing == EnumFacing.UP ? 1 : 0);
+                    destZ = MathHelper.floor(source.z) - (facing == EnumFacing.SOUTH ? 1 : 0);
+                    destPos = new BlockPos(destX, destY, destZ);
+                    IBlockState testState = world.getBlockState(destPos);
+                    Block testBlock = testState.getBlock();
+
+                    if (!testState.isOpaqueCube()) continue;
+
+                    if (testState.getMaterial() == Material.PORTAL || testState.getCollisionBoundingBox(world, destPos) != Block.NULL_AABB) {
+                        if (testBlock.canCollideCheck(testState, false)) {
+                            return testState.collisionRayTrace(world, destPos, source, dest);
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public enum Accuracy {
