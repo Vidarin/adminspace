@@ -109,6 +109,7 @@ public class BlockInit {
     public static final Block magicalTeleporterSkySector;
     public static final Block magicalTeleporterBeyond;
     public static final Block testBlockVisibility;
+    public static final Block testBlockGenBlock;
 
     static {
         BLOCKS = new ArrayList<>();
@@ -223,5 +224,6 @@ public class BlockInit {
         magicalTeleporterSkySector = new BlockTeleporter("teleporter_ss", 20, 9);
         magicalTeleporterBeyond = new BlockTeleporter("teleporter_by", 23, 100);
         testBlockVisibility = new TestBlocks.Visibility();
+        testBlockGenBlock = new TestBlocks.GenBlockTest();
     }
 }

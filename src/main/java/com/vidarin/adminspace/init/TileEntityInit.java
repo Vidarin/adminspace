@@ -15,5 +15,6 @@ public class TileEntityInit {
         GameRegistry.registerTileEntity(TileEntityServerContainer.class, new ResourceLocation(Adminspace.MODID, "server_container"));
 
         GameRegistry.registerTileEntity(TestBlocks.Visibility.TileEntityVisibilityTest.class, new ResourceLocation(Adminspace.MODID, "visibility_test"));
+        GameRegistry.registerTileEntity(TestBlocks.GenBlockTest.TileEntityGenBlockTest.class, new ResourceLocation(Adminspace.MODID, "gen_block_test"));
     }
 }

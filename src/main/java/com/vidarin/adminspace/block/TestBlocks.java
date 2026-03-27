@@ -1,21 +1,108 @@
 package com.vidarin.adminspace.block;
 
+import com.vidarin.adminspace.dimension.disposal.TestGenBlockDefinition;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
+import com.vidarin.adminspace.util.Fonts;
+import com.vidarin.adminspace.util.NBTSerializer;
 import com.vidarin.adminspace.util.VisibilityUtil;
+import com.vidarin.adminspace.worldgen.genblock.Cube;
+import com.vidarin.adminspace.worldgen.genblock.GenBlock;
+import com.vidarin.adminspace.worldgen.grammar.Shape;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("DataFlowIssue")
 public class TestBlocks {
+    public static class GenBlockTest extends BlockContainer {
+        public GenBlockTest() {
+            super(Material.IRON);
+            this.setRegistryName("gen_block_test");
+            this.setTranslationKey("get_block_test");
+
+            BlockInit.BLOCKS.add(this);
+            ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName("gen_block_test"));
+        }
+
+        @Override
+        public @Nullable TileEntity createNewTileEntity(World worldIn, int meta) {
+            return new TileEntityGenBlockTest(worldIn);
+        }
+
+        @Override
+        public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+            if (!worldIn.isRemote) {
+                TileEntityGenBlockTest te = (TileEntityGenBlockTest) worldIn.getTileEntity(pos);
+                if (te.notInitialized()) te.initialize(pos);
+                if (playerIn.isSneaking()) te.reset(playerIn);
+                else te.next(playerIn);
+            }
+            return true;
+        }
+
+        public static class TileEntityGenBlockTest extends TileEntity {
+            private GenBlock<IBlockState> genBlock;
+
+            public TileEntityGenBlockTest(World world) {
+                this.world = world;
+            }
+
+            public void initialize(BlockPos pos) {
+                this.genBlock = new GenBlock<>(new Shape<>(
+                        TestGenBlockDefinition.Symbols.LargeCube,
+                        new Cube(new Vec3i(pos.getX(), pos.getY() + 1, pos.getZ()), new Vec3i(pos.getX() + 60, pos.getY() + 31, pos.getZ() + 60))
+                ), this.world.rand);
+            }
+
+            public boolean notInitialized() {
+                return genBlock == null;
+            }
+
+            public void next(EntityPlayer player) {
+                this.genBlock.applyRules(TestGenBlockDefinition.RULES, Blocks.AIR.getDefaultState());
+                this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), b, 2));
+                player.sendMessage(new TextComponentString(Fonts.Green + "Updated"));
+            }
+
+            public void reset(EntityPlayer player) {
+                this.genBlock = new GenBlock<>(new Shape<>(
+                        TestGenBlockDefinition.Symbols.LargeCube,
+                        new Cube(new Vec3i(this.pos.getX(), this.pos.getY() + 1, this.pos.getZ()), new Vec3i(this.pos.getX() + 60, this.pos.getY() + 31, this.pos.getZ() + 60))
+                ), this.world.rand);
+                this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2));
+                player.sendMessage(new TextComponentString(Fonts.Red + "Reset"));
+            }
+
+            @Override
+            public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+                compound = super.writeToNBT(compound);
+                compound.setTag("genBlock", genBlock.toNBT(NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values()));
+                return compound;
+            }
+
+            @Override
+            public void readFromNBT(NBTTagCompound compound) {
+                super.readFromNBT(compound);
+                this.genBlock = GenBlock.fromNBT(compound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values(), this.world.rand);
+            }
+        }
+    }
+
     public static class Visibility extends BlockContainer {
         public Visibility() {
             super(Material.IRON);

@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.worldgen.grammar;
 
 public interface Rule<P, S> {
-    Shape<P> predecessor();
+    Symbol predecessor();
 
     Iterable<Shape<S>> successor(Shape<P> predecessor);
 

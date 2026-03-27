@@ -2,9 +2,15 @@ package com.vidarin.adminspace.dimension.disposal;
 
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
+import com.vidarin.adminspace.worldgen.genblock.Cube;
+import com.vidarin.adminspace.worldgen.genblock.GenBlock;
+import com.vidarin.adminspace.worldgen.grammar.Shape;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -21,43 +27,34 @@ public class ChunkGeneratorDisposal implements IChunkGenerator {
     private final World world;
     private final Random rand;
 
-    private ChunkPrimer chunkPrimer;
-
     private final Biome mainBiome = BiomeInit.DISPOSAL_DIM;
 
-    private WorldGenBlockFiller blockFiller;
+    private final GenBlock<IBlockState> genBlock;
 
     protected ChunkGeneratorDisposal(World world, long seed) {
         this.world = world;
         this.rand = new Random(seed);
         this.world.setSeaLevel(0);
-        this.chunkPrimer = new ChunkPrimer();
-        this.blockFiller = new WorldGenBlockFiller(this.chunkPrimer, this.world);
+        this.genBlock = new GenBlock<>(
+                new Shape<>(
+                        TestGenBlockDefinition.Symbols.LargeCube,
+                        new Cube(new Vec3i(-100, 10, -100), new Vec3i(100, 110, 100))
+                ),
+                this.rand);
+
+        this.genBlock.applyRules(TestGenBlockDefinition.RULES, Blocks.AIR.getDefaultState(), 10);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public @Nonnull Chunk generateChunk(int chunkX, int chunkZ) {
         this.rand.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
-        this.chunkPrimer = new ChunkPrimer();
-        this.blockFiller = new WorldGenBlockFiller(this.chunkPrimer, this.world);
+        ChunkPrimer chunkPrimer = new ChunkPrimer();
+        WorldGenBlockFiller blockFiller = new WorldGenBlockFiller(chunkPrimer, this.world);
 
         blockFiller.fillBlocks(0, 0, 0, 15, 9, 15, Blocks.DIRT.getDefaultState());
         blockFiller.fillBlocks(0, 10, 0, 15, 10, 15, Blocks.GRASS.getDefaultState());
 
-        int rx = rand.nextInt(13) + 1;
-        int rz = rand.nextInt(13) + 1;
-        int randMeta = rand.nextInt(15);
-
-        blockFiller.fillBlocks(rx, 11, rz, rx, 13, rz, Blocks.WOOL.getStateFromMeta(randMeta));
-
-        if (rand.nextBoolean()) {
-            blockFiller.fillBlocks(rx - 1, 11, rz, rx + 1, 11, rz, Blocks.WOOL.getStateFromMeta(randMeta));
-        } else {
-            blockFiller.fillBlocks(rx, 11, rz - 1, rx, 11, rz + 1, Blocks.WOOL.getStateFromMeta(randMeta));
-        }
-
-        Chunk chunk = new Chunk(world, chunkPrimer, chunkX, chunkZ);
+        Chunk chunk = GenBlock.extractChunk(genBlock, chunkPrimer, world, 100, new ChunkPos(chunkX, chunkZ), 0);
 
         byte[] biomeArray = chunk.getBiomeArray();
 
