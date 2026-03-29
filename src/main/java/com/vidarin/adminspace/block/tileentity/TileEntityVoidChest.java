@@ -2,7 +2,7 @@ package com.vidarin.adminspace.block.tileentity;
 
 import com.vidarin.adminspace.inventory.container.ContainerVoidChest;
 import com.vidarin.adminspace.inventory.gui.GuiVoidChest;
-import com.vidarin.adminspace.inventory.IGuiProvider;
+import com.vidarin.adminspace.inventory.GuiProvider;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.init.SoundInit;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class TileEntityVoidChest extends TileEntityLockableLoot implements ITickable, IGuiProvider {
+public class TileEntityVoidChest extends TileEntityLockableLoot implements ITickable, GuiProvider {
     private NonNullList<ItemStack> content = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
     public int numUsers;
     public int ticksSinceSync;

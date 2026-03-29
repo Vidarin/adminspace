@@ -2,7 +2,7 @@ package com.vidarin.adminspace.block.tileentity;
 
 import com.vidarin.adminspace.inventory.container.ContainerDummy;
 import com.vidarin.adminspace.inventory.gui.GuiKeySlotter;
-import com.vidarin.adminspace.inventory.IGuiProvider;
+import com.vidarin.adminspace.inventory.GuiProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,12 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class TileEntityKeySlotter extends TileEntity implements IGuiProvider {
+public class TileEntityKeySlotter extends TileEntity implements GuiProvider {
     private boolean hasKey = false;
-
-    public TileEntityKeySlotter(World world) {
-        this.world = world;
-    }
 
     public void setHasKey(boolean v) {
         hasKey = v;

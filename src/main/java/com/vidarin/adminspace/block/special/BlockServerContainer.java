@@ -36,7 +36,7 @@ public class BlockServerContainer extends BlockContainer {
 
     @Override
     public @Nullable TileEntity createNewTileEntity(@NotNull World worldIn, int meta) {
-        return new TileEntityServerContainer(worldIn);
+        return new TileEntityServerContainer();
     }
 
     @Override

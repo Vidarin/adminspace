@@ -2,7 +2,7 @@ package com.vidarin.adminspace.block.tileentity;
 
 import com.vidarin.adminspace.inventory.container.ContainerDummy;
 import com.vidarin.adminspace.inventory.gui.GuiTerminal;
-import com.vidarin.adminspace.inventory.IGuiProvider;
+import com.vidarin.adminspace.inventory.GuiProvider;
 import com.vidarin.adminspace.util.TerminalCommandHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityTerminal extends TileEntity implements IGuiProvider {
+public class TileEntityTerminal extends TileEntity implements GuiProvider {
     protected final TerminalCommandHandler commandHandler = new TerminalCommandHandler() {
         @Override
         public void setCommandStored(String command) {

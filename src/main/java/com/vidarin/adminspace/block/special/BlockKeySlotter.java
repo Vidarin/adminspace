@@ -37,7 +37,7 @@ public class BlockKeySlotter extends BlockContainer {
 
     @Override
     public @Nullable TileEntity createNewTileEntity(@NotNull World worldIn, int meta) {
-        return new TileEntityKeySlotter(worldIn);
+        return new TileEntityKeySlotter();
     }
 
     @Override

@@ -2,14 +2,15 @@ package com.vidarin.adminspace.worldgen.genblock;
 
 import com.github.bsideup.jabel.Desugar;
 import net.minecraft.util.math.Vec3i;
+import org.jetbrains.annotations.NotNull;
 
 @Desugar
-public record Cube(Vec3i from, Vec3i to) {
-    public Cube shrunkCube(double xRatio, double yRatio, double zRatio) {
+public record Cube(@NotNull Vec3i from, @NotNull Vec3i to) {
+    public @NotNull Cube shrunkCube(double xRatio, double yRatio, double zRatio) {
         return subCube(1 - (xRatio / 2), 1 - (yRatio / 2), 1 - (zRatio / 2), 1 - (xRatio / 2), 1 - (yRatio / 2), 1 - (zRatio / 2));
     }
 
-    public Cube subCube(double x1Ratio, double y1Ratio, double z1Ratio, double x2Ratio, double y2Ratio, double z2Ratio) {
+    public @NotNull Cube subCube(double x1Ratio, double y1Ratio, double z1Ratio, double x2Ratio, double y2Ratio, double z2Ratio) {
         if (x1Ratio < 0 || x1Ratio > 1 || y1Ratio < 0 || y1Ratio > 1 || z1Ratio < 0 || z1Ratio > 1 ||
                 x2Ratio < 0 || x2Ratio > 1 || y2Ratio < 0 || y2Ratio > 1 || z2Ratio < 0 || z2Ratio > 1)
             throw new IllegalArgumentException("Ratio must be between 0 and 1!");

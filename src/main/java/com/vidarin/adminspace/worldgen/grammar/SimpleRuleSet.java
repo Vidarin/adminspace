@@ -35,7 +35,7 @@ public class SimpleRuleSet<P, S> implements RuleSet<P, S> {
             for (Rule<P, S> rule : list) {
                 cumulative += rule.weight();
                 if (r < cumulative) {
-                    return rule.successor(predecessor);
+                    return rule.successor(predecessor, rand);
                 }
             }
         }

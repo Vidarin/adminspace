@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.block.tileentity;
 
 import com.vidarin.adminspace.init.ItemInit;
-import com.vidarin.adminspace.inventory.IGuiProvider;
+import com.vidarin.adminspace.inventory.GuiProvider;
 import com.vidarin.adminspace.inventory.container.ContainerServerContainer;
 import com.vidarin.adminspace.inventory.gui.GuiServerContainer;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,11 +17,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class TileEntityServerContainer extends TileEntity implements IGuiProvider {
+public class TileEntityServerContainer extends TileEntity implements GuiProvider {
     public final ItemStackHandler inventory;
 
-    public TileEntityServerContainer(World world) {
-        this.world = world;
+    public TileEntityServerContainer() {
         this.inventory = new ItemStackHandler(10) {
             @Override
             protected void onContentsChanged(int slot) {

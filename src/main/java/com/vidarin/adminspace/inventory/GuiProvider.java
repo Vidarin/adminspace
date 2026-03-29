@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public interface IGuiProvider {
+public interface GuiProvider {
     @NotNull GuiScreen getGui(EntityPlayer player, World world, BlockPos pos);
 
     @NotNull Container getContainer(EntityPlayer player, World world, BlockPos pos);

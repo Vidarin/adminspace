@@ -11,7 +11,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof IGuiProvider provider) {
+        if (tileEntity instanceof GuiProvider provider) {
             return provider.getContainer(player, world, pos);
         }
         return null;
@@ -21,7 +21,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof IGuiProvider provider) {
+        if (tileEntity instanceof GuiProvider provider) {
             return provider.getGui(player, world, pos);
         }
         return null;

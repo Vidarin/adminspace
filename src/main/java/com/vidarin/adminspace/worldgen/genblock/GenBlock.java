@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GenBlock<T> {
-    private final Random rand;
+    private Random rand;
 
     private final BlockNode node;
     private final BlockHolder<T> blocks;
@@ -43,6 +43,10 @@ public class GenBlock<T> {
         this.rand = rand;
         this.node = node;
         this.blocks = blocks;
+    }
+
+    public void setRand(Random rand) {
+        this.rand = rand;
     }
 
     public void applyRules(RuleSet<Cube, Pair<BlockHolder<T>, Cube>> rules, @Nullable T empty, int amount) {
@@ -125,7 +129,7 @@ public class GenBlock<T> {
 
     public NBTTagCompound toNBT(NBTSerializer<T> serializer, Symbol[] symbols) {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setTag("rootNode", writeNode(node, symbols));
+        nbt.setTag("rootNode", writeNode(node, Arrays.asList(symbols)));
         nbt.setIntArray("blocksSize", new int[]{blocks.getXSize(), blocks.getYSize(), blocks.getZSize()});
         nbt.setIntArray("blocksOff", new int[]{blocks.getXOff(), blocks.getYOff(), blocks.getZOff()});
         NBTTagList xList = new NBTTagList();
@@ -144,9 +148,9 @@ public class GenBlock<T> {
         return nbt;
     }
 
-    private NBTTagCompound writeNode(BlockNode node, Symbol[] symbols) {
+    private NBTTagCompound writeNode(BlockNode node, List<Symbol> symbols) {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("symbolIndex", Arrays.binarySearch(symbols, node.cube().symbol()));
+        nbt.setInteger("symbolIndex", symbols.indexOf(node.cube().symbol()));
         nbt.setIntArray("shapeFrom", new int[]{node.cube().shape().from().getX(), node.cube().shape().from().getY(), node.cube().shape().from().getZ()});
         nbt.setIntArray("shapeTo", new int[]{node.cube().shape().to().getX(), node.cube().shape().to().getY(), node.cube().shape().to().getZ()});
         nbt.setIntArray("shapeMeta", node.cube().metadata());
@@ -154,11 +158,11 @@ public class GenBlock<T> {
         for (BlockNode child : node.children()) {
             children.appendTag(writeNode(child, symbols));
         }
-        nbt.setTag("children", children);
+        if (!node.children().isEmpty()) nbt.setTag("children", children);
         return nbt;
     }
 
-    public static <T> GenBlock<T> fromNBT(NBTTagCompound nbt, NBTSerializer<T> serializer, Symbol[] symbols, Random rand) {
+    public static <T> GenBlock<T> fromNBT(NBTTagCompound nbt, NBTSerializer<T> serializer, Symbol[] symbols) {
         BlockNode node = readNode(nbt.getCompoundTag("rootNode"), symbols);
         int[] size = nbt.getIntArray("blocksSize");
         int[] off = nbt.getIntArray("blocksOff");
@@ -173,7 +177,7 @@ public class GenBlock<T> {
                 }
             }
         }
-        return new GenBlock<>(rand, node, holder);
+        return new GenBlock<>(new Random(), node, holder);
     }
 
     private static BlockNode readNode(NBTTagCompound nbt, Symbol[] symbols) {
@@ -184,11 +188,15 @@ public class GenBlock<T> {
                 new Cube(new Vec3i(from[0], from[1], from[2]), new Vec3i(to[0], to[1], to[2])),
                 nbt.getIntArray("shapeMeta")
         );
-        NBTTagList children = nbt.getTagList("children", Constants.NBT.TAG_COMPOUND);
-        BlockNode node = new BlockNode(shape, new ArrayList<>(children.tagCount()));
-        for (int i = 0; i < children.tagCount(); i++) {
-            node.children().add(readNode(children.getCompoundTagAt(i), symbols));
+
+        if (!nbt.hasKey("children")) return new BlockNode(shape, new ArrayList<>());
+        else {
+            NBTTagList children = nbt.getTagList("children", Constants.NBT.TAG_COMPOUND);
+            BlockNode node = new BlockNode(shape, new ArrayList<>(children.tagCount()));
+            for (int i = 0; i < children.tagCount(); i++) {
+                node.children().add(readNode(children.getCompoundTagAt(i), symbols));
+            }
+            return node;
         }
-        return node;
     }
 }

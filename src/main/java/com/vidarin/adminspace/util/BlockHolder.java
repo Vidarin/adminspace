@@ -37,10 +37,10 @@ public class BlockHolder<T> {
     }
 
     /**
-     * Creates a new BlockHolder of type T with the specified size, and fills it with the specified value.
+     * Creates a new BlockHolder of type T with the specified size and offsets, and fills it with the specified value.
      */
-    public static <T> BlockHolder<T> of(Vec3i size, T value) {
-        return of(size.getX(), size.getY(), size.getZ(), value);
+    public static <T> BlockHolder<T> of(Vec3i size, Vec3i offsets, T value) {
+        return of(size.getX(), size.getY(), size.getZ(), offsets.getX(), offsets.getY(), offsets.getZ(), value);
     }
 
     /**
@@ -113,10 +113,15 @@ public class BlockHolder<T> {
         }
     }
 
+    public BlockHolder<T> fillDirs(int east, int up, int south, int west, int down, int north, T value) {
+        return fill(east(east), up(up), south(south), west(west), down(down), north(north), value);
+    }
+
     /**
      * Fills this BlockHolder from x1, y1, z1 (inclusive) to x2, y2, z2 (exclusive) with the specified value
      */
     public BlockHolder<T> fill(int x1, int y1, int z1, int x2, int y2, int z2, T value) {
+        if (x1 > x2 || y1 > y2 || z1 > z2) return this;
         checkBounds(x1, y1, z1);
         checkBounds(x2 - 1, y2 - 1, z2 - 1);
         for (int x = x1; x < x2; x++) {
@@ -177,7 +182,7 @@ public class BlockHolder<T> {
      * @param operation A lambda that takes x, y, z and an element and does something with it
      */
     @SuppressWarnings("unchecked")
-    public void forEach(BlockHolderOperation<T> operation) {
+    public BlockHolder<T> forEach(BlockHolderOperation<T> operation) {
         for (int x = xOff; x < xSize + xOff; x++) {
             for (int y = yOff; y < ySize + yOff; y++) {
                 for (int z = zOff; z < zSize + zOff; z++) {
@@ -185,6 +190,7 @@ public class BlockHolder<T> {
                 }
             }
         }
+        return this;
     }
 
     @Override
@@ -198,6 +204,19 @@ public class BlockHolder<T> {
                 ", yOff=" + yOff +
                 '}';
     }
+
+    /** Towards positive Y */
+    public int up(int i) { return yOff + i; }
+    /** Towards negative Y */
+    public int down(int i) { return yOff + ySize - i; }
+    /** Towards negative Z */
+    public int north(int i) { return zOff + zSize - i; }
+    /** Towards positive Z */
+    public int south(int i) { return zOff + i; }
+    /** Towards positive X */
+    public int east(int i) { return xOff + i; }
+    /** Towards negative X */
+    public int west(int i) { return xOff + xSize - i; }
 
     public int getXSize() { return xSize; }
     public int getYSize() { return ySize; }

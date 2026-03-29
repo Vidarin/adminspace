@@ -33,7 +33,7 @@ public class TestBlocks {
         public GenBlockTest() {
             super(Material.IRON);
             this.setRegistryName("gen_block_test");
-            this.setTranslationKey("get_block_test");
+            this.setTranslationKey("gen_block_test");
 
             BlockInit.BLOCKS.add(this);
             ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName("gen_block_test"));
@@ -41,16 +41,16 @@ public class TestBlocks {
 
         @Override
         public @Nullable TileEntity createNewTileEntity(World worldIn, int meta) {
-            return new TileEntityGenBlockTest(worldIn);
+            return new TileEntityGenBlockTest();
         }
 
         @Override
         public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
             if (!worldIn.isRemote) {
                 TileEntityGenBlockTest te = (TileEntityGenBlockTest) worldIn.getTileEntity(pos);
-                if (te.notInitialized()) te.initialize(pos);
-                if (playerIn.isSneaking()) te.reset(playerIn);
-                else te.next(playerIn);
+                if (te.notInitialized()) te.initialize(pos, worldIn);
+                if (playerIn.isSneaking()) te.reset(playerIn, worldIn);
+                else te.next(playerIn, worldIn);
             }
             return true;
         }
@@ -58,32 +58,29 @@ public class TestBlocks {
         public static class TileEntityGenBlockTest extends TileEntity {
             private GenBlock<IBlockState> genBlock;
 
-            public TileEntityGenBlockTest(World world) {
-                this.world = world;
-            }
-
-            public void initialize(BlockPos pos) {
+            public void initialize(BlockPos pos, World world) {
                 this.genBlock = new GenBlock<>(new Shape<>(
                         TestGenBlockDefinition.Symbols.LargeCube,
                         new Cube(new Vec3i(pos.getX(), pos.getY() + 1, pos.getZ()), new Vec3i(pos.getX() + 60, pos.getY() + 31, pos.getZ() + 60))
-                ), this.world.rand);
+                ), world.rand);
             }
 
             public boolean notInitialized() {
                 return genBlock == null;
             }
 
-            public void next(EntityPlayer player) {
+            public void next(EntityPlayer player, World world) {
+                this.genBlock.setRand(world.rand);
                 this.genBlock.applyRules(TestGenBlockDefinition.RULES, Blocks.AIR.getDefaultState());
                 this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), b, 2));
                 player.sendMessage(new TextComponentString(Fonts.Green + "Updated"));
             }
 
-            public void reset(EntityPlayer player) {
+            public void reset(EntityPlayer player, World world) {
                 this.genBlock = new GenBlock<>(new Shape<>(
                         TestGenBlockDefinition.Symbols.LargeCube,
                         new Cube(new Vec3i(this.pos.getX(), this.pos.getY() + 1, this.pos.getZ()), new Vec3i(this.pos.getX() + 60, this.pos.getY() + 31, this.pos.getZ() + 60))
-                ), this.world.rand);
+                ), world.rand);
                 this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2));
                 player.sendMessage(new TextComponentString(Fonts.Red + "Reset"));
             }
@@ -98,7 +95,7 @@ public class TestBlocks {
             @Override
             public void readFromNBT(NBTTagCompound compound) {
                 super.readFromNBT(compound);
-                this.genBlock = GenBlock.fromNBT(compound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values(), this.world.rand);
+                this.genBlock = GenBlock.fromNBT(compound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values());
             }
         }
     }
@@ -115,16 +112,12 @@ public class TestBlocks {
 
         @Override
         public @Nullable TileEntity createNewTileEntity(World worldIn, int meta) {
-            return new TileEntityVisibilityTest(worldIn);
+            return new TileEntityVisibilityTest();
         }
 
         public static class TileEntityVisibilityTest extends TileEntity implements ITickable {
             public boolean flag = false;
             public boolean seen = true;
-
-            public TileEntityVisibilityTest(World world) {
-                this.world = world;
-            }
 
             @Override
             public void update() {
