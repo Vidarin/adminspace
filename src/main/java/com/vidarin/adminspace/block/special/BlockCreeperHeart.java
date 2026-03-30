@@ -26,7 +26,13 @@ public class BlockCreeperHeart extends BlockBase {
         super("creeper_heart", Material.CLAY, CreativeTabs.MISC);
         this.setHardness(2.0F);
         this.setResistance(1.0F);
+        this.setLightLevel(0.533F);
         this.setSoundType(SoundType.SLIME);
+    }
+
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return 8;
     }
 
     @Override

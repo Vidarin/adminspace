@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-public class ChunkGeneratorSkySector implements IChunkGenerator {
+public class ChunkGeneratorSkySectorOld implements IChunkGenerator {
     private Map<Vec2i, SectorInfo> sectorMap = new HashMap<>();
 
     private final List<ChunkPos> insideStructureChunks = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
 
     private WorldGenBlockFiller blockFiller;
 
-    public ChunkGeneratorSkySector(World world, long seed) {
+    public ChunkGeneratorSkySectorOld(World world, long seed) {
         this.world = world;
         this.rand = new Random(seed);
         this.world.setSeaLevel(0);
@@ -111,11 +111,7 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
                 blockFiller.fillBlocks(0, 8, 0, 0, 27, 15, BlockInit.voidTile.getDefaultState());
                 blockFiller.fillBlocks(0, 8, 0, 15, 27, 0, BlockInit.voidTile.getDefaultState());
                 for (int i = 0; i < 3; i++) {
-                    CellTypes[][] grid = switch (i) {
-                        case 0 -> this.currentSky.bottomGrid;
-                        case 1 -> this.currentSky.middleGrid;
-                        default -> this.currentSky.topGrid;
-                    };
+                    CellTypes[][] grid = null;
                     for (int x = 0; x < 5; x++) {
                         for (int z = 0; z < 5; z++) {
                             int gridX = (distX + 10) * 5 + x;
@@ -224,7 +220,7 @@ public class ChunkGeneratorSkySector implements IChunkGenerator {
         SectorInfo sector = sectorMap.get(position);
         Vec2i skyPosition = new Vec2i(Math.abs((x % 1600) / 200), Math.abs((z % 1600) / 200));
         if (!sector.hasSky(skyPosition)) {
-            currentSky = sector.createSky(skyPosition, getSkyState(sector.activityLevel.getSeverity()), () -> generateCorridorGrid(106, 106, 4));
+            currentSky = sector.createSky(skyPosition, getSkyState(sector.activityLevel.getSeverity()), null);
             if (this.world.provider instanceof DimensionSkySector) {
                 ((DimensionSkySector)this.world.provider).updateSectorMap(position, sector);
             }

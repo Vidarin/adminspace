@@ -28,7 +28,7 @@ public class GuiTerminal extends GuiContainer {
     private final World world;
 
     public GuiTerminal(TileEntityTerminal terminal, EntityPlayer player) {
-        super(new ContainerDummy(true));
+        super(new ContainerDummy());
         this.terminal = terminal;
         this.player = player;
         this.world = terminal.getWorld();

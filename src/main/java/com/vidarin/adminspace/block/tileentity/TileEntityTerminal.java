@@ -56,6 +56,6 @@ public class TileEntityTerminal extends TileEntity implements GuiProvider {
 
     @Override
     public @NotNull Container getContainer(EntityPlayer player, World world, BlockPos pos) {
-        return new ContainerDummy(true);
+        return new ContainerDummy();
     }
 }

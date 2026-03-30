@@ -13,7 +13,7 @@ public class GuiKeySlotter extends GuiContainer {
     private final TileEntityKeySlotter keySlotter;
 
     public GuiKeySlotter(TileEntityKeySlotter keySlotter) {
-        super(new ContainerDummy(true));
+        super(new ContainerDummy());
         this.keySlotter = keySlotter;
         this.xSize = 256;
         this.ySize = 256;

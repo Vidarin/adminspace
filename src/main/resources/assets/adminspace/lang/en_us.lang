@@ -108,6 +108,11 @@ tile.teleporter_dq.name=Debug Teleporter (DeltaQuest)
 tile.teleporter_ss.name=Debug Teleporter (Sky Sector)
 tile.teleporter_by.name=Debug Teleporter (The Beyond)
 
+tile.visibility_test.name=Test Block (VISIBILITY)
+tile.gen_block_test.name=Test Block (GEN BLOCK)
+
+tile.compacting_structure_block.name=Compacting Structure Block
+
 item.cat_pass.name=Cat Pass
 
 item.noise_gem.name=Noise Gem
@@ -125,6 +130,8 @@ item.instruction.name=Empty Instruction
 
 item.void_key.name=Void Key
 item.void_key.desc=Unlock Yourself
+item.void_key.warn=§cKEY(S) HAVE BEEN FOUND IN YOUR INVENTORY. THESE ITEMS ARE ADMIN ONLY.
+
 item.server_drive.name=Server Drive
 
 item.repeller.name=Repeller

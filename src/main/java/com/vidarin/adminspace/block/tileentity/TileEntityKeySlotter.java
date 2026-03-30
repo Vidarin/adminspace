@@ -8,14 +8,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class TileEntityKeySlotter extends TileEntity implements GuiProvider {
+public class TileEntityKeySlotter extends SyncedTileEntity implements GuiProvider {
     private boolean hasKey = false;
 
     public void setHasKey(boolean v) {
@@ -33,41 +30,13 @@ public class TileEntityKeySlotter extends TileEntity implements GuiProvider {
     }
 
     @Override
-    public @NotNull NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = super.getUpdateTag();
-        tag.setBoolean("hasKey", this.hasKey);
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(@NotNull NBTTagCompound tag) {
-        super.handleUpdateTag(tag);
-        this.hasKey = tag.getBoolean("hasKey");
-    }
-
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setBoolean("hasKey", this.hasKey);
-        return new SPacketUpdateTileEntity(this.pos, 0, tag);
-    }
-
-    @Override
-    public void onDataPacket(@NotNull NetworkManager net, SPacketUpdateTileEntity pkt) {
-        NBTTagCompound tag = pkt.getNbtCompound();
-        this.hasKey = tag.getBoolean("hasKey");
-    }
-
-    @Override
-    public @NotNull NBTTagCompound writeToNBT(@NotNull NBTTagCompound compound) {
-        super.writeToNBT(compound);
+    public @NotNull NBTTagCompound writeNBT(@NotNull NBTTagCompound compound) {
         compound.setBoolean("hasKey", this.hasKey);
         return compound;
     }
 
     @Override
-    public void readFromNBT(@NotNull NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void readNBT(@NotNull NBTTagCompound compound) {
         this.hasKey = compound.getBoolean("hasKey");
     }
 
@@ -78,6 +47,6 @@ public class TileEntityKeySlotter extends TileEntity implements GuiProvider {
 
     @Override
     public @NotNull Container getContainer(EntityPlayer player, World world, BlockPos pos) {
-        return new ContainerDummy(true);
+        return new ContainerDummy();
     }
 }

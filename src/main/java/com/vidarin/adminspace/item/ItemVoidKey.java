@@ -6,7 +6,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +23,7 @@ public class ItemVoidKey extends ItemBase {
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (entityIn instanceof EntityPlayer player) {
             if (worldIn.isRemote) {
-                player.sendStatusMessage(new TextComponentString(Fonts.Red + "KEY(S) HAVE BEEN FOUND IN YOUR INVENTORY. THESE ITEMS ARE ADMIN ONLY."), true);
+                player.sendStatusMessage(new TextComponentTranslation("item.void_key.warn"), true);
             }
         }
     }

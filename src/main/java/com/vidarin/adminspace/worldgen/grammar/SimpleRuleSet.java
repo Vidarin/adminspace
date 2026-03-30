@@ -26,6 +26,8 @@ public class SimpleRuleSet<P, S> implements RuleSet<P, S> {
         if (rules.containsKey(predecessor.symbol().identifier())) {
             List<Rule<P, S>> list = rules.get(predecessor.symbol().identifier());
 
+            if (list.size() == 1) return list.get(0).successor(predecessor, rand);
+
             int totalWeight = 0;
             for (Rule<P, S> rule : list) totalWeight += rule.weight();
 

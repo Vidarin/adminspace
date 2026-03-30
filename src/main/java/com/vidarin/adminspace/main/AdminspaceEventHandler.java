@@ -1,11 +1,9 @@
 package com.vidarin.adminspace.main;
 
-import com.vidarin.adminspace.block.tileentity.TileEntityVoidChest;
 import com.vidarin.adminspace.data.AdminspaceGlobalData;
 import com.vidarin.adminspace.data.AdminspacePlayerData;
 import com.vidarin.adminspace.dimension.beyond.DimensionBeyond;
 import com.vidarin.adminspace.inventory.gui.GuiResourcePackNotice;
-import com.vidarin.adminspace.render.entity.RenderVoidChest;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
 import com.vidarin.adminspace.init.TileEntityInit;
@@ -24,7 +22,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -44,7 +41,7 @@ public class AdminspaceEventHandler {
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(ItemInit.ITEMS.toArray(new Item[0]));
         TileEntityInit.registerTileEntities();
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderVoidChest());
+        RegisterRenderers.registerTileEntityRenderers();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

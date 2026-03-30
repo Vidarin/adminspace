@@ -77,10 +77,10 @@ public class GenBlock<T> {
             }
 
             for (Shape<Pair<BlockHolder<T>, Cube>> shape : shapes) {
-                BlockHolder<T> blockHolder = shape.shape().getLeft();
+                BlockHolder<T> newBlocks = shape.shape().getLeft();
                 Cube cube = shape.shape().getRight();
 
-                this.blocks.copyFrom(blockHolder, cube.from().getX(), cube.from().getY(), cube.from().getZ());
+                if (newBlocks != null) this.blocks.copyFrom(newBlocks, cube.from().getX(), cube.from().getY(), cube.from().getZ());
 
                 Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.metadata());
                 child.children().add(new BlockNode(cubeShape, new ArrayList<>()));

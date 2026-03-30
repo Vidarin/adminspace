@@ -110,6 +110,7 @@ public class BlockInit {
     public static final Block magicalTeleporterBeyond;
     public static final Block testBlockVisibility;
     public static final Block testBlockGenBlock;
+    public static final Block compactingStructureBlock;
 
     static {
         BLOCKS = new ArrayList<>();
@@ -225,5 +226,6 @@ public class BlockInit {
         magicalTeleporterBeyond = new BlockTeleporter("teleporter_by", 23, 100);
         testBlockVisibility = new TestBlocks.Visibility();
         testBlockGenBlock = new TestBlocks.GenBlockTest();
+        compactingStructureBlock = new BlockCompactingStructure();
     }
 }

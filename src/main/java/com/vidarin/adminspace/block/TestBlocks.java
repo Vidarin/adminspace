@@ -17,6 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
@@ -27,7 +28,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("DataFlowIssue")
+@SuppressWarnings({"DataFlowIssue", "deprecation"})
 public class TestBlocks {
     public static class GenBlockTest extends BlockContainer {
         public GenBlockTest() {
@@ -42,6 +43,11 @@ public class TestBlocks {
         @Override
         public @Nullable TileEntity createNewTileEntity(World worldIn, int meta) {
             return new TileEntityGenBlockTest();
+        }
+
+        @Override
+        public EnumBlockRenderType getRenderType(IBlockState state) {
+            return EnumBlockRenderType.MODEL;
         }
 
         @Override
@@ -108,6 +114,11 @@ public class TestBlocks {
 
             BlockInit.BLOCKS.add(this);
             ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName("visibility_test"));
+        }
+
+        @Override
+        public EnumBlockRenderType getRenderType(IBlockState state) {
+            return EnumBlockRenderType.MODEL;
         }
 
         @Override

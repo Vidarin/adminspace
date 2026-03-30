@@ -2,54 +2,56 @@ package com.vidarin.adminspace.dimension.skysector.generator;
 
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.util.MathUtil;
+import com.vidarin.adminspace.util.NBTSerializer;
 import com.vidarin.adminspace.util.Vec2i;
+import com.vidarin.adminspace.worldgen.genblock.GenBlock;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Supplier;
 
 public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
     public final Vec2i position;
     public final int id;
     public final ActivityLevel activityLevel;
-    private final Map<Vec2i, SkyInfo> SKY_MAP;
+    private final Map<Vec2i, SkyInfo> skyMap;
 
     public SectorInfo(Vec2i position, ActivityLevel activityLevel) {
         this.position = position;
         this.activityLevel = activityLevel;
         this.id = MathUtil.spiralIndex(position);
-        this.SKY_MAP = new HashMap<>();
+        this.skyMap = new HashMap<>();
     }
 
     private SectorInfo(Vec2i position, ActivityLevel activityLevel, int id, Map<Vec2i, SkyInfo> skyMap) {
         this.position = position;
         this.id = id;
         this.activityLevel = activityLevel;
-        this.SKY_MAP = skyMap;
+        this.skyMap = skyMap;
     }
 
-    public SkyInfo createSky(Vec2i position, SkyInfo.SkyState state, Supplier<CellTypes[][]> gridSupplier) {
+    public SkyInfo createSky(Vec2i position, SkyInfo.SkyState state, GenBlock<IBlockState> genBlock) {
         Adminspace.LOGGER.debug("Created sky at position ({}, {}) with state {}", position.x, position.y, state);
-        SkyInfo info = new SkyInfo(position, state, gridSupplier);
-        if (SKY_MAP.containsKey(position)) throw new IllegalArgumentException(String.format("Cannot create sky at (%s, %s), since that position is occupied", position.x, position.y));
-        SKY_MAP.put(position, info);
+        SkyInfo info = new SkyInfo(position, state, genBlock);
+        if (skyMap.containsKey(position)) throw new IllegalArgumentException(String.format("Cannot create sky at (%s, %s), since that position is occupied", position.x, position.y));
+        skyMap.put(position, info);
         return info;
     }
 
     public void updateSkyState(Vec2i position, SkyInfo.SkyState state) {
-        if (!SKY_MAP.containsKey(position)) throw new NullPointerException(String.format("No sky found at position (%s, %s)", position.x, position.y));
-        SKY_MAP.computeIfPresent(position, (k, info) -> new SkyInfo(position, state, info.id, info.bottomGrid, info.middleGrid, info.topGrid));
+        if (!skyMap.containsKey(position)) throw new NullPointerException(String.format("No sky found at position (%s, %s)", position.x, position.y));
+        skyMap.computeIfPresent(position, (k, info) -> new SkyInfo(position, state, info.id, info.genBlock));
     }
 
     public SkyInfo getSky(Vec2i position) {
-        return SKY_MAP.get(position);
+        return skyMap.get(position);
     }
 
     public boolean hasSky(Vec2i position) {
-        return SKY_MAP.containsKey(position);
+        return skyMap.containsKey(position);
     }
 
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
@@ -59,15 +61,14 @@ public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
         sectorCompound.setString("activityLevel", activityLevel.toString());
 
         NBTTagCompound skyMapCompound = new NBTTagCompound();
-        for (Map.Entry<Vec2i, SkyInfo> skyEntry : SKY_MAP.entrySet()){
+        for (Map.Entry<Vec2i, SkyInfo> skyEntry : skyMap.entrySet()){
             String positionString = skyEntry.getKey().x + "," + skyEntry.getKey().y;
+            SkyInfo sky = skyEntry.getValue();
             NBTTagCompound skyCompound = new NBTTagCompound();
-            skyCompound.setIntArray("position", new int[]{skyEntry.getValue().position.x, skyEntry.getValue().position.y});
-            skyCompound.setInteger("id", skyEntry.getValue().id);
-            skyCompound.setString("state", skyEntry.getValue().state.toString());
-            skyCompound.setTag("bottomGrid", SkyInfo.writeCellsToNBT(skyEntry.getValue().bottomGrid));
-            skyCompound.setTag("middleGrid", SkyInfo.writeCellsToNBT(skyEntry.getValue().middleGrid));
-            skyCompound.setTag("topGrid", SkyInfo.writeCellsToNBT(skyEntry.getValue().topGrid));
+            skyCompound.setIntArray("position", new int[]{sky.position.x, sky.position.y});
+            skyCompound.setInteger("id", sky.id);
+            skyCompound.setString("state", sky.state.toString());
+            skyCompound.setTag("genBlock", sky.genBlock.toNBT(NBTSerializer.BLOCK_STATE, SkySectorGenBlockDefinition.Symbols.values()));
             skyMapCompound.setTag(positionString, skyCompound);
         }
 
@@ -92,10 +93,8 @@ public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
             Vec2i skyPosition = new Vec2i(skyPositionArray[0], skyPositionArray[1]);
             int skyId = skyCompound.getInteger("id");
             SkyInfo.SkyState skyState = SkyInfo.SkyState.valueOf(skyCompound.getString("state"));
-            CellTypes[][] bottomGrid = SkyInfo.readCellsFromNBT(skyCompound.getTagList("bottomGrid", 10));
-            CellTypes[][] middleGrid = SkyInfo.readCellsFromNBT(skyCompound.getTagList("middleGrid", 10));
-            CellTypes[][] topGrid = SkyInfo.readCellsFromNBT(skyCompound.getTagList("topGrid", 10));
-            skyMap.put(skyPosition, new SkyInfo(skyPosition, skyState, skyId, bottomGrid, middleGrid, topGrid));
+            GenBlock<IBlockState> genBlock = GenBlock.fromNBT(skyCompound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, SkySectorGenBlockDefinition.Symbols.values());
+            skyMap.put(skyPosition, new SkyInfo(skyPosition, skyState, skyId, genBlock));
         }
 
         Adminspace.LOGGER.debug("Read sector {} from NBT", id);
