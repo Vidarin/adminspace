@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.dimension.skysector.generator;
 
 import com.vidarin.adminspace.init.BlockInit;
+import com.vidarin.adminspace.util.FastNoiseLite;
 import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.util.blockholder.BlockHolderSequence;
 import com.vidarin.adminspace.worldgen.genblock.Cube;
@@ -26,7 +27,9 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     * [0]: SectorInfo.ActivityLevel index
     * [1]: SkyIndo.SkyState index
     * [2]: Layer -> Height level
-    *      Tunnel -> Height level
+    *      Tunnel -> Layer height level
+    *      OutsideSector -> Use elevated walkways (1) or normal ones (0)
+    *      Walkway -> Become elevated (1) or not (0)
     */
 
     /* INITIAL HANDLING */
@@ -76,19 +79,23 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Converts an IndeterminateSector to a InsideSector or OutsideSector, with higher activity skies having more inside sectors
     ChooseIndeterminateSectorType(Symbols.IndeterminateSector, (shape, rand) -> {
         boolean outside = rand.nextInt(8) + 3 - MathHelper.clamp(shape.meta()[0], 1, 6) > 5;
-        return Collections.singleton(new Shape<>(outside ? Symbols.OutsideSector : Symbols.InsideSector, Pair.of(null, shape.shape()), shape.meta()));
+        return Collections.singleton(new Shape<>(
+                        outside ? Symbols.OutsideSector : Symbols.InsideSector,
+                        Pair.of(null, shape.shape()), outside ?
+                new int[]{shape.meta()[0], shape.meta()[1], rand.nextFloat() < 0.25 ? 1 : 0} : shape.meta()
+        ));
     }, 1),
 
     /* OUTSIDE SECTOR HANDLING */
 
     /// Splits an OutsideSector into 2 smaller OutsideSectors separated by a straight Walkway. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
-    SplitOutsideSector2(Symbols.OutsideSector, (shape, rand) -> split2(shape, rand, false), 4),
+    SplitOutsideSector2(Symbols.OutsideSector, (shape, rand) -> split2(shape, rand, false), 3),
 
     /// Splits an OutsideSector into 3 smaller OutsideSectors separated by a Walkway T-junction. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
     SplitOutsideSector3T(Symbols.OutsideSector, (shape, rand) -> split3T(shape, rand, false), 4),
 
     /// Splits an OutsideSector into 3 smaller OutsideSectors separated by 2 straight Walkway. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
-    SplitOutsideSector3I(Symbols.OutsideSector, (shape, rand) -> split3I(shape, rand, false), 3),
+    SplitOutsideSector3I(Symbols.OutsideSector, (shape, rand) -> split3I(shape, rand, false), 2),
 
     /// Splits an OutsideSector into 4 smaller OutsideSectors, separated by 2 straight Walkway. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
     SplitOutsideSector4(Symbols.OutsideSector, (shape, rand) -> split4(shape, rand, false), 3),
@@ -96,19 +103,19 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Splits an OutsideSector into 9 smaller OutsideSectors, separated by 4 straight Walkway. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
     SplitOutsideSector9(Symbols.OutsideSector, (shape, rand) -> split9(shape, rand, false), 1),
 
-    /// Converts a Walkway into a terminal NormalWalkway
-    CreateNormalWalkway(Symbols.Walkway, (shape, rand) -> {
+    /// Converts a Walkway into a terminal NormalWalkway or a terminal ElevatedWalkway
+    FinalizeWalkway(Symbols.Walkway, (shape, rand) -> {
         Cube cube = shape.shape();
         boolean xAxis = cube.sizeX() > 3;
         BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().add(0, 1, 0), cube.from().subtract(0, 1, 0), Blocks.AIR.getDefaultState());
+        holder = holder.fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState());
         return Collections.singleton(
-                new Shape<>(Symbols.NormalWalkway, Pair.of(holder
-                        .fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState())
+                new Shape<>(Symbols.NormalWalkway, Pair.of(rand.nextFloat() < 0.3 ? holder : holder
                         .sequence(cube.from().add(1, -1, 1), (pos, value) ->
                                 BlockHolderSequence.result(pos.add(xAxis ? 3 : 0, 0, xAxis ? 0 : 3), BlockInit.voidLamp.getDefaultState())),
-                        cube), shape.meta())
+                        cube.indentFrom(0, -1, 0)), shape.meta())
         );
-    }, 2),
+    }, 1),
 
     /* INSIDE SECTOR HANDLING */
 
@@ -120,9 +127,9 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Converts a InsideSector to a BoxStructure, and picks the best prebuilt box structure
     ConvertInsideSectorToBoxStructure(Symbols.InsideSector, (shape, rand) -> {
         Cube cube = shape.shape();
-        BlockHolder<IBlockState> structure = SkySectorStructures.getBestBoxStructure(cube.sizeX(), cube.sizeY(), cube.sizeZ(), cube.from());
+        BlockHolder<IBlockState> structure = SkySectorStructures.getBestBoxStructure(cube.sizeX(), cube.sizeY(), cube.sizeZ(), cube.from(), rand);
         return Collections.singletonList(
-                new Shape<>(Symbols.BoxStructure, Pair.of(structure, new Cube(cube.from(), cube.to().setY(cube.from()).add(0, structure.getYSize(), 0))), shape.meta())
+                new Shape<>(Symbols.BoxStructure, Pair.of(structure, new Cube(cube.from(), cube.to().setY(cube.from().getY() + structure.getYSize()))), shape.meta())
         );
     }, 2),
 
@@ -184,7 +191,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     SplitLayer3T(Symbols.Layer, (shape, rand) -> split3T(shape, rand, true), 4),
 
     /// Splits a Layer into 3 smaller Layers separated by 2 straight Tunnels
-    SplitLayer3I(Symbols.Layer, (shape, rand) -> split3I(shape, rand, true), 3),
+    SplitLayer3I(Symbols.Layer, (shape, rand) -> split3I(shape, rand, true), 2),
 
     /// Splits a Layer into 4 smaller Layers, separated by 2 straight Tunnels
     SplitLayer4(Symbols.Layer, (shape, rand) -> split4(shape, rand, true), 3),
@@ -350,19 +357,32 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
         );
     }
 
-    public static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalize(Shape<Cube> shape, Random rand, boolean layer) {
-        if (layer) return finalizeLayer(shape);
-        else return finalizeOuter(shape);
+    private static final FastNoiseLite noiseGen;
+
+    static {
+        noiseGen = new FastNoiseLite(System.nanoTime());
+        noiseGen.SetFrequency(0.004F);
     }
 
-    /// Called when trying to split an OutsideSector that's too small. Turns the OutsideSector into a SmallStructuresSector or a LargeStructureSector, or None if the sector's size is 0 or less.
-    private static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalizeOuter(Shape<Cube> shape) {
+    public static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalize(Shape<Cube> shape, Random rand, boolean layer) {
+        if (layer) return finalizeLayer(shape);
+        else return finalizeOuter(shape, rand);
+    }
+
+    /// Called when trying to split an OutsideSector that's too small.Turns the OutsideSector into a SmallStructuresSector or a LargeStructureSector, or None if the sector's size is 0 or less.
+    private static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalizeOuter(Shape<Cube> shape, Random rand) {
         Cube cube = shape.shape();
         if (cube.sizeX() <= 0 || cube.sizeY() <= 0 || cube.sizeZ() <= 0)
             return Collections.singleton(new Shape<>(Symbols.None, Pair.of(new BlockHolder<>(0, 0, 0), cube), shape.meta()));
-        return Collections.singleton(
+        if (rand.nextFloat() + 0.5 < noiseGen.GetNoise(cube.from().getX(), cube.from().getZ())) return Collections.singleton(
                 new Shape<>(Symbols.EmptySector, Pair.of(BlockHolder.of(cube.size(), cube.from(), Blocks.AIR.getDefaultState()), cube), shape.meta())
         );
+        else {
+            BlockHolder<IBlockState> structure = SkySectorStructures.getBestLargeOutsideStructure(cube.sizeX(), cube.sizeY(), cube.sizeZ(), cube.from(), rand);
+            return Collections.singleton(
+                    new Shape<>(Symbols.LargeStructureSector, Pair.of(structure, new Cube(cube.from(), cube.to().setY(cube.from().getY() + structure.getYSize()))), shape.meta())
+            );
+        }
     }
 
     /// Called when trying to split a Layer that's too small. Turns the Layer into a SolidWall or PrebuiltLayer, or None if the Layer's size is 0 or less.

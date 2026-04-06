@@ -174,7 +174,7 @@ public class BlockInit {
         creeperHeart = new BlockCreeperHeart();
 
         //Decorations
-        cardReader = new BlockSided("card_reader");
+        cardReader = new BlockBase("card_reader");
         voidGauge = new BlockSided("void_gauge");
         smallMonitor = new BlockSided("small_monitor");
         voidGaugeAll = new BlockBase("void_gauge_all");

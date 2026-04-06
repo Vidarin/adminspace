@@ -1,12 +1,7 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cube_column",
   "textures": {
-    "east": "adminspace:blocks/card_reader",
-    "south": "adminspace:blocks/void_tile",
-    "north": "adminspace:blocks/void_tile",
-    "west": "adminspace:blocks/void_tile",
-    "particle": "adminspace:blocks/void_tile",
-    "up": "adminspace:blocks/void_tile",
-    "down": "adminspace:blocks/void_tile"
+    "end": "adminspace:blocks/void_tile",
+    "side": "adminspace:blocks/card_reader"
   }
 }

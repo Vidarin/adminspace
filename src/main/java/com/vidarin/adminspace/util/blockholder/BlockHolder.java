@@ -3,6 +3,8 @@ package com.vidarin.adminspace.util.blockholder;
 import com.vidarin.adminspace.util.CubePos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3i;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -11,11 +13,9 @@ import java.util.Arrays;
  * @param <T> The type of this BlockHolder's element
  */
 public class BlockHolder<T> {
-    private int xSize, zSize;
-    private final int ySize;
+    private final int xSize, ySize, zSize;
 
-    private int xOff, zOff;
-    private final int yOff;
+    private final int xOff, yOff, zOff;
 
     private final Object[][][] elements;
 
@@ -127,7 +127,7 @@ public class BlockHolder<T> {
     /**
      * Fills this BlockHolder from x1, y1, z1 (inclusive) to x2, y2, z2 (exclusive) with the specified value
      */
-    public BlockHolder<T> fill(int x1, int y1, int z1, int x2, int y2, int z2, T value) {
+    public BlockHolder<T> fill(int x1, int y1, int z1, int x2, int y2, int z2, @NotNull T value) {
         if (x1 > x2 || y1 > y2 || z1 > z2) return this;
         checkBounds(x1, y1, z1);
         checkBounds(x2 - 1, y2 - 1, z2 - 1);
@@ -142,37 +142,28 @@ public class BlockHolder<T> {
     }
 
     /**
-     * Rotates the entire cube so that the face that was facing NORTH now faces the target direction.
+     * Returns a BlockHolder that has been rotated so that the face that was facing NORTH now faces the target direction.
      * Only horizontal rotations are supported.
+     * Does NOT mutate this BlockHolder!
      */
-    public void rotate(EnumFacing target) {
-        if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return;
+    @Contract(pure = true)
+    public BlockHolder<T> rotate(@NotNull EnumFacing target) {
+        if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return this;
 
         boolean flipXZ = target == EnumFacing.WEST || target == EnumFacing.EAST;
 
         BlockHolder<T> copy = flipXZ ? new BlockHolder<>(zSize, ySize, xSize, zOff, yOff, xOff) : new BlockHolder<>(xSize, ySize, zSize, xOff, yOff, zOff);
 
-        int origXSize = xSize, origZSize = zSize;
-        int origXOff = xOff, origZOff = zOff;
-
-        if (flipXZ) {
-            xSize = zSize;
-            zSize = origXSize;
-            xOff = zOff;
-            zOff = origXOff;
-        }
-
-        for (int x = origXOff; x < origXSize + origXOff; x++) {
-            for (int y = yOff; y < ySize + yOff; y++) {
-                for (int z = origZOff; z < origZSize + origZOff; z++) {
-                    T value = get(x, y, z);
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                for (int z = 0; z < zSize; z++) {
                     int[] rotated = rotateCoords(x, z, target);
-                    copy.set(rotated[0], y, rotated[1], value);
+                    copy.elements[rotated[0]][y][rotated[1]] = elements[x][y][z];
                 }
             }
         }
 
-        this.copyFrom(copy, xOff, yOff, zOff);
+        return copy;
     }
 
     private int[] rotateCoords(int x, int z, EnumFacing target) {

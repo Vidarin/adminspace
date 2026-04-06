@@ -84,6 +84,8 @@ public class GenBlock<T> {
                 BlockHolder<T> newBlocks = shape.shape().getLeft();
                 Cube cube = shape.shape().getRight();
 
+                Adminspace.LOGGER.info(shape.symbol());
+
                 if (newBlocks != null) this.blocks.copyFrom(newBlocks, cube.from().getX(), cube.from().getY(), cube.from().getZ());
 
                 Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.meta());

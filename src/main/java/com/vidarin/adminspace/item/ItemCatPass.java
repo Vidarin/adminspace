@@ -32,7 +32,7 @@ public class ItemCatPass extends ItemBase{
         {
             if (!worldIn.isRemote)
             {
-                if (worldIn.getBlockState(pos.up()) == BlockInit.moonBlock.getDefaultState() && worldIn.getBlockState(pos.down()) == BlockInit.moonBlock.getDefaultState()) {
+                if (worldIn.getBlockState(pos.up()) == BlockInit.sunBlock.getDefaultState() && worldIn.getBlockState(pos.down()) == BlockInit.moonBlock.getDefaultState()) {
                     worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
                     worldIn.setBlockState(pos.down(), Blocks.AIR.getDefaultState());
                     worldIn.setBlockState(pos.up(), Blocks.AIR.getDefaultState());

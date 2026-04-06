@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class ReadOnlyCompactStructureData {
     public static BlockHolder<IBlockState> readCSDStructure(String structureName, Vec3i offset) {
-        return readCSDAsBlockHolder(ReadOnlyCompactStructureData.class.getResourceAsStream("/assets/adminspace/structures/" + structureName), offset);
+        return readCSDAsBlockHolder(ReadOnlyCompactStructureData.class.getResourceAsStream("/assets/adminspace/structures/" + structureName + ".csd"), offset);
     }
 
     @SuppressWarnings("deprecation")
