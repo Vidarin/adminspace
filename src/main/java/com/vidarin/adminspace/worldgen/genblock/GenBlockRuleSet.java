@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.worldgen.genblock;
 
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.worldgen.grammar.Rule;
 import com.vidarin.adminspace.worldgen.grammar.SimpleRuleSet;
 import org.apache.commons.lang3.tuple.Pair;

@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.data;
 
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import it.unimi.dsi.fastutil.bytes.Byte2ObjectMap;
 import it.unimi.dsi.fastutil.bytes.Byte2ObjectOpenHashMap;
 import net.minecraft.block.Block;

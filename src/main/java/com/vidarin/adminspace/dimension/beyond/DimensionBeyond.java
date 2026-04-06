@@ -8,7 +8,7 @@ import com.vidarin.adminspace.init.SoundInit;
 import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.network.CPacketSinglePlayerSoundEffect;
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.util.VisibilityUtil;
 import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import mcp.MethodsReturnNonnullByDefault;

@@ -1,8 +1,11 @@
 package com.vidarin.adminspace.block;
 
-import com.vidarin.adminspace.dimension.disposal.TestGenBlockDefinition;
+import com.vidarin.adminspace.block.tileentity.SyncedTileEntity;
+import com.vidarin.adminspace.dimension.skysector.generator.SkySectorGenBlockDefinition;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.init.ItemInit;
+import com.vidarin.adminspace.main.Adminspace;
+import com.vidarin.adminspace.util.CubePos;
 import com.vidarin.adminspace.util.Fonts;
 import com.vidarin.adminspace.util.NBTSerializer;
 import com.vidarin.adminspace.util.VisibilityUtil;
@@ -23,7 +26,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -54,54 +56,55 @@ public class TestBlocks {
         public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
             if (!worldIn.isRemote) {
                 TileEntityGenBlockTest te = (TileEntityGenBlockTest) worldIn.getTileEntity(pos);
-                if (te.notInitialized()) te.initialize(pos, worldIn);
+                if (!te.initialized()) te.initialize(pos, worldIn);
                 if (playerIn.isSneaking()) te.reset(playerIn, worldIn);
                 else te.next(playerIn, worldIn);
             }
             return true;
         }
 
-        public static class TileEntityGenBlockTest extends TileEntity {
+        public static class TileEntityGenBlockTest extends SyncedTileEntity {
             private GenBlock<IBlockState> genBlock;
 
             public void initialize(BlockPos pos, World world) {
                 this.genBlock = new GenBlock<>(new Shape<>(
-                        TestGenBlockDefinition.Symbols.LargeCube,
-                        new Cube(new Vec3i(pos.getX(), pos.getY() + 1, pos.getZ()), new Vec3i(pos.getX() + 60, pos.getY() + 31, pos.getZ() + 60))
+                        SkySectorGenBlockDefinition.Symbols.EntryPoint,
+                        new Cube(new CubePos(pos.getX(), pos.getY() + 1, pos.getZ()), new CubePos(pos.getX() + 300, pos.getY() + 181, pos.getZ() + 300)),
+                        new int[]{0, 0}
                 ), world.rand);
             }
 
-            public boolean notInitialized() {
-                return genBlock == null;
+            public boolean initialized() {
+                return genBlock != null;
             }
 
             public void next(EntityPlayer player, World world) {
                 this.genBlock.setRand(world.rand);
-                this.genBlock.applyRules(TestGenBlockDefinition.RULES, Blocks.AIR.getDefaultState());
-                this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), b, 2));
+                this.genBlock.applyRules(SkySectorGenBlockDefinition.RULES, Blocks.AIR.getDefaultState(), 30);
+                Adminspace.LOGGER.info("[Gen Block Test] Applied rules successfully");
+                this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), b == null ? Blocks.AIR.getDefaultState() : b, 2));
                 player.sendMessage(new TextComponentString(Fonts.Green + "Updated"));
             }
 
             public void reset(EntityPlayer player, World world) {
                 this.genBlock = new GenBlock<>(new Shape<>(
-                        TestGenBlockDefinition.Symbols.LargeCube,
-                        new Cube(new Vec3i(this.pos.getX(), this.pos.getY() + 1, this.pos.getZ()), new Vec3i(this.pos.getX() + 60, this.pos.getY() + 31, this.pos.getZ() + 60))
+                        SkySectorGenBlockDefinition.Symbols.EntryPoint,
+                        new Cube(new CubePos(this.pos.getX(), this.pos.getY() + 1, this.pos.getZ()), new CubePos(this.pos.getX() + 300, this.pos.getY() + 181, this.pos.getZ() + 300)),
+                        new int[]{0, 0}
                 ), world.rand);
                 this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2));
                 player.sendMessage(new TextComponentString(Fonts.Red + "Reset"));
             }
 
             @Override
-            public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-                compound = super.writeToNBT(compound);
-                compound.setTag("genBlock", genBlock.toNBT(NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values()));
+            public NBTTagCompound writeNBT(NBTTagCompound compound) {
+                if (initialized()) compound.setTag("genBlock", genBlock.toNBT(NBTSerializer.BLOCK_STATE, SkySectorGenBlockDefinition.Symbols.values()));
                 return compound;
             }
 
             @Override
-            public void readFromNBT(NBTTagCompound compound) {
-                super.readFromNBT(compound);
-                this.genBlock = GenBlock.fromNBT(compound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, TestGenBlockDefinition.Symbols.values());
+            public void readNBT(NBTTagCompound compound) {
+                if (compound.hasKey("genBlock")) this.genBlock = GenBlock.fromNBT(compound.getCompoundTag("genBlock"), NBTSerializer.BLOCK_STATE, SkySectorGenBlockDefinition.Symbols.values());
             }
         }
     }

@@ -2,7 +2,7 @@ package com.vidarin.adminspace.dimension.skysector.generator;
 
 import com.vidarin.adminspace.block.BlockModChest;
 import com.vidarin.adminspace.init.BlockInit;
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;

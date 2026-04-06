@@ -7,7 +7,7 @@ import com.vidarin.adminspace.dimension.skysector.generator.CellTypes.Connection
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.BlockInit;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.util.Vec2i;
 import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
 import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;

@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.dimension.disposal;
 
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.worldgen.genblock.Cube;
 import com.vidarin.adminspace.worldgen.genblock.GenBlockRuleSet;
 import com.vidarin.adminspace.worldgen.grammar.Rule;
@@ -44,8 +44,8 @@ public final class TestGenBlockDefinition {
 
     public enum Rules implements Rule<Cube, Pair<BlockHolder<IBlockState>, Cube>> {
         SplitLarge1(Symbols.LargeCube, (shape) -> {
-            Cube cube1 = shape.shape().subCube(1, 1, 0.9, 0.6, 1, 0.9);
-            Cube cube2 = shape.shape().subCube(0.4, 1, 0.8, 1, 0.8, 0.8);
+            Cube cube1 = shape.shape().subCube(0, 0, 0.1, 0.6, 1, 0.9);
+            Cube cube2 = shape.shape().subCube(0.6, 0, 0.2, 1, 0.8, 0.8);
             BlockHolder<IBlockState> holder1 = BlockHolder.of(cube1.size(), cube1.from(), Blocks.QUARTZ_BLOCK.getDefaultState());
             BlockHolder<IBlockState> holder2 = BlockHolder.of(cube2.size(), cube2.from(), Blocks.PRISMARINE.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.ROUGH));
 
@@ -60,8 +60,8 @@ public final class TestGenBlockDefinition {
             );
         }, 1),
         SplitLarge2(Symbols.LargeCube, (shape) -> {
-            Cube cube1 = shape.shape().subCube(0.9, 1, 1, 0.9, 1, 0.6);
-            Cube cube2 = shape.shape().subCube(0.8, 1, 0.4, 0.8, 0.8, 1);
+            Cube cube1 = shape.shape().subCube(0.1, 0, 0, 0.9, 1, 0.6);
+            Cube cube2 = shape.shape().subCube(0.2, 0, 0.6, 0.8, 0.8, 1);
             BlockHolder<IBlockState> holder1 = BlockHolder.of(cube1.size(), cube1.from(), Blocks.PRISMARINE.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.BRICKS));
             BlockHolder<IBlockState> holder2 = BlockHolder.of(cube2.size(), cube2.from(), Blocks.QUARTZ_BLOCK.getDefaultState());
 

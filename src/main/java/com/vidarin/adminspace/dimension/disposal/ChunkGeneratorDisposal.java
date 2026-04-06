@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.dimension.disposal;
 
 import com.vidarin.adminspace.init.BiomeInit;
+import com.vidarin.adminspace.util.CubePos;
 import com.vidarin.adminspace.worldgen.WorldGenBlockFiller;
 import com.vidarin.adminspace.worldgen.genblock.Cube;
 import com.vidarin.adminspace.worldgen.genblock.GenBlock;
@@ -10,7 +11,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -38,7 +38,7 @@ public class ChunkGeneratorDisposal implements IChunkGenerator {
         this.genBlock = new GenBlock<>(
                 new Shape<>(
                         TestGenBlockDefinition.Symbols.LargeCube,
-                        new Cube(new Vec3i(-100, 10, -100), new Vec3i(100, 110, 100))
+                        new Cube(new CubePos(-100, 10, -100), new CubePos(100, 110, 100))
                 ),
                 this.rand);
 

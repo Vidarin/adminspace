@@ -40,7 +40,6 @@ public abstract class SyncedTileEntity extends TileEntity {
     @Override
     public void handleUpdateTag(NBTTagCompound tag) {
         super.handleUpdateTag(tag);
-        readNBT(tag);
     }
 
     @Override

@@ -1,4 +1,4 @@
-import com.vidarin.adminspace.util.BlockHolder;
+import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import net.minecraft.util.EnumFacing;
 
 public class BlockHolderTest {
