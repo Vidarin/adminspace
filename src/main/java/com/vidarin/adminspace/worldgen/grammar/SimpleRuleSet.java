@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.worldgen.grammar;
 
+import com.vidarin.adminspace.util.WildcardMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -22,11 +23,11 @@ public class SimpleRuleSet<P, S> implements RuleSet<P, S> {
     }
 
     @Override
-    public @Nullable Iterable<Shape<S>> get(Shape<P> predecessor, Random rand) {
+    public @Nullable Iterable<Shape<S>> get(Shape<P> predecessor, Random rand, WildcardMap<String> globals) {
         if (rules.containsKey(predecessor.symbol().identifier())) {
             List<Rule<P, S>> list = rules.get(predecessor.symbol().identifier());
 
-            if (list.size() == 1) return list.get(0).successor(predecessor, rand);
+            if (list.size() == 1) return list.get(0).successor(predecessor, rand, globals);
 
             int totalWeight = 0;
             for (Rule<P, S> rule : list) totalWeight += rule.weight();
@@ -37,7 +38,7 @@ public class SimpleRuleSet<P, S> implements RuleSet<P, S> {
             for (Rule<P, S> rule : list) {
                 cumulative += rule.weight();
                 if (r < cumulative) {
-                    return rule.successor(predecessor, rand);
+                    return rule.successor(predecessor, rand, globals);
                 }
             }
         }

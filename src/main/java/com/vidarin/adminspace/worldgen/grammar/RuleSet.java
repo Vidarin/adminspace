@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.worldgen.grammar;
 
+import com.vidarin.adminspace.util.WildcardMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -10,15 +11,7 @@ import java.util.Set;
 public interface RuleSet<P, S> extends Set<Rule<P, S>> {
     @Override boolean add(Rule<P, S> rule);
 
-    Iterable<Shape<S>> get(Shape<P> predecessor, Random rand);
-
-    default Iterable<Shape<S>> get(Shape<P> predecessor) {
-        return get(predecessor, new Random());
-    }
-
-    default Iterable<Shape<S>> get(Shape<P> predecessor, long seed) {
-        return get(predecessor, new Random(seed));
-    }
+    Iterable<Shape<S>> get(Shape<P> predecessor, Random rand, WildcardMap<String> globals);
 
     @Override
     default boolean isEmpty() {

@@ -19,14 +19,10 @@ public class SkyRendererCustomTexture extends IRenderHandler {
     private final ResourceLocation SKYBOX_TEXTURE_E;
     private final ResourceLocation SKYBOX_TEXTURE_U;
     private final ResourceLocation SKYBOX_TEXTURE_D;
-    private final ResourceLocation SUN_TEXTURE;
-    private final ResourceLocation MOON_TEXTURE;
 
-    private final boolean shouldRenderCelestialObjects;
     private final boolean shouldTintSkybox;
 
     public SkyRendererCustomTexture(String skyboxFolder, boolean tintSkybox) {
-        this.shouldRenderCelestialObjects = false;
         this.shouldTintSkybox = tintSkybox;
 
         this.SKYBOX_TEXTURE_N = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_n.png");
@@ -35,24 +31,6 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         this.SKYBOX_TEXTURE_W = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_w.png");
         this.SKYBOX_TEXTURE_U = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_u.png");
         this.SKYBOX_TEXTURE_D = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_d.png");
-
-        this.SUN_TEXTURE = null;
-        this.MOON_TEXTURE = null;
-    }
-
-    public SkyRendererCustomTexture(String skyboxFolder, ResourceLocation sun, ResourceLocation moon, boolean tintSkybox) {
-        this.shouldRenderCelestialObjects = true;
-        this.shouldTintSkybox = tintSkybox;
-
-        this.SKYBOX_TEXTURE_N = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_n.png");
-        this.SKYBOX_TEXTURE_S = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_s.png");
-        this.SKYBOX_TEXTURE_E = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_e.png");
-        this.SKYBOX_TEXTURE_W = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_w.png");
-        this.SKYBOX_TEXTURE_U = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_u.png");
-        this.SKYBOX_TEXTURE_D = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_d.png");
-
-        this.SUN_TEXTURE = sun;
-        this.MOON_TEXTURE = moon;
     }
 
     @Override
@@ -63,9 +41,6 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         renderSkybox(world, mc, partialTicks);
-
-        if (shouldRenderCelestialObjects)
-            renderCelestialObjects(world, mc, partialTicks);
 
         GlStateManager.enableAlpha();
         GlStateManager.enableFog();
@@ -155,37 +130,5 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         GlStateManager.enableCull();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
-    }
-
-    private void renderCelestialObjects(WorldClient world, Minecraft mc, float partialTicks) {
-        float celestialAngle = world.getCelestialAngle(partialTicks);
-        if (SUN_TEXTURE == null || MOON_TEXTURE == null) return;
-
-        // Render Sun
-        GlStateManager.pushMatrix();
-        mc.renderEngine.bindTexture(SUN_TEXTURE);
-        GlStateManager.rotate(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
-        renderQuad(30.0F);
-        GlStateManager.popMatrix();
-
-        // Render Moon
-        GlStateManager.pushMatrix();
-        mc.renderEngine.bindTexture(MOON_TEXTURE);
-        GlStateManager.rotate(celestialAngle * 360.0F + 180.0F, 1.0F, 0.0F, 0.0F);
-        renderQuad(20.0F);
-        GlStateManager.popMatrix();
-    }
-
-    private void renderQuad(float size) {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        float halfSize = size / 2.0F;
-
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos(-halfSize, -halfSize, 0.0D).tex(0.0D, 0.0D).endVertex();
-        buffer.pos(halfSize, -halfSize, 0.0D).tex(1.0D, 0.0D).endVertex();
-        buffer.pos(halfSize, halfSize, 0.0D).tex(1.0D, 1.0D).endVertex();
-        buffer.pos(-halfSize, halfSize, 0.0D).tex(0.0D, 1.0D).endVertex();
-        tessellator.draw();
     }
 }

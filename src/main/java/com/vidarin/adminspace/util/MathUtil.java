@@ -1,10 +1,13 @@
 package com.vidarin.adminspace.util;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class MathUtil {
-    public static final BlockPos[] DIRECTIONS = {
+    public static final BlockPos[] SQUARE_OFFSET_DIRECTIONS = {
             new BlockPos(1, 0, 0), new BlockPos(1, 0, 1),
             new BlockPos(0, 0, 1), new BlockPos(-1, 0, 1),
             new BlockPos(-1, 0, 0), new BlockPos(-1, 0, -1),
@@ -39,10 +42,25 @@ public class MathUtil {
         return layerStart + index;
     }
 
+    // Not to be confused with larp
     public static Vec3d lerp(Vec3d a, Vec3d b, float t) {
         double d1 = a.x * (1.0F - t) + b.x * t;
         double d2 = a.y * (1.0F - t) + b.y * t;
         double d3 = a.z * (1.0F - t) + b.z * t;
         return new Vec3d(d1, d2, d3);
+    }
+
+    public static IBlockState rotateBlockState(IBlockState state, EnumFacing target) {
+        if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return state;
+        return state.withRotation(rotationFromFacing(target));
+    }
+
+    public static Rotation rotationFromFacing(EnumFacing facing) {
+        return switch (facing) {
+            case SOUTH -> Rotation.CLOCKWISE_180;
+            case WEST -> Rotation.COUNTERCLOCKWISE_90;
+            case EAST -> Rotation.CLOCKWISE_90;
+            default -> Rotation.NONE;
+        };
     }
 }

@@ -22,6 +22,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -78,7 +79,11 @@ public class AdminspaceEventHandler {
         AdminspacePlayerData.IData data = AdminspacePlayerData.getData(player);
         if (data == null) return;
 
-        if (AdminspaceGlobalData.hasVisitedBeyond()) SpookyTextRenderer.doTheThing("Please remove this version from your system.", mc.fontRenderer, 5, 5);
+        boolean deltamodLoaded = Loader.isModLoaded("deltamod");
+        int yPos = deltamodLoaded ? mc.fontRenderer.FONT_HEIGHT + 2 : 5;
+        int xPos = deltamodLoaded ? 1 : 5;
+
+        if (AdminspaceGlobalData.hasVisitedBeyond()) SpookyTextRenderer.doTheThing("Please remove this version from your system.", mc.fontRenderer, xPos, yPos);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

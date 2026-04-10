@@ -10,7 +10,6 @@ import com.vidarin.adminspace.util.MathUtil;
 import com.vidarin.adminspace.render.sky.SkyRendererCustomTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
@@ -25,10 +24,13 @@ import mcp.MethodsReturnNonnullByDefault;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @MethodsReturnNonnullByDefault
 public class DimensionDeltaQuest extends WorldProvider {
-    private boolean hasSavedSettings = false;
+    private final List<UUID> playerIds = new ArrayList<>();
 
     public DimensionDeltaQuest() {
         this.biomeProvider = new BiomeProviderSingle(BiomeInit.DELTAQUEST_FOREST);
@@ -52,38 +54,40 @@ public class DimensionDeltaQuest extends WorldProvider {
     @Override
     public void onPlayerAdded(@Nonnull EntityPlayerMP player) {
         super.onPlayerAdded(player);
-        this.getPlayerSettings(player);
-        this.hasSavedSettings = true;
+        this.getPlayerSettings();
+        this.playerIds.add(player.getUniqueID());
     }
 
     @Override
     public void onPlayerRemoved(@Nonnull EntityPlayerMP player) {
         super.onPlayerRemoved(player);
-        this.resetPlayerSettings(player);
-        this.hasSavedSettings = false;
+        this.resetPlayerSettings();
+        this.playerIds.remove(player.getUniqueID());
     }
 
     @Override
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
-        if (this.hasSavedSettings) this.updatePlayerSettings();
+        for (UUID uuid : playerIds) {
+            updatePlayerSettings(uuid);
+        }
     }
 
     @SideOnly(Side.CLIENT)
-    private void getPlayerSettings(EntityPlayer player) {
+    private void getPlayerSettings() {
         int prevAmbientOcclusion = Minecraft.getMinecraft().gameSettings.ambientOcclusion;
-        AdminspaceNetworkHandler.INSTANCE.sendToServer(new SPacketUpdateVariablesMap("ambientOcclusion", player.getUniqueID().toString(), prevAmbientOcclusion));
+        AdminspaceNetworkHandler.INSTANCE.sendToServer(new SPacketUpdateVariablesMap("ambientOcclusion", Minecraft.getMinecraft().player.getUniqueID().toString(), prevAmbientOcclusion));
     }
 
     @SideOnly(Side.CLIENT)
-    private void resetPlayerSettings(EntityPlayer player) {
+    private void resetPlayerSettings() {
         Minecraft.getMinecraft().gameSettings.ambientOcclusion =
-                AdminspaceWorldData.get(player.world).getAmbientOcclusionValue(player.getUniqueID());
+                AdminspaceWorldData.get(Minecraft.getMinecraft().player.world).getAmbientOcclusionValue(Minecraft.getMinecraft().player.getUniqueID());
     }
 
     @SideOnly(Side.CLIENT)
-    private void updatePlayerSettings() {
-        Minecraft.getMinecraft().gameSettings.ambientOcclusion = 0;
+    private void updatePlayerSettings(UUID uuid) {
+        if (Minecraft.getMinecraft().player.getUniqueID().equals(uuid)) Minecraft.getMinecraft().gameSettings.ambientOcclusion = 0;
     }
 
     @Override

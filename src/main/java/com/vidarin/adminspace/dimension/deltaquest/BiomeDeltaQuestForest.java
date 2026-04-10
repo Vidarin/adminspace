@@ -4,10 +4,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-
-import javax.annotation.Nonnull;
 
 public class BiomeDeltaQuestForest extends Biome {
     public BiomeDeltaQuestForest() {
@@ -23,25 +20,5 @@ public class BiomeDeltaQuestForest extends Biome {
 
         this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 3, 2, 3));
         this.spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 2, 1, 2));
-    }
-
-    @Override
-    public int getFoliageColorAtPos(@Nonnull BlockPos pos) {
-        return 0x48F84C;
-    }
-
-    @Override
-    public int getModdedBiomeFoliageColor(int original) {
-        return 0x48F84C;
-    }
-
-    @Override
-    public int getGrassColorAtPos(@Nonnull BlockPos pos) {
-        return 0x48F84C;
-    }
-
-    @Override
-    public int getModdedBiomeGrassColor(int original) {
-        return 0x48F84C;
     }
 }

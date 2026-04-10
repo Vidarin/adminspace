@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.function.BiFunction;
 
 /**
  * 3D Array of any element. Can be rotated
@@ -141,12 +142,6 @@ public class BlockHolder<T> {
         return this;
     }
 
-    /**
-     * Returns a BlockHolder that has been rotated so that the face that was facing NORTH now faces the target direction.
-     * Only horizontal rotations are supported.
-     * Does NOT mutate this BlockHolder!
-     */
-    @Contract(pure = true)
     public BlockHolder<T> rotate(@NotNull EnumFacing target) {
         if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return this;
 
@@ -159,6 +154,32 @@ public class BlockHolder<T> {
                 for (int z = 0; z < zSize; z++) {
                     int[] rotated = rotateCoords(x, z, target);
                     copy.elements[rotated[0]][y][rotated[1]] = elements[x][y][z];
+                }
+            }
+        }
+
+        return copy;
+    }
+
+    /**
+     * Returns a BlockHolder that has been rotated so that the face that was facing NORTH now faces the target direction.
+     * Only horizontal rotations are supported.
+     * Does NOT mutate this BlockHolder!
+     */
+    @Contract(pure = true)
+    @SuppressWarnings("unchecked")
+    public BlockHolder<T> rotate(@NotNull EnumFacing target, @NotNull BiFunction<T, EnumFacing, T> rotator) {
+        if (target.getAxis().isVertical() || target == EnumFacing.NORTH) return this;
+
+        boolean flipXZ = target == EnumFacing.WEST || target == EnumFacing.EAST;
+
+        BlockHolder<T> copy = flipXZ ? new BlockHolder<>(zSize, ySize, xSize, zOff, yOff, xOff) : new BlockHolder<>(xSize, ySize, zSize, xOff, yOff, zOff);
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                for (int z = 0; z < zSize; z++) {
+                    int[] rotated = rotateCoords(x, z, target);
+                    copy.elements[rotated[0]][y][rotated[1]] = rotator.apply((T) elements[x][y][z], target);
                 }
             }
         }

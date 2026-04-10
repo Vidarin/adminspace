@@ -105,7 +105,7 @@ public class ChunkGeneratorBeyond implements IChunkGenerator {
         int height = spikeHeights[x][z];
 
         int newHeight;
-        for (BlockPos offset : MathUtil.DIRECTIONS) {
+        for (BlockPos offset : MathUtil.SQUARE_OFFSET_DIRECTIONS) {
             int newX = x + offset.getX();
             int newZ = z + offset.getZ();
 

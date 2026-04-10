@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.dimension.disposal;
 
+import com.vidarin.adminspace.util.WildcardMap;
 import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.worldgen.genblock.Cube;
 import com.vidarin.adminspace.worldgen.genblock.GenBlockRuleSet;
@@ -91,7 +92,7 @@ public final class TestGenBlockDefinition {
         }
 
         @Override
-        public Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> successor(Shape<Cube> predecessor, Random rand) {
+        public Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> successor(Shape<Cube> predecessor, Random rand, WildcardMap<String> globals) {
             return successorFunc.apply(predecessor);
         }
 

@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.worldgen.genblock;
 
 import com.vidarin.adminspace.main.Adminspace;
+import com.vidarin.adminspace.util.WildcardMap;
 import com.vidarin.adminspace.util.blockholder.BlockHolder;
 import com.vidarin.adminspace.util.CubePos;
 import com.vidarin.adminspace.util.NBTSerializer;
@@ -32,6 +33,8 @@ public class GenBlock<T> {
     private final BlockNode node;
     private final BlockHolder<T> blocks;
 
+    private final WildcardMap<String> globals;
+
     public GenBlock(Shape<Cube> baseShape, Random rand) {
         this(
                 rand,
@@ -39,14 +42,16 @@ public class GenBlock<T> {
                 new BlockHolder<>(
                         baseShape.shape().sizeX(), baseShape.shape().sizeY() + 1, baseShape.shape().sizeZ(),
                         baseShape.shape().from().getX(), baseShape.shape().from().getY(), baseShape.shape().from().getZ()
-                )
+                ),
+                new WildcardMap<>(NBTSerializer.STRING)
         );
     }
 
-    private GenBlock(Random rand, BlockNode node, BlockHolder<T> blocks) {
+    private GenBlock(Random rand, BlockNode node, BlockHolder<T> blocks, WildcardMap<String> globals) {
         this.rand = rand;
         this.node = node;
         this.blocks = blocks;
+        this.globals = globals;
     }
 
     public void setRand(Random rand) {
@@ -64,7 +69,7 @@ public class GenBlock<T> {
         for (BlockNode child : children) {
             if (child.cube().symbol().isTerminal()) continue;
 
-            Iterable<Shape<Pair<BlockHolder<T>, Cube>>> shapes = rules.get(child.cube(), this.rand);
+            Iterable<Shape<Pair<BlockHolder<T>, Cube>>> shapes = rules.get(child.cube(), this.rand, globals);
 
             if (shapes == null) continue;
 
@@ -135,6 +140,7 @@ public class GenBlock<T> {
 
     public NBTTagCompound toNBT(NBTSerializer<T> serializer, Symbol[] symbols) {
         NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setTag("globals", globals.toNBT());
         nbt.setTag("rootNode", writeNode(node, Arrays.asList(symbols)));
         nbt.setIntArray("blocksSize", new int[]{blocks.getXSize(), blocks.getYSize(), blocks.getZSize()});
         nbt.setIntArray("blocksOff", new int[]{blocks.getXOff(), blocks.getYOff(), blocks.getZOff()});
@@ -198,6 +204,7 @@ public class GenBlock<T> {
     }
 
     public static <T> GenBlock<T> fromNBT(NBTTagCompound nbt, NBTSerializer<T> serializer, Symbol[] symbols) {
+        WildcardMap<String> globals = WildcardMap.fromNBT(NBTSerializer.STRING, nbt.getTagList("globals", Constants.NBT.TAG_COMPOUND));
         BlockNode node = readNode(nbt.getCompoundTag("rootNode"), symbols);
         int[] size = nbt.getIntArray("blocksSize");
         int[] off = nbt.getIntArray("blocksOff");
@@ -231,7 +238,7 @@ public class GenBlock<T> {
 
         Adminspace.LOGGER.debug("Successfully read GenBlock content in {} bytes", arr.length * 4);
 
-        return new GenBlock<>(new Random(), node, holder);
+        return new GenBlock<>(new Random(), node, holder, globals);
     }
 
     private static BlockNode readNode(NBTTagCompound nbt, Symbol[] symbols) {
