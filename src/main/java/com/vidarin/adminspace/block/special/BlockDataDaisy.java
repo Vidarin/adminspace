@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.block.special;
 
-import com.vidarin.adminspace.block.BlockBase;
+import com.vidarin.adminspace.block.BlockLamp;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,12 +18,12 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class BlockDataDaisy extends BlockBase {
+public class BlockDataDaisy extends BlockLamp {
 
     private static final AxisAlignedBB DATA_DAISY_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D);
 
     public BlockDataDaisy() {
-        super("data_daisy", Material.PLANTS, CreativeTabs.DECORATIONS);
+        super("data_daisy", Material.PLANTS, CreativeTabs.DECORATIONS, 5);
         this.setHardness(0.0F);
         this.setResistance(0.0F);
         this.setSoundType(SoundType.PLANT);

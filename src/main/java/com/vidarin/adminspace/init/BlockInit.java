@@ -62,7 +62,10 @@ public class BlockInit {
     public static final Block rainbowOre;
 
     public static final Block frozenLeaves;
+
     public static final Block dataDaisy;
+    public static final Block dataBlock;
+    public static final Block starBlock;
 
     public static final Block creeperHeart;
 
@@ -170,7 +173,11 @@ public class BlockInit {
 
         //Plants
         frozenLeaves = new BlockModLeaves("frozen_leaves");
+
+        //Trustred
         dataDaisy = new BlockDataDaisy();
+        dataBlock = new BlockLamp("data_block", 12);
+        starBlock = new BlockLamp("star_block", 15);
 
         //Mob Drops
         creeperHeart = new BlockCreeperHeart();
