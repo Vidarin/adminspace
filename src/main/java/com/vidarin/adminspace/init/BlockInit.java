@@ -145,8 +145,8 @@ public class BlockInit {
         voidCorruption = new BlockModVine("void_corruption").setHardness(1.0f).setResistance(2.0f);
 
         //Sky sector dimension
-        skyGround = new BlockBase("sky_ground").setHardness(5.0f).setResistance(10.0f);
-        skyGround2 = new BlockLamp("sky_ground_2", 15).setHardness(5.0f).setResistance(10.0f);
+        skyGround = new BlockColor("sky_ground", Material.ROCK, null, 0x000000, 0).setHardness(5.0f).setResistance(10.0f);
+        skyGround2 = new BlockColor("sky_ground_2", Material.ROCK, null, 0xFF0000, 15).setHardness(5.0f).setResistance(10.0f);
         moonBlock = new BlockBase("moon_block").setHardness(6.5f).setResistance(12.0f);
         sunBlock = new BlockBase("sun_block").setHardness(15.0f).setResistance(30.0f);
 

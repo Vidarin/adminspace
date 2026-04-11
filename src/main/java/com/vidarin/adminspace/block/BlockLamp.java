@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockLamp extends BlockBase {
     private final int light;
@@ -18,8 +19,8 @@ public class BlockLamp extends BlockBase {
         this(name, material, null, light);
     }
 
-    public BlockLamp(String name, Material material, CreativeTabs tab, int light) {
-        super(name, material ,tab);
+    public BlockLamp(String name, Material material, @Nullable CreativeTabs tab, int light) {
+        super(name, material, tab);
         this.light = light;
         this.setLightLevel((float) light / 15);
         this.setSoundType(SoundType.GLASS);

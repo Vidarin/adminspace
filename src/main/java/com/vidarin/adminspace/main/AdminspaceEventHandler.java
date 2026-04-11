@@ -1,5 +1,6 @@
 package com.vidarin.adminspace.main;
 
+import com.vidarin.adminspace.block.BlockColor;
 import com.vidarin.adminspace.data.AdminspaceGlobalData;
 import com.vidarin.adminspace.data.AdminspacePlayerData;
 import com.vidarin.adminspace.dimension.beyond.DimensionBeyond;
@@ -12,11 +13,15 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -91,6 +96,24 @@ public class AdminspaceEventHandler {
     public static void onGuiOpen(GuiOpenEvent event) {
         if (!AdminspaceGlobalData.hasShownResourcePackNotice() && event.getGui() instanceof GuiMainMenu) {
             event.setGui(new GuiResourcePackNotice(event.getGui()));
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public static void registerItemColors(ColorHandlerEvent.Item event) {
+        ItemColors ic = event.getItemColors();
+        for (BlockColor blockColor : BlockColor.ALL_COLOR_BLOCKS) {
+            ic.registerItemColorHandler((s, i) -> blockColor.colorSupplier.apply(null, new BlockPos(0, 0, 0)), Item.getItemFromBlock(blockColor));
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public static void registerBlockColors(ColorHandlerEvent.Block event) {
+        BlockColors bc = event.getBlockColors();
+        for (BlockColor blockColor : BlockColor.ALL_COLOR_BLOCKS) {
+            bc.registerBlockColorHandler(blockColor, blockColor);
         }
     }
 }
