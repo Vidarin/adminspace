@@ -19,6 +19,7 @@ public class BlockInit {
     public static final Block voidErrTile;
     public static final Block voidWall;
     public static final Block voidStairs;
+    public static final Block voidSlab;
     public static final Block voidErrStairs;
     public static final Block concealmentBlock;
 
@@ -120,6 +121,7 @@ public class BlockInit {
         voidErrTile = new BlockBase("void_err_tile", Material.ROCK, null, SoundType.ANVIL);
         voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS);
         voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile);
+        voidSlab = BlockModSlab.createSlabSet("void_slab", CreativeTabs.DECORATIONS, Material.ROCK, SoundType.ANVIL, -1.0f, 999999.9f);
         voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
         voidLamp = new BlockLamp("void_lamp", 15);
         voidLampOff = new BlockBase("void_lamp_off");

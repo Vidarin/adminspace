@@ -12,6 +12,7 @@ tile.void_tile.name=Noise Gem Tile
 tile.void_err_tile.name=Error Containment
 
 tile.void_wall.name=Noise Gem Wall
+tile.void_slab.name=Noise Gem Slab
 tile.void_stairs.name=Noise Gem Stairs
 tile.void_err_stairs.name=Error Containment Stairs
 
@@ -20,6 +21,7 @@ tile.concealment_block.name=Concealment Block
 tile.void_glass.name=Experiment Glass
 
 tile.void_door.name=Noise Gem Door
+item.void_door.name=Noise Gem Door
 
 tile.trigger.name=Invisible Trigger
 

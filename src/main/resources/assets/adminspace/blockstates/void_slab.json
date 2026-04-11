@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "half=bottom,variant=default": { "model": "adminspace:void_slab_lower" },
+    "half=top,variant=default": { "model": "adminspace:void_slab_upper" }
+  }
+}
