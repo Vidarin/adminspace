@@ -7,12 +7,14 @@ import com.vidarin.adminspace.util.Fonts;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -72,5 +74,10 @@ public class BlockMinesweeperTile extends BlockBase implements ITileEntityProvid
             }
         }
         return true;
+    }
+
+    @Override
+    public @NotNull Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Item.getItemFromBlock(BlockInit.minesweeperButton);
     }
 }

@@ -7,18 +7,23 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Random;
 
 @ParametersAreNonnullByDefault
 public class BlockTrigger extends BlockPressurePlate {
-
     public BlockTrigger(String name, BlockPressurePlate.Sensitivity sens) {
         this(name, Material.IRON, sens);
     }
@@ -40,6 +45,18 @@ public class BlockTrigger extends BlockPressurePlate {
 
         BlockInit.BLOCKS.add(this);
         ItemInit.ITEMS.add(new ItemBlock(this).setRegistryName(name));
+    }
+
+    @Override
+    @SuppressWarnings({"deprecation", "NullableProblems"})
+    public @Nullable AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+        return NULL_AABB;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public @Nullable RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+        return null;
     }
 
     @Override
@@ -74,5 +91,10 @@ public class BlockTrigger extends BlockPressurePlate {
         {
             worldIn.scheduleUpdate(new BlockPos(pos), this, this.tickRate(worldIn));
         }
+    }
+
+    @Override
+    public @NotNull Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Items.AIR;
     }
 }

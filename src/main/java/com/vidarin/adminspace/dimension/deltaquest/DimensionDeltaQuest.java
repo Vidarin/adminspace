@@ -4,6 +4,7 @@ import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.dimension.deltaquest.generator.ChunkGeneratorDeltaQuest;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
+import com.vidarin.adminspace.main.Adminspace;
 import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
 import com.vidarin.adminspace.network.SPacketUpdateVariablesMap;
 import com.vidarin.adminspace.util.MathUtil;
@@ -103,7 +104,7 @@ public class DimensionDeltaQuest extends WorldProvider {
     @SideOnly(Side.CLIENT)
     @Override
     public IRenderHandler getSkyRenderer() {
-        return new SkyRendererCustomTexture("deltaquest", true);
+        return new SkyRendererCustomTexture(Adminspace.MODID, "deltaquest", true);
     }
 
     @Nullable

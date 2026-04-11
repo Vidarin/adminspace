@@ -7,15 +7,11 @@ import net.minecraft.block.SoundType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 
-import java.util.Objects;
-
 public class BlockModLever extends BlockLever {
     public BlockModLever(String name, CreativeTabs tab) {
         super();
         this.setTranslationKey(name);
         this.setRegistryName(name);
-        this.setHardness(-1.0f);
-        this.setResistance(999999.9f);
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(tab);
 

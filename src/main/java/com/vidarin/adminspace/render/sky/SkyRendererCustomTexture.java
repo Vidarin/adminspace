@@ -1,6 +1,5 @@
 package com.vidarin.adminspace.render.sky;
 
-import com.vidarin.adminspace.main.Adminspace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -22,15 +21,15 @@ public class SkyRendererCustomTexture extends IRenderHandler {
 
     private final boolean shouldTintSkybox;
 
-    public SkyRendererCustomTexture(String skyboxFolder, boolean tintSkybox) {
+    public SkyRendererCustomTexture(String domain, String skyboxFolder, boolean tintSkybox) {
         this.shouldTintSkybox = tintSkybox;
 
-        this.SKYBOX_TEXTURE_N = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_n.png");
-        this.SKYBOX_TEXTURE_S = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_s.png");
-        this.SKYBOX_TEXTURE_E = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_e.png");
-        this.SKYBOX_TEXTURE_W = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_w.png");
-        this.SKYBOX_TEXTURE_U = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_u.png");
-        this.SKYBOX_TEXTURE_D = new ResourceLocation(Adminspace.MODID, "textures/sky/" + skyboxFolder + "/sky_d.png");
+        this.SKYBOX_TEXTURE_N = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_n.png");
+        this.SKYBOX_TEXTURE_S = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_s.png");
+        this.SKYBOX_TEXTURE_E = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_e.png");
+        this.SKYBOX_TEXTURE_W = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_w.png");
+        this.SKYBOX_TEXTURE_U = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_u.png");
+        this.SKYBOX_TEXTURE_D = new ResourceLocation(domain, "textures/sky/" + skyboxFolder + "/sky_d.png");
     }
 
     @Override

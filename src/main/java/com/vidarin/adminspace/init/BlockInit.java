@@ -120,52 +120,53 @@ public class BlockInit {
         BLOCKS = new ArrayList<>();
 
         //Basic blocks
-        voidTile = new BlockBase("void_tile", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, SoundType.ANVIL);
-        voidErrTile = new BlockBase("void_err_tile", Material.ROCK, null, SoundType.ANVIL);
-        voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS);
-        voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile);
-        voidSlab = BlockModSlab.createSlabSet("void_slab", CreativeTabs.DECORATIONS, Material.ROCK, SoundType.ANVIL, -1.0f, 999999.9f);
-        voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile);
-        voidLamp = new BlockLamp("void_lamp", 15);
-        voidLampOff = new BlockBase("void_lamp_off");
-        hellBulb = new BlockLamp("hell_bulb", 12);
+        voidTile = new BlockBase("void_tile", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, SoundType.ANVIL).setHardness(5.5f).setResistance(8.0f);
+        voidErrTile = new BlockBase("void_err_tile", Material.ROCK, null, SoundType.ANVIL).setHardness(60.0f).setResistance(2000.0f);
+        voidWall = new BlockModWall("void_wall", Material.ROCK, CreativeTabs.DECORATIONS).setHardness(5.5f).setResistance(8.0f);
+        voidStairs = new BlockModStairs("void_stairs", CreativeTabs.DECORATIONS, voidTile).setHardness(5.5f).setResistance(8.0f);
+        voidSlab = BlockModSlab.createSlabSet("void_slab", CreativeTabs.DECORATIONS, Material.ROCK, SoundType.ANVIL, 5.5f, 8.0f);
+        voidErrStairs = new BlockModStairs("void_err_stairs", CreativeTabs.DECORATIONS, voidErrTile).setHardness(60.0f).setResistance(2000.0f);
+        voidLamp = new BlockLamp("void_lamp", 15).setHardness(6.0f).setResistance(11.0f);
+        voidLampOff = new BlockBase("void_lamp_off").setHardness(6.0f).setResistance(11.0f);
+        hellBulb = new BlockLamp("hell_bulb", 12).setHardness(0.4f).setResistance(1.0f);
+        concealmentBlock = new BlockBase("concealment_block");
 
         //Simple functional blocks
-        voidDoor = new BlockModDoor("void_door", Material.IRON, CreativeTabs.REDSTONE);
-        voidChest = new BlockModChest("void_chest");
-        musicPlayer = new BlockMusicPlayer();
-        toggleButton = new BlockToggleButton();
+        voidDoor = new BlockModDoor("void_door", Material.IRON, CreativeTabs.REDSTONE).setHardness(5.5f).setResistance(8.0f);
+        voidChest = new BlockModChest("void_chest").setHardness(5.5f).setResistance(8.0f);
+        musicPlayer = new BlockMusicPlayer().setHardness(5.5f).setResistance(8.0f);
+        toggleButton = new BlockToggleButton().setHardness(5.5f).setResistance(8.0f);
         voidLever = new BlockModLever("void_lever", CreativeTabs.REDSTONE);
 
         //Transparent blocks
-        voidGlass = new BlockTransparent("void_glass");
+        voidGlass = new BlockTransparent("void_glass").setHardness(6.0f).setResistance(11.0f);
 
         //Vine-like stuff
-        voidCorruption = new BlockModVine("void_corruption");
+        voidCorruption = new BlockModVine("void_corruption").setHardness(1.0f).setResistance(2.0f);
 
         //Sky sector dimension
-        skyGround = new BlockBase("sky_ground");
-        skyGround2 = new BlockLamp("sky_ground_2", 15);
-        moonBlock = new BlockBase("moon_block");
-        sunBlock = new BlockBase("sun_block");
+        skyGround = new BlockBase("sky_ground").setHardness(5.0f).setResistance(10.0f);
+        skyGround2 = new BlockLamp("sky_ground_2", 15).setHardness(5.0f).setResistance(10.0f);
+        moonBlock = new BlockBase("moon_block").setHardness(6.5f).setResistance(12.0f);
+        sunBlock = new BlockBase("sun_block").setHardness(15.0f).setResistance(30.0f);
 
         //Corridor dimension
-        corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON);
-        corridorTiledPipes = new BlockBase("corridor_tiled_pipes", Material.IRON);
-        corridorLantern = new BlockLamp("corridor_lantern", 9);
-        corridorLight = new BlockLamp("corridor_light", 12);
-        corridorMachinery = new BlockBase("corridor_machinery", Material.IRON);
-        corridorNetting = new BlockTransparent("corridor_netting").alwaysRenderSides();
-        corridorSupports = new BlockTransparent("corridor_supports").alwaysRenderSides();
-        corridorPillar = new BlockColumn("corridor_pillar");
-        corridorRailing = new BlockModFence("corridor_railing");
-        corridorRailingBlock = new BlockBase("corridor_railing_block");
-        corridorSmooth = new BlockBase("corridor_smooth");
-        corridorTracks = new BlockColumn("corridor_tracks");
+        corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON).setHardness(8.0f).setResistance(40.0f);
+        corridorTiledPipes = new BlockBase("corridor_tiled_pipes", Material.IRON).setHardness(8.5f).setResistance(45.0f);
+        corridorLantern = new BlockLamp("corridor_lantern", 9).setHardness(7.0f).setResistance(35.0f);
+        corridorLight = new BlockLamp("corridor_light", 12).setHardness(6.7f).setResistance(30.0f);
+        corridorMachinery = new BlockBase("corridor_machinery", Material.IRON).setHardness(9.0f).setResistance(50.0f);
+        corridorNetting = new BlockTransparent("corridor_netting").alwaysRenderSides().setHardness(6.5f).setResistance(40.0f);
+        corridorSupports = new BlockTransparent("corridor_supports").alwaysRenderSides().setHardness(6.5f).setResistance(40.0f);
+        corridorPillar = new BlockColumn("corridor_pillar").setHardness(8.5f).setResistance(45.0f);
+        corridorRailing = new BlockModFence("corridor_railing").setHardness(8.5f).setResistance(45.0f);
+        corridorRailingBlock = new BlockBase("corridor_railing_block").setHardness(8.5f).setResistance(45.0f);
+        corridorSmooth = new BlockBase("corridor_smooth").setHardness(8.5f).setResistance(45.0f);
+        corridorTracks = new BlockColumn("corridor_tracks").setHardness(8.5f).setResistance(45.0f);
 
         //Void being stuff
-        squirmingOrganism = new BlockDamaging("squirming_organism", 2, DamageSource.WITHER);
-        voidBeingRock = new BlockBase("melted_void_being_rock", Material.ROCK, null, SoundType.STONE);
+        squirmingOrganism = new BlockDamaging("squirming_organism", Material.CORAL, 2, DamageSource.WITHER).setHardness(1.2f).setResistance(2.4f);
+        voidBeingRock = new BlockBase("melted_void_being_rock", Material.ROCK, null, SoundType.STONE).setHardness(40.0f).setResistance(500.0f);
 
         //Ores
         noiseGemOre = new BlockCustomDrop("noise_gem_ore", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, ItemInit.noiseGem, 1, 1);
@@ -176,19 +177,19 @@ public class BlockInit {
 
         //Trustred
         dataDaisy = new BlockDataDaisy();
-        dataBlock = new BlockLamp("data_block", 12);
-        starBlock = new BlockLamp("star_block", 15);
+        dataBlock = new BlockLamp("data_block", Material.CLOTH, 12).setHardness(0.8f).setResistance(2.0f);
+        starBlock = new BlockLamp("star_block", Material.CLOTH, 15).setHardness(1.2f).setResistance(3.0f);
 
         //Mob Drops
         creeperHeart = new BlockCreeperHeart();
 
         //Decorations
-        cardReader = new BlockBase("card_reader");
-        voidGauge = new BlockSided("void_gauge");
-        smallMonitor = new BlockSided("small_monitor");
-        voidGaugeAll = new BlockBase("void_gauge_all");
-        smallMonitorAll = new BlockBase("small_monitor_all");
-        voidFan = new BlockBase("void_fan");
+        cardReader = new BlockBase("card_reader").setHardness(5.5f).setResistance(8.0f);
+        voidGauge = new BlockSided("void_gauge").setHardness(5.5f).setResistance(8.0f);
+        smallMonitor = new BlockSided("small_monitor").setHardness(5.5f).setResistance(8.0f);
+        voidGaugeAll = new BlockBase("void_gauge_all").setHardness(5.5f).setResistance(8.0f);
+        smallMonitorAll = new BlockBase("small_monitor_all").setHardness(5.5f).setResistance(8.0f);
+        voidFan = new BlockBase("void_fan").setHardness(5.5f).setResistance(8.0f);
 
         //Adminspace
         fan = new BlockBase("fan");
@@ -204,30 +205,29 @@ public class BlockInit {
         monitor = new BlockBase("monitor"); //TODO functionality
 
         //Minesweeper
-        minesweeper0 = new BlockMinesweeperTile("minesweeper_0");
-        minesweeper1 = new BlockMinesweeperTile("minesweeper_1");
-        minesweeper2 = new BlockMinesweeperTile("minesweeper_2");
-        minesweeper3 = new BlockMinesweeperTile("minesweeper_3");
-        minesweeper4 = new BlockMinesweeperTile("minesweeper_4");
-        minesweeper5 = new BlockMinesweeperTile("minesweeper_5");
-        minesweeper6 = new BlockMinesweeperTile("minesweeper_6");
-        minesweeper7 = new BlockMinesweeperTile("minesweeper_7");
-        minesweeper8 = new BlockMinesweeperTile("minesweeper_8");
-        minesweeperFlag = new BlockMinesweeperTile("minesweeper_flag");
-        minesweeperMine = new BlockMinesweeperTile("minesweeper_mine");
-        minesweeperMineCritical = new BlockMinesweeperTile("minesweeper_mine_critical");
-        minesweeperButton = new BlockMinesweeperButton();
+        minesweeper0 = new BlockMinesweeperTile("minesweeper_0").setHardness(5.5f).setResistance(8.0f);
+        minesweeper1 = new BlockMinesweeperTile("minesweeper_1").setHardness(5.5f).setResistance(8.0f);
+        minesweeper2 = new BlockMinesweeperTile("minesweeper_2").setHardness(5.5f).setResistance(8.0f);
+        minesweeper3 = new BlockMinesweeperTile("minesweeper_3").setHardness(5.5f).setResistance(8.0f);
+        minesweeper4 = new BlockMinesweeperTile("minesweeper_4").setHardness(5.5f).setResistance(8.0f);
+        minesweeper5 = new BlockMinesweeperTile("minesweeper_5").setHardness(5.5f).setResistance(8.0f);
+        minesweeper6 = new BlockMinesweeperTile("minesweeper_6").setHardness(5.5f).setResistance(8.0f);
+        minesweeper7 = new BlockMinesweeperTile("minesweeper_7").setHardness(5.5f).setResistance(8.0f);
+        minesweeper8 = new BlockMinesweeperTile("minesweeper_8").setHardness(5.5f).setResistance(8.0f);
+        minesweeperFlag = new BlockMinesweeperTile("minesweeper_flag").setHardness(5.5f).setResistance(8.0f);
+        minesweeperMine = new BlockMinesweeperTile("minesweeper_mine").setHardness(5.5f).setResistance(8.0f);
+        minesweeperMineCritical = new BlockMinesweeperTile("minesweeper_mine_critical").setHardness(5.5f).setResistance(8.0f);
+        minesweeperButton = new BlockMinesweeperButton().setHardness(5.5f).setResistance(8.0f);
 
         //Terminals
-        terminal = new BlockTerminal("terminal", BlockTerminal.PERM_LEVEL_NORMAL);
-        mainTerminal = new BlockTerminal("main_terminal", BlockTerminal.PERM_LEVEL_MAIN);
+        terminal = new BlockTerminal("terminal", BlockTerminal.PERM_LEVEL_NORMAL).setHardness(6.0f).setResistance(11.0f);
+        mainTerminal = new BlockTerminal("main_terminal", BlockTerminal.PERM_LEVEL_MAIN).setHardness(6.0f).setResistance(11.0f);
         adminspaceTerminal = new BlockBase("adminspace_terminal"); //TODO functionality
-        terminalAccept = new BlockTerminalAccept();
-        terminalDeny = new BlockTerminalDeny();
+        terminalAccept = new BlockTerminalAccept().setHardness(5.5f).setResistance(8.0f);
+        terminalDeny = new BlockTerminalDeny().setHardness(5.5f).setResistance(8.0f);
 
         //Other stuff
         trigger = new BlockTrigger("trigger", Sensitivity.MOBS);
-        concealmentBlock = new BlockConcealmentBlock();
 
         //Debug
         magicalTeleporterDeltaQuest = new BlockTeleporter("teleporter_dq", 100, 100);

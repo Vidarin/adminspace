@@ -17,8 +17,6 @@ public class BlockModLeaves extends BlockOldLeaf {
         super();
         this.setTranslationKey(name);
         this.setRegistryName(name);
-        this.setHardness(-1.0f);
-        this.setResistance(999999.9f);
         this.setSoundType(SoundType.PLANT);
 
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK));
