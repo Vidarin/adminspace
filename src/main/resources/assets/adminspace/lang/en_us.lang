@@ -18,6 +18,8 @@ tile.void_err_stairs.name=Error Containment Stairs
 
 tile.concealment_block.name=Concealment Block
 
+tile.hardened_bricks.name=Hardened Bricks
+
 tile.void_glass.name=Experiment Glass
 
 tile.void_door.name=Noise Gem Door
@@ -47,6 +49,7 @@ tile.small_monitor.name=Small Monitor
 tile.void_gauge_all.name=4-Sided Noise Gem Gauge
 tile.small_monitor_all.name=4-Sided Small Monitor
 tile.void_fan.name=Noise Gem Fan
+tile.player_container.name=Player Container
 
 tile.fan.name=Server Cooling Fan
 tile.admin_column.name=Admin Column
@@ -80,6 +83,7 @@ tile.sky_ground_2.name=Active Void Block
 
 tile.moon_block.name=Moon Block
 tile.sun_block.name=Sun Block
+tile.magenta.name=item.null.name
 
 tile.corridor_exposed_pipes.name=Exposed Pipes
 tile.corridor_tiled_pipes.name=Tiled Pipes

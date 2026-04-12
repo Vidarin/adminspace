@@ -1,6 +1,6 @@
 package com.vidarin.adminspace.proxy;
 
-import com.vidarin.adminspace.main.RegisterModels;
+import com.vidarin.adminspace.main.RegisterRenderers;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -22,7 +22,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         final EventBus forgeBus = MinecraftForge.EVENT_BUS;
-        forgeBus.register(new RegisterModels());
+        forgeBus.register(new RegisterRenderers());
     }
 
     @Override

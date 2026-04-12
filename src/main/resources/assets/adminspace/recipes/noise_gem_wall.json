@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "TTT",
+    "TTT"
+  ],
+
+  "key": {
+    "T": { "item": "adminspace:void_tile" }
+  },
+
+  "result": {
+    "item": "adminspace:void_wall",
+    "count": 6
+  }
+}

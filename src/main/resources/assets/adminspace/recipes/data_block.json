@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "DD",
+    "DD"
+  ],
+
+  "key": {
+    "D": { "item": "adminspace:data_daisy" }
+  },
+
+  "result": {
+    "item": "adminspace:data_block",
+    "count": 1
+  }
+}

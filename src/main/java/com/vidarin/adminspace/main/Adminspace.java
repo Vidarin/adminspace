@@ -69,6 +69,7 @@ public class Adminspace {
         Adminspace.proxy.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
         AdminspaceNetworkHandler.registerPackets();
+        RecipeHandler.registerFurnaceRecipes();
     }
 
     @EventHandler

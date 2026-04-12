@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "T  ",
+    "TT ",
+    "TTT"
+  ],
+
+  "key": {
+    "T": { "item": "adminspace:void_tile" }
+  },
+
+  "result": {
+    "item": "adminspace:void_stairs",
+    "count": 4
+  }
+}

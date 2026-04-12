@@ -22,6 +22,7 @@ public class BlockInit {
     public static final Block voidSlab;
     public static final Block voidErrStairs;
     public static final Block concealmentBlock;
+    public static final Block hardenedBricks;
 
     public static final Block voidLamp;
     public static final Block voidLampOff;
@@ -35,12 +36,11 @@ public class BlockInit {
 
     public static final Block voidGlass;
 
-    public static final Block voidCorruption;
-
     public static final Block skyGround;
     public static final Block skyGround2;
     public static final Block moonBlock;
     public static final Block sunBlock;
+    public static final Block magenta;
 
     public static final Block corridorExposedPipes;
     public static final Block corridorTiledPipes;
@@ -57,6 +57,7 @@ public class BlockInit {
 
     public static final Block squirmingOrganism;
     public static final Block voidBeingRock;
+    public static final Block voidCorruption;
 
     public static final Block noiseGemOre;
     public static final Block rainbowOre;
@@ -75,6 +76,7 @@ public class BlockInit {
     public static final Block voidGaugeAll;
     public static final Block smallMonitorAll;
     public static final Block voidFan;
+    public static final Block playerContainer;
 
     public static final Block fan;
     public static final Block adminColumn;
@@ -129,7 +131,8 @@ public class BlockInit {
         voidLamp = new BlockLamp("void_lamp", 15).setHardness(6.0f).setResistance(11.0f);
         voidLampOff = new BlockBase("void_lamp_off").setHardness(6.0f).setResistance(11.0f);
         hellBulb = new BlockLamp("hell_bulb", 12).setHardness(0.4f).setResistance(1.0f);
-        concealmentBlock = new BlockBase("concealment_block");
+        concealmentBlock = new BlockBase("concealment_block").setHardness(5.5f).setResistance(8.0f);
+        hardenedBricks = new BlockBase("hardened_bricks", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, SoundType.STONE).setHardness(2.0f).setResistance(10.0f);
 
         //Simple functional blocks
         voidDoor = new BlockModDoor("void_door", Material.IRON, CreativeTabs.REDSTONE).setHardness(5.5f).setResistance(8.0f);
@@ -141,14 +144,12 @@ public class BlockInit {
         //Transparent blocks
         voidGlass = new BlockTransparent("void_glass").setHardness(6.0f).setResistance(11.0f);
 
-        //Vine-like stuff
-        voidCorruption = new BlockModVine("void_corruption").setHardness(1.0f).setResistance(2.0f);
-
         //Sky sector dimension
         skyGround = new BlockColor("sky_ground", Material.ROCK, null, 0x000000, 0).setHardness(5.0f).setResistance(10.0f);
-        skyGround2 = new BlockColor("sky_ground_2", Material.ROCK, null, 0xFF0000, 15).setHardness(5.0f).setResistance(10.0f);
+        skyGround2 = new BlockColor("sky_ground_2", Material.ROCK, null, 0xFF0000, 8).setHardness(5.0f).setResistance(10.0f);
         moonBlock = new BlockBase("moon_block").setHardness(6.5f).setResistance(12.0f);
         sunBlock = new BlockBase("sun_block").setHardness(15.0f).setResistance(30.0f);
+        magenta = new BlockColor("magenta", Material.BARRIER, null, 0xFF00FF, 1);
 
         //Corridor dimension
         corridorExposedPipes = new BlockBase("corridor_exposed_pipes", Material.IRON).setHardness(8.0f).setResistance(40.0f);
@@ -167,6 +168,7 @@ public class BlockInit {
         //Void being stuff
         squirmingOrganism = new BlockDamaging("squirming_organism", Material.CORAL, 2, DamageSource.WITHER).setHardness(1.2f).setResistance(2.4f);
         voidBeingRock = new BlockBase("melted_void_being_rock", Material.ROCK, null, SoundType.STONE).setHardness(40.0f).setResistance(500.0f);
+        voidCorruption = new BlockModVine("void_corruption").setHardness(1.0f).setResistance(2.0f);
 
         //Ores
         noiseGemOre = new BlockCustomDrop("noise_gem_ore", Material.ROCK, CreativeTabs.BUILDING_BLOCKS, ItemInit.noiseGem, 1, 1);
@@ -177,8 +179,8 @@ public class BlockInit {
 
         //Trustred
         dataDaisy = new BlockDataDaisy();
-        dataBlock = new BlockLamp("data_block", Material.CLOTH, 12).setHardness(0.8f).setResistance(2.0f);
-        starBlock = new BlockLamp("star_block", Material.CLOTH, 15).setHardness(1.2f).setResistance(3.0f);
+        dataBlock = new BlockLamp("data_block", Material.CLOTH, null, 8, SoundType.CLOTH).setHardness(0.8f).setResistance(2.0f);
+        starBlock = new BlockLamp("star_block", Material.CLOTH, null, 15, SoundType.CLOTH).setHardness(1.2f).setResistance(3.0f);
 
         //Mob Drops
         creeperHeart = new BlockCreeperHeart();
@@ -190,6 +192,7 @@ public class BlockInit {
         voidGaugeAll = new BlockBase("void_gauge_all").setHardness(5.5f).setResistance(8.0f);
         smallMonitorAll = new BlockBase("small_monitor_all").setHardness(5.5f).setResistance(8.0f);
         voidFan = new BlockBase("void_fan").setHardness(5.5f).setResistance(8.0f);
+        playerContainer = new BlockTransparent("player_container", Material.GLASS).setHardness(3.0f).setResistance(5.0f);
 
         //Adminspace
         fan = new BlockBase("fan");

@@ -20,10 +20,14 @@ public class BlockLamp extends BlockBase {
     }
 
     public BlockLamp(String name, Material material, @Nullable CreativeTabs tab, int light) {
+        this(name, material, tab, light, SoundType.GLASS);
+    }
+
+    public BlockLamp(String name, Material material, @Nullable CreativeTabs tab, int light, SoundType soundType) {
         super(name, material, tab);
         this.light = light;
         this.setLightLevel((float) light / 15);
-        this.setSoundType(SoundType.GLASS);
+        this.setSoundType(soundType);
     }
 
     @Override

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "T"
+  ],
+
+  "key": {
+    "T": { "item": "adminspace:void_tile" }
+  },
+
+  "result": {
+    "item": "adminspace:noise_gem",
+    "count": 4
+  }
+}

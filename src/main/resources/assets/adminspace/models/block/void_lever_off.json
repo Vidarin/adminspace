@@ -3,7 +3,7 @@
   "textures": {
     "particle": "adminspace:blocks/void_tile",
     "base": "adminspace:blocks/void_tile",
-    "lever": "adminspace:blocks/void_tile"
+    "lever": "adminspace:items/void_lever"
   },
   "elements": [
     {   "from": [ 5, 0, 4 ],

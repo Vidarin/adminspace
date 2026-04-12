@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "VV",
+    "VV"
+  ],
+
+  "key": {
+    "V": { "item": "adminspace:noise_gem" }
+  },
+
+  "result": {
+    "item": "adminspace:void_tile",
+    "count": 1
+  }
+}

@@ -52,7 +52,8 @@ public class WorldGenDataDaisy implements IWorldGenerator {
 
             for (int y2 = floorY + 1; y2 < ceilingY; y2++) {
                 BlockPos pos = new BlockPos(x, y2, z);
-                world.setBlockState(pos, BlockInit.dataDaisy.getDefaultState(), 2);
+                if (random.nextFloat() < 0.1) world.setBlockState(pos, BlockInit.dataBlock.getDefaultState(), 2);
+                else world.setBlockState(pos, BlockInit.dataDaisy.getDefaultState(), 2);
             }
         }
     }

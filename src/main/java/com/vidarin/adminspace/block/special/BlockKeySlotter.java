@@ -52,8 +52,8 @@ public class BlockKeySlotter extends BlockContainer {
                 if (stack.getItem() == ItemInit.voidKey) { stack.shrink(1); te.setHasKey(true); }
                 else Adminspace.openGui(playerIn, worldIn, pos);
             } else {
-                if (stack.isEmpty()) { playerIn.setHeldItem(hand, new ItemStack(ItemInit.voidKey)); te.setHasKey(false); }
-                else if (stack.getItem() == ItemInit.voidKey) { stack.grow(1); te.setHasKey(false); }
+                if (playerIn.isSneaking() && stack.isEmpty()) { playerIn.setHeldItem(hand, new ItemStack(ItemInit.voidKey)); te.setHasKey(false); }
+                else if (playerIn.isSneaking() && stack.getItem() == ItemInit.voidKey && stack.getCount() < 64) { stack.grow(1); te.setHasKey(false); }
                 else Adminspace.openGui(playerIn, worldIn, pos);
             }
         }

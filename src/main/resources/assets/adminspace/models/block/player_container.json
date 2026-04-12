@@ -1,0 +1,9 @@
+{
+  "parent": "block/beacon",
+  "textures": {
+    "particle": "adminspace:blocks/void_glass",
+    "glass": "adminspace:blocks/void_glass",
+    "obsidian": "blocks/obsidian",
+    "beacon": "adminspace:blocks/player_container"
+  }
+}
