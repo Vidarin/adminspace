@@ -9,7 +9,9 @@
     "MixinEntityCreeper"
   ],
   "client": [
-    "MixinMusicTicker",
-    "MixinFramebuffer"
+    "MixinEntityRenderer",
+    "MixinFramebuffer",
+    "MixinMinecraft",
+    "MixinMusicTicker"
   ]
 }

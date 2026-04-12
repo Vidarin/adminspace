@@ -79,17 +79,27 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Converts an IndeterminateSector to a InsideSector or OutsideSector, with higher activity skies having more inside sectors
     ChooseIndeterminateSectorType(Symbols.IndeterminateSector, (shape, rand, globals) -> {
         boolean outside = rand.nextInt(8) + 3 - MathHelper.clamp(shape.meta()[0], 1, 6) > 5;
+        boolean useElevatedWalkways = rand.nextFloat() < 0.125 + (MathHelper.clamp(shape.meta()[0], 1.0, 4.0) / 8.0);
+        if (outside && useElevatedWalkways) {
+            globals.compute("elevatedWalkwaySectors", List.class, NBTSerializer.getListSerializer(NBTSerializer.CUBE_AABB), v -> {
+                if (v == null) return new ArrayList<>(Collections.singleton(shape.shape()));
+                else {
+                    v.add(shape.shape());
+                    return v;
+                }
+            });
+        }
         return Collections.singleton(new Shape<>(
-                        outside ? Symbols.OutsideSector : Symbols.InsideSector,
-                        Pair.of(null, shape.shape()), outside ?
-                new int[]{shape.meta()[0], shape.meta()[1], rand.nextFloat() < 0.25 ? 1 : 0} : shape.meta()
+                outside ? Symbols.OutsideSector : Symbols.InsideSector,
+                Pair.of(null, shape.shape()),
+                outside ? new int[]{shape.meta()[0], shape.meta()[1], useElevatedWalkways ? 1 : 0} : shape.meta()
         ));
     }, 1),
 
     /* OUTSIDE SECTOR HANDLING */
 
     /// Splits an OutsideSector into 2 smaller OutsideSectors separated by a straight Walkway. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
-    SplitOutsideSector2(Symbols.OutsideSector, (shape, rand, globals) -> split2(shape, rand, globals, false), 3),
+    SplitOutsideSector2(Symbols.OutsideSector, (shape, rand, globals) -> split2(shape, rand, globals, false), 5),
 
     /// Splits an OutsideSector into 3 smaller OutsideSectors separated by a Walkway T-junction. If the sector is small enough, it is turned into a SmallStructuresSector or a LargeStructureSector
     SplitOutsideSector3T(Symbols.OutsideSector, (shape, rand, globals) -> split3T(shape, rand, globals, false), 4),
@@ -107,14 +117,51 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     FinalizeWalkway(Symbols.Walkway, (shape, rand, globals) -> {
         Cube cube = shape.shape();
         boolean xAxis = cube.sizeX() > 3;
-        BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().setY(1), cube.from().subtract(0, 1, 0), Blocks.AIR.getDefaultState());
-        holder = holder.fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState());
-        return Collections.singleton(
-                new Shape<>(Symbols.NormalWalkway, Pair.of(rand.nextFloat() < 0.3 ? holder : holder
-                        .sequence(cube.from().add(1, -1, 1), (pos, value) ->
-                                BlockHolderSequence.result(pos.add(xAxis ? 3 : 0, 0, xAxis ? 0 : 3), BlockInit.voidLamp.getDefaultState())),
-                        cube.indentFrom(0, -1, 0)), shape.meta())
-        );
+        boolean elevated = shape.meta()[2] == 1;
+        if (elevated) {
+            boolean fromStairs = false, toStairs = false;
+            List<Cube> sectorCubes = globals.get("elevatedWalkwaySectors", List.class);
+            for (Cube sector : sectorCubes) {
+                if (xAxis) {
+                    if (cube.from().getX() - sector.from().getX() < 5) fromStairs = true;
+                    if (sector.to().getX() - cube.to().getX() < 5) toStairs = true;
+                } else {
+                    if (cube.from().getZ() - sector.from().getZ() < 5) fromStairs = true;
+                    if (sector.to().getZ() - cube.to().getZ() < 5) toStairs = true;
+                }
+            }
+            BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().setY(3), cube.from(), Blocks.AIR.getDefaultState());
+            holder = holder.fill(
+                    holder.east(xAxis && fromStairs ? 3 : 0),
+                    holder.down(1),
+                    holder.south(!xAxis && fromStairs ? 3 : 0),
+                    holder.west(xAxis && toStairs ? 3 : 0),
+                    holder.down(0),
+                    holder.north(!xAxis && toStairs ? 3 : 0),
+                    BlockInit.voidTile.getDefaultState()
+            ).fill(
+                    holder.east(xAxis && fromStairs ? 3 : 1),
+                    holder.down(1),
+                    holder.south(!xAxis && fromStairs ? 3 : 1),
+                    holder.west(xAxis && toStairs ? 3 : 1),
+                    holder.down(0),
+                    holder.north(!xAxis && toStairs ? 3 : 1),
+                    BlockInit.voidLamp.getDefaultState()
+            );
+            return Collections.singleton(
+                    new Shape<>(Symbols.ElevatedWalkway, Pair.of(holder, cube), shape.meta())
+            );
+        }
+        else {
+            BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().setY(1), cube.from().subtract(0, 1, 0), Blocks.AIR.getDefaultState());
+            holder = holder.fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState());
+            return Collections.singleton(
+                    new Shape<>(Symbols.NormalWalkway, Pair.of(rand.nextFloat() < 0.3 ? holder : holder
+                                    .sequence(cube.from().add(1, -1, 1), (pos, value) ->
+                                            BlockHolderSequence.result(pos.add(xAxis ? 3 : 0, 0, xAxis ? 0 : 3), BlockInit.voidLamp.getDefaultState())),
+                            cube.indentFrom(0, -1, 0)), shape.meta())
+            );
+        }
     }, 1),
 
     /* INSIDE SECTOR HANDLING */
@@ -375,10 +422,10 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Called when trying to split an OutsideSector that's too small. Turns the OutsideSector into a SmallStructuresSector or a LargeStructureSector.
     private static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalizeOuter(Shape<Cube> shape, Random rand) {
         Cube cube = shape.shape();
-        if (cube.sizeX() <= 1 || cube.sizeY() <= 0 || cube.sizeZ() <= 1) return Collections.singleton(
+        if (cube.sizeX() <= 2 || cube.sizeY() <= 0 || cube.sizeZ() <= 2) return Collections.singleton(
                     new Shape<>(Symbols.None, Pair.of(new BlockHolder<>(1, 1, 1), new Cube(cube.from(), cube.from().add(1, 1, 1))), shape.meta())
         );
-        if (rand.nextFloat() + 0.5 < noiseGen.GetNoise(cube.from().getX(), cube.from().getZ())) return Collections.singleton(
+        else if (rand.nextFloat() + 0.5 < noiseGen.GetNoise(cube.from().getX(), cube.from().getZ())) return Collections.singleton(
                 new Shape<>(Symbols.EmptySector, Pair.of(BlockHolder.of(cube.size(), cube.from(), Blocks.AIR.getDefaultState()), cube), shape.meta())
         );
         else {
@@ -406,7 +453,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
         if (cube.sizeX() <= 0 || cube.sizeY() <= 0 || cube.sizeZ() <= 0) return Collections.singleton(
                     new Shape<>(Symbols.None, Pair.of(new BlockHolder<>(1, 1, 1), new Cube(cube.from(), cube.from().add(1, 1, 1))), shape.meta())
             );
-        return Collections.singleton(
+        else return Collections.singleton(
                 new Shape<>(Symbols.SolidWall, Pair.of(BlockHolder.of(cube.size(), cube.from(), BlockInit.voidTile.getDefaultState()), cube), shape.meta())
         );
     }

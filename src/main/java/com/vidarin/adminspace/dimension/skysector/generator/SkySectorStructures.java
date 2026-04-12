@@ -41,17 +41,21 @@ public final class SkySectorStructures {
     public static final Structure OUTSIDE_9Z = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_9", o).rotate(r.nextBoolean() ? EnumFacing.NORTH : EnumFacing.SOUTH, MathUtil::rotateBlockState), StructureType.OUTSIDE, 7, 8, 28);
     public static final Structure OUTSIDE_9X = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_9", o).rotate(r.nextBoolean() ? EnumFacing.WEST : EnumFacing.EAST, MathUtil::rotateBlockState), StructureType.OUTSIDE, 28, 8, 7);
     public static final Structure OUTSIDE_10 = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_10", o).rotate(EnumFacing.byHorizontalIndex(r.nextInt(4)), MathUtil::rotateBlockState), StructureType.OUTSIDE, 14, 8, 14);
-    public static final Structure OUTSIDE_11X = new Structure(
-            (o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_11", o).rotate(r.nextBoolean() ? EnumFacing.NORTH : EnumFacing.SOUTH, MathUtil::rotateBlockState),
-            StructureType.OUTSIDE, 12, 6, 7
-    );
-    public static final Structure OUTSIDE_11Z = new Structure(
-            (o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_11", o).rotate(r.nextBoolean() ? EnumFacing.WEST : EnumFacing.EAST, MathUtil::rotateBlockState),
-            StructureType.OUTSIDE, 7, 6, 12
-    );
+    public static final Structure OUTSIDE_11X = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_11", o).rotate(r.nextBoolean() ? EnumFacing.NORTH : EnumFacing.SOUTH, MathUtil::rotateBlockState), StructureType.OUTSIDE, 12, 6, 7);
+    public static final Structure OUTSIDE_11Z = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_11", o).rotate(r.nextBoolean() ? EnumFacing.WEST : EnumFacing.EAST, MathUtil::rotateBlockState), StructureType.OUTSIDE, 7, 6, 12);
     public static final Structure OUTSIDE_12 = new Structure(
             (o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_12", o).rotate(EnumFacing.byHorizontalIndex(r.nextInt(4))),
             StructureType.OUTSIDE, 5, 25, 5
+    );
+    public static final Structure OUTSIDE_13X = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_13", o).rotate(r.nextBoolean() ? EnumFacing.NORTH : EnumFacing.SOUTH, MathUtil::rotateBlockState), StructureType.OUTSIDE, 17, 10, 12);
+    public static final Structure OUTSIDE_13Z = new Structure((o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_13", o).rotate(r.nextBoolean() ? EnumFacing.WEST : EnumFacing.EAST, MathUtil::rotateBlockState), StructureType.OUTSIDE, 12, 10, 17);
+    public static final Structure OUTSIDE_14X = new Structure(
+            (o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_14", o).rotate(r.nextBoolean() ? EnumFacing.NORTH : EnumFacing.SOUTH, MathUtil::rotateBlockState),
+            StructureType.OUTSIDE, 9, 6, 13
+    );
+    public static final Structure OUTSIDE_14Z = new Structure(
+            (o, r) -> ReadOnlyCompactStructureData.readCSDStructure("skysector/outside_14", o).rotate(r.nextBoolean() ? EnumFacing.WEST : EnumFacing.EAST, MathUtil::rotateBlockState),
+            StructureType.OUTSIDE, 13, 6, 9
     );
 
     /* FUNCTIONS */

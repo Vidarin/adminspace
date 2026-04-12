@@ -1,17 +1,13 @@
 package com.vidarin.adminspace.dimension.deltaquest;
 
-import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.dimension.deltaquest.generator.ChunkGeneratorDeltaQuest;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.main.Adminspace;
-import com.vidarin.adminspace.network.AdminspaceNetworkHandler;
-import com.vidarin.adminspace.network.SPacketUpdateVariablesMap;
 import com.vidarin.adminspace.util.MathUtil;
 import com.vidarin.adminspace.render.sky.SkyRendererCustomTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
@@ -23,15 +19,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import mcp.MethodsReturnNonnullByDefault;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @MethodsReturnNonnullByDefault
 public class DimensionDeltaQuest extends WorldProvider {
-    private final List<UUID> playerIds = new ArrayList<>();
 
     public DimensionDeltaQuest() {
         this.biomeProvider = new BiomeProviderSingle(BiomeInit.DELTAQUEST_FOREST);
@@ -50,45 +41,6 @@ public class DimensionDeltaQuest extends WorldProvider {
     @Override
     public boolean canDropChunk(int x, int z) {
         return !world.isSpawnChunk(x, z);
-    }
-
-    @Override
-    public void onPlayerAdded(@Nonnull EntityPlayerMP player) {
-        super.onPlayerAdded(player);
-        this.getPlayerSettings();
-        this.playerIds.add(player.getUniqueID());
-    }
-
-    @Override
-    public void onPlayerRemoved(@Nonnull EntityPlayerMP player) {
-        super.onPlayerRemoved(player);
-        this.resetPlayerSettings();
-        this.playerIds.remove(player.getUniqueID());
-    }
-
-    @Override
-    public void onWorldUpdateEntities() {
-        super.onWorldUpdateEntities();
-        for (UUID uuid : playerIds) {
-            updatePlayerSettings(uuid);
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void getPlayerSettings() {
-        int prevAmbientOcclusion = Minecraft.getMinecraft().gameSettings.ambientOcclusion;
-        AdminspaceNetworkHandler.INSTANCE.sendToServer(new SPacketUpdateVariablesMap("ambientOcclusion", Minecraft.getMinecraft().player.getUniqueID().toString(), prevAmbientOcclusion));
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void resetPlayerSettings() {
-        Minecraft.getMinecraft().gameSettings.ambientOcclusion =
-                AdminspaceWorldData.get(Minecraft.getMinecraft().player.world).getAmbientOcclusionValue(Minecraft.getMinecraft().player.getUniqueID());
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void updatePlayerSettings(UUID uuid) {
-        if (Minecraft.getMinecraft().player.getUniqueID().equals(uuid)) Minecraft.getMinecraft().gameSettings.ambientOcclusion = 0;
     }
 
     @Override
