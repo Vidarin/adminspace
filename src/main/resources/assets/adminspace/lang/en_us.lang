@@ -98,6 +98,8 @@ tile.squirming_organism.name=Squirming Organism
 tile.melted_void_being_rock.name=Melted Void Being Rock
 
 tile.data_daisy.name=Data Daisy
+tile.data_block.name=Data Block
+tile.star_block.name=Star
 
 tile.creeper_heart.name=Creeper's Heart
 
