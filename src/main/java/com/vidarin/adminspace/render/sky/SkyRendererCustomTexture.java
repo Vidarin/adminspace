@@ -47,6 +47,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
 
     private void renderSkybox(WorldClient world, Minecraft mc, float partialTicks) {
         GlStateManager.pushMatrix();
+        GlStateManager.depthFunc(GL11.GL_ALWAYS);
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.enableTexture2D();
@@ -58,7 +59,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
 
-        float size = mc.gameSettings.renderDistanceChunks * 18;
+        float size = mc.gameSettings.renderDistanceChunks * 15;
 
         float tintStrength = 0.75f;
         Vec3d color = world.getFogColor(partialTicks);
@@ -126,6 +127,7 @@ public class SkyRendererCustomTexture extends IRenderHandler {
 
         GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
+        GlStateManager.depthFunc(GL11.GL_LEQUAL);
         GlStateManager.enableCull();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();

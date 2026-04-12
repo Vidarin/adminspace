@@ -52,6 +52,11 @@ public class DimensionDeltaQuest extends WorldProvider {
         }
     }
 
+    @Override
+    public boolean isSkyColored() {
+        return false;
+    }
+
     @Nullable
     @SideOnly(Side.CLIENT)
     @Override
