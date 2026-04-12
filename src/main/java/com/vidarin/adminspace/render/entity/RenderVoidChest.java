@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderVoidChest extends TileEntitySpecialRenderer<TileEntityVoidChest> {
@@ -16,19 +18,15 @@ public class RenderVoidChest extends TileEntitySpecialRenderer<TileEntityVoidChe
     private final ModelVoidChest MODEL = new ModelVoidChest();
 
     @Override
-    public void render(TileEntityVoidChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
+    public void render(@NotNull TileEntityVoidChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.enableDepth();
-        GlStateManager.depthFunc(515);
+        GlStateManager.depthFunc(GL11.GL_LEQUAL);
         GlStateManager.depthMask(true);
-        int i = 0;
+        int meta = 0;
 
-        if (chest.hasWorld()) {
-            i = chest.getBlockMetadata();
-        }
+        if (chest.hasWorld()) meta = chest.getBlockMetadata();
 
         ModelVoidChest model = MODEL;
-
         this.bindTexture(TEXTURE);
 
         GlStateManager.pushMatrix();
@@ -36,27 +34,20 @@ public class RenderVoidChest extends TileEntitySpecialRenderer<TileEntityVoidChe
         GlStateManager.translate((float) x, (float) y + 1.0F, (float) z + 1.0F);
         GlStateManager.scale(1.0F, -1.0F, -1.0F);
         GlStateManager.translate(0.5F, 0.5F, 0.5F);
-        int j = 0;
+        int rotationDegrees = switch (meta) {
+            case 2 -> 180;
+            case 4 -> 90;
+            case 5 -> -90;
+            default -> 0;
+        };
 
-        if (i == 2) {
-            j = 180;
-        }
-
-        if (i == 4) {
-            j = 90;
-        }
-
-        if (i == 5) {
-            j = -90;
-        }
-
-        GlStateManager.rotate((float) j, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate((float) rotationDegrees, 0.0F, 1.0F, 0.0F);
         GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-        float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
-        f = 1.0F - f;
-        f = 1.0F - f * f * f;
-        model.chestLid.rotateAngleX = -(f * ((float) Math.PI / 2F));
-        model.chestKnob.rotateAngleX = -(f * ((float) Math.PI / 2F));
+        float lidAngle = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
+        lidAngle = 1.0F - lidAngle;
+        lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
+        model.chestLid.rotateAngleX = -(lidAngle * ((float) Math.PI / 2F));
+        model.chestKnob.rotateAngleX = -(lidAngle * ((float) Math.PI / 2F));
         model.renderAll();
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
