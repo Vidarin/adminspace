@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -54,45 +55,59 @@ public class GenBlock<T> {
         this.globals = globals;
     }
 
+    public Vec3i from() {
+        return new Vec3i(blocks.getXOff(), blocks.getYOff(), blocks.getZOff());
+    }
+
+    public Vec3i to() {
+        return new Vec3i(blocks.getXOff() + blocks.getXSize(), blocks.getYOff() + blocks.getYSize(), blocks.getZOff() + blocks.getZSize());
+    }
+
     public void setRand(Random rand) {
         this.rand = rand;
     }
 
     public void applyRules(RuleSet<Cube, Pair<BlockHolder<T>, Cube>> rules, @Nullable T empty, int amount) {
+        boolean allTerminal = false;
         for (int i = 0; i < amount; i++) {
-            applyRules(rules, empty);
-        }
-    }
+            List<BlockNode> children = node.lowestChildren();
+            if (allTerminal) break;
+            else allTerminal = true;
+            for (BlockNode child : children) {
+                if (child.cube().symbol().isTerminal()) continue;
+                allTerminal = false;
 
-    public void applyRules(RuleSet<Cube, Pair<BlockHolder<T>, Cube>> rules, @Nullable T empty) {
-        List<BlockNode> children = node.lowestChildren();
-        for (BlockNode child : children) {
-            if (child.cube().symbol().isTerminal()) continue;
+                Iterable<Shape<Pair<BlockHolder<T>, Cube>>> shapes = rules.get(child.cube(), this.rand, globals);
 
-            Iterable<Shape<Pair<BlockHolder<T>, Cube>>> shapes = rules.get(child.cube(), this.rand, globals);
+                if (shapes == null) continue;
 
-            if (shapes == null) continue;
+                if (empty != null) {
+                    this.blocks.fill(
+                            child.cube().shape().from().getX(),
+                            child.cube().shape().from().getY(),
+                            child.cube().shape().from().getZ(),
+                            child.cube().shape().to().getX(),
+                            child.cube().shape().to().getY(),
+                            child.cube().shape().to().getZ(),
+                            empty
+                    );
+                }
 
-            if (empty != null) {
-                this.blocks.fill(
-                        child.cube().shape().from().getX(),
-                        child.cube().shape().from().getY(),
-                        child.cube().shape().from().getZ(),
-                        child.cube().shape().to().getX(),
-                        child.cube().shape().to().getY(),
-                        child.cube().shape().to().getZ(),
-                        empty
-                );
-            }
+                for (Shape<Pair<BlockHolder<T>, Cube>> shape : shapes) {
+                    BlockHolder<T> newBlocks = shape.shape().getLeft();
+                    Cube cube = shape.shape().getRight();
 
-            for (Shape<Pair<BlockHolder<T>, Cube>> shape : shapes) {
-                BlockHolder<T> newBlocks = shape.shape().getLeft();
-                Cube cube = shape.shape().getRight();
+                    if (newBlocks != null) {
+                        try {
+                            this.blocks.copyFrom(newBlocks, cube.from().getX(), cube.from().getY(), cube.from().getZ());
+                        } catch (IndexOutOfBoundsException e) {
+                            throw new RuntimeException("Error while copying blocks from shape: " + shape, e);
+                        }
+                    }
 
-                if (newBlocks != null) this.blocks.copyFrom(newBlocks, cube.from().getX(), cube.from().getY(), cube.from().getZ());
-
-                Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.meta());
-                child.children().add(new BlockNode(cubeShape, new ArrayList<>()));
+                    Shape<Cube> cubeShape = new Shape<>(shape.symbol(), cube, shape.meta());
+                    child.children().add(new BlockNode(cubeShape, new ArrayList<>()));
+                }
             }
         }
     }
@@ -118,8 +133,8 @@ public class GenBlock<T> {
     }
 
     public static Chunk extractChunk(GenBlock<IBlockState> genBlock, ChunkPrimer chunkPrimer, World world, int height, ChunkPos pos, int worldYOff) {
-        if (pos.x < (genBlock.blocks.getXOff() << 4) || pos.z < (genBlock.blocks.getZOff() << 4)) return new Chunk(world, chunkPrimer, pos.x, pos.z);
-        if (pos.x > ((genBlock.blocks.getXSize() + genBlock.blocks.getXOff()) << 4) || pos.z > ((genBlock.blocks.getZSize() + genBlock.blocks.getZOff()) << 4)) return new Chunk(world, chunkPrimer, pos.x, pos.z);
+        if ((pos.x << 4) < genBlock.blocks.getXOff() || (pos.z << 4) < genBlock.blocks.getZOff()) return new Chunk(world, chunkPrimer, pos.x, pos.z);
+        if ((pos.x << 4) > genBlock.blocks.getXSize() + genBlock.blocks.getXOff() || (pos.z << 4) > genBlock.blocks.getZSize() + genBlock.blocks.getZOff()) return new Chunk(world, chunkPrimer, pos.x, pos.z);
 
         for (int x = 0; x < 16; x++) {
             for (int y = 0; y < height; y++) {
@@ -127,7 +142,7 @@ public class GenBlock<T> {
                     IBlockState fallback = chunkPrimer.getBlockState(x, y + worldYOff, z);
                     chunkPrimer.setBlockState(
                             x, y + worldYOff, z,
-                            genBlock.blocks.getOrElse(x + (pos.x << 4), y, z + (pos.z << 4), fallback)
+                            genBlock.blocks.getOrElse(x + (pos.x << 4), y + genBlock.blocks.getYOff(), z + (pos.z << 4), fallback)
                     );
                 }
             }

@@ -119,6 +119,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
         boolean xAxis = cube.sizeX() > 3;
         boolean elevated = shape.meta()[2] == 1;
         if (elevated) {
+            boolean narrow = xAxis ? cube.sizeZ() <= 2 : cube.sizeX() <= 2;
             boolean fromStairs = false, toStairs = false;
             List<Cube> sectorCubes = globals.get("elevatedWalkwaySectors", List.class);
             for (Cube sector : sectorCubes) {
@@ -130,31 +131,25 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
                     if (sector.to().getZ() - cube.to().getZ() < 5) toStairs = true;
                 }
             }
+            boolean xFromStairs = xAxis && fromStairs, zFromStairs = !xAxis && fromStairs, xToStairs = xAxis && toStairs, zToStairs = !xAxis && toStairs;
             BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().setY(3), cube.from(), Blocks.AIR.getDefaultState());
-            holder = holder.fill(
-                    holder.east(xAxis && fromStairs ? 3 : 0),
-                    holder.down(1),
-                    holder.south(!xAxis && fromStairs ? 3 : 0),
-                    holder.west(xAxis && toStairs ? 3 : 0),
-                    holder.down(0),
-                    holder.north(!xAxis && toStairs ? 3 : 0),
+            holder.fill(
+                    holder.east(xFromStairs ? 3 : 0), holder.down(1), holder.south(zFromStairs ? 3 : 0),
+                    holder.west(xToStairs ? 3 : 0), holder.down(0), holder.north(zToStairs ? 3 : 0),
                     BlockInit.voidTile.getDefaultState()
-            ).fill(
-                    holder.east(xAxis && fromStairs ? 3 : 1),
-                    holder.down(1),
-                    holder.south(!xAxis && fromStairs ? 3 : 1),
-                    holder.west(xAxis && toStairs ? 3 : 1),
-                    holder.down(0),
-                    holder.north(!xAxis && toStairs ? 3 : 1),
-                    BlockInit.voidLamp.getDefaultState()
             );
+            if (!narrow) holder.fill(
+                        holder.east(xFromStairs ? 3 : 1), holder.down(1), holder.south(zFromStairs ? 3 : 1),
+                        holder.west(xToStairs ? 3 : 1), holder.down(0), holder.north(zToStairs ? 3 : 1),
+                        BlockInit.voidLamp.getDefaultState()
+                );
             return Collections.singleton(
                     new Shape<>(Symbols.ElevatedWalkway, Pair.of(holder, cube), shape.meta())
             );
         }
         else {
             BlockHolder<IBlockState> holder = BlockHolder.of(cube.size().setY(1), cube.from().subtract(0, 1, 0), Blocks.AIR.getDefaultState());
-            holder = holder.fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState());
+            holder.fill(holder.east(0), holder.up(0), holder.south(0), holder.west(0), holder.up(1), holder.north(0), BlockInit.voidTile.getDefaultState());
             return Collections.singleton(
                     new Shape<>(Symbols.NormalWalkway, Pair.of(rand.nextFloat() < 0.3 ? holder : holder
                                     .sequence(cube.from().add(1, -1, 1), (pos, value) ->
@@ -410,7 +405,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     private static final FastNoiseLite noiseGen;
 
     static {
-        noiseGen = new FastNoiseLite(System.nanoTime());
+        noiseGen = new FastNoiseLite(101);
         noiseGen.SetFrequency(0.003F);
     }
 
@@ -425,12 +420,13 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
         if (cube.sizeX() <= 2 || cube.sizeY() <= 0 || cube.sizeZ() <= 2) return Collections.singleton(
                     new Shape<>(Symbols.None, Pair.of(new BlockHolder<>(1, 1, 1), new Cube(cube.from(), cube.from().add(1, 1, 1))), shape.meta())
         );
-        else if (rand.nextFloat() + 0.5 < noiseGen.GetNoise(cube.from().getX(), cube.from().getZ())) return Collections.singleton(
+        else if (noiseGen.GetNoise(cube.from().getX(), cube.from().getZ()) > 0.6) return Collections.singleton(
                 new Shape<>(Symbols.EmptySector, Pair.of(BlockHolder.of(cube.size(), cube.from(), Blocks.AIR.getDefaultState()), cube), shape.meta())
         );
         else {
-            BlockHolder<IBlockState> structure = SkySectorStructures.getBestLargeOutsideStructure(
-                    cube.sizeX() - 2, cube.sizeY(), cube.sizeZ() - 2, cube.from().add(1, 0, 1), rand
+            int yLevel = (int) MathHelper.clamp(14.0 + (noiseGen.GetNoise(cube.from().getX() + 1000, cube.from().getZ() + 1000) * 12.0), 5, 28);
+            BlockHolder<IBlockState> structure = SkySectorStructures.createLargeOutsideStructure(
+                    cube.size().subtract(2, 0, 2).setY(yLevel), cube.from().add(1, 0, 1), rand, shape.meta()[2] == 1
             );
             return Collections.singleton(new Shape<>(
                     Symbols.LargeStructureSector,

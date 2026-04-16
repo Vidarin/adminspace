@@ -1,7 +1,7 @@
 package com.vidarin.adminspace.dimension.skysector;
 
 import com.vidarin.adminspace.data.AdminspaceWorldData;
-import com.vidarin.adminspace.dimension.skysector.generator.ChunkGeneratorSkySectorOld;
+import com.vidarin.adminspace.dimension.skysector.generator.ChunkGeneratorSkySector;
 import com.vidarin.adminspace.dimension.skysector.generator.SectorInfo;
 import com.vidarin.adminspace.dimension.skysector.generator.SkyInfo;
 import com.vidarin.adminspace.init.BiomeInit;
@@ -46,7 +46,7 @@ public class DimensionSkySector extends WorldProvider {
 
     @Override
     public IChunkGenerator createChunkGenerator() {
-        return new ChunkGeneratorSkySectorOld(this.world, this.getSeed());
+        return new ChunkGeneratorSkySector(this.world, this.getSeed());
     }
 
     @Override

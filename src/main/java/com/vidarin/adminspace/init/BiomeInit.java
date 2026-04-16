@@ -25,7 +25,7 @@ public class BiomeInit {
     public static final Biome DELTAQUEST_TUNDRA = new BiomeDeltaQuestTundra();
 
     public static void registerBiomes() {
-        initBiome(SKY_SECTOR_DIM, "Sky Sector", Type.VOID);
+        initBiome(SKY_SECTOR_DIM, "Sky", Type.VOID);
         initBiome(CORRIDOR_DIM, "Nowhere", Type.VOID);
         initBiome(DISPOSAL_DIM, "Depository Halls", Type.VOID);
         initBiome(BEYOND_DIM, "The Beyond", Type.VOID);

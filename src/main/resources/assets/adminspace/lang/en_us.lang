@@ -36,6 +36,7 @@ tile.void_chest.name=Noise Gem Chest
 tile.music_player.name=Music Player
 tile.toggle_button.name=Toggle Button
 tile.void_lever.name=Noise Gem Lever
+tile.void_ladder.name=Ladder
 
 tile.void_corruption.name=Void Corruption
 

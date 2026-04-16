@@ -82,7 +82,7 @@ public class DimensionDeltaQuest extends WorldProvider {
     @Override
     public Vec3d getFogColor(float celestialAngle, float partialTicks) {
         Vec3d dayColor     = new Vec3d(0.65, 0.79, 1.0);
-        Vec3d nightColor   = new Vec3d(0.03, 0.05, 0.1);
+        Vec3d nightColor   = new Vec3d(0.09, 0.15, 0.3);
         Vec3d sunsetColor  = new Vec3d(1.0, 0.4, 0.3);
         Vec3d sunriseColor = new Vec3d(1.0, 0.6, 0.8);
 

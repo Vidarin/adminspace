@@ -58,7 +58,7 @@ public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
         NBTTagCompound sectorCompound = new NBTTagCompound();
         sectorCompound.setIntArray("position", new int[]{position.x, position.y});
         sectorCompound.setInteger("id", id);
-        sectorCompound.setString("activityLevel", activityLevel.toString());
+        sectorCompound.setString("activityLevel", activityLevel.name());
 
         NBTTagCompound skyMapCompound = new NBTTagCompound();
         for (Map.Entry<Vec2i, SkyInfo> skyEntry : skyMap.entrySet()){
@@ -67,7 +67,7 @@ public class SectorInfo { // 25600x25600 blocks large (1600x1600 chunks)
             NBTTagCompound skyCompound = new NBTTagCompound();
             skyCompound.setIntArray("position", new int[]{sky.position.x, sky.position.y});
             skyCompound.setInteger("id", sky.id);
-            skyCompound.setString("state", sky.state.toString());
+            skyCompound.setString("state", sky.state.name());
             skyCompound.setTag("genBlock", sky.genBlock.toNBT(NBTSerializer.BLOCK_STATE, SkySectorGenBlockDefinition.Symbols.values()));
             skyMapCompound.setTag(positionString, skyCompound);
         }

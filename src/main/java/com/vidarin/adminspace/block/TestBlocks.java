@@ -80,8 +80,9 @@ public class TestBlocks {
 
             public void next(EntityPlayer player, World world) {
                 this.genBlock.setRand(world.rand);
+                long time = System.currentTimeMillis();
                 this.genBlock.applyRules(SkySectorGenBlockDefinition.RULES, Blocks.AIR.getDefaultState(), 30);
-                Adminspace.LOGGER.info("[Gen Block Test] Applied rules successfully");
+                Adminspace.LOGGER.info("[Gen Block Test] Applied rules successfully in {}s", (System.currentTimeMillis() - time) / 1000.0);
                 this.genBlock.extractAll().forEach((x, y, z, b) -> world.setBlockState(new BlockPos(x, y, z), b == null ? Blocks.AIR.getDefaultState() : b, 2));
                 player.sendMessage(new TextComponentString(Fonts.Green + "Updated"));
             }

@@ -63,4 +63,13 @@ public class MathUtil {
             default -> Rotation.NONE;
         };
     }
+
+    public static int[] rotateCoords(int x, int z, EnumFacing target, int xSize, int zSize) {
+        return switch (target) {
+            case SOUTH -> new int[]{xSize - 1 - x, zSize - 1 - z}; // 180°
+            case WEST -> new int[]{z, xSize - 1 - x}; // 270°
+            case EAST -> new int[]{zSize - 1 - z, x}; // 90°
+            default -> new int[]{x, z}; // 0°
+        };
+    }
 }

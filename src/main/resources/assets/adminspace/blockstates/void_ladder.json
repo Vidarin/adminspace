@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "adminspace:void_ladder" },
+        "facing=east":  { "model": "adminspace:void_ladder", "y": 90 },
+        "facing=south": { "model": "adminspace:void_ladder", "y": 180 },
+        "facing=west":  { "model": "adminspace:void_ladder", "y": 270 }
+    }
+}

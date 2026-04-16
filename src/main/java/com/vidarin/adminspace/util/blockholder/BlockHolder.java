@@ -1,6 +1,7 @@
 package com.vidarin.adminspace.util.blockholder;
 
 import com.vidarin.adminspace.util.CubePos;
+import com.vidarin.adminspace.util.MathUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3i;
 import org.jetbrains.annotations.Contract;
@@ -21,7 +22,7 @@ public class BlockHolder<T> {
     private final Object[][][] elements;
 
     /**
-     * Constructs a new BlockHolder with the specified size and offsets
+     * Constructs a new BlockHolder with the specified size and offset
      */
     public BlockHolder(int xSize, int ySize, int zSize, int xOff, int yOff, int zOff) {
         if (xSize < 0 || ySize < 0 || zSize < 0) throw new NegativeArraySizeException("Negative size (" + xSize + ", " + ySize + ", " + zSize + ")");
@@ -34,18 +35,22 @@ public class BlockHolder<T> {
         this.elements = new Object[xSize][ySize][zSize];
     }
 
+    public BlockHolder(Vec3i size, Vec3i offset) {
+        this(size.getX(), size.getY(), size.getZ(), offset.getX(), offset.getY(), offset.getZ());
+    }
+
     /**
-     * Constructs a new BlockHolder with the specified size, and offsets 0
+     * Constructs a new BlockHolder with the specified size, and offset 0
      */
     public BlockHolder(int xSize, int ySize, int zSize) {
         this(xSize, ySize, zSize, 0, 0 ,0);
     }
 
     /**
-     * Creates a new BlockHolder of type T with the specified size and offsets, and fills it with the specified value.
+     * Creates a new BlockHolder of type T with the specified size and offset, and fills it with the specified value.
      */
-    public static <T> BlockHolder<T> of(Vec3i size, Vec3i offsets, T value) {
-        return of(size.getX(), size.getY(), size.getZ(), offsets.getX(), offsets.getY(), offsets.getZ(), value);
+    public static <T> BlockHolder<T> of(Vec3i size, Vec3i offset, T value) {
+        return of(size.getX(), size.getY(), size.getZ(), offset.getX(), offset.getY(), offset.getZ(), value);
     }
 
     /**
@@ -56,7 +61,7 @@ public class BlockHolder<T> {
     }
 
     /**
-     * Creates a new BlockHolder of type T with the specified size and offsets, and fills it with the specified value.
+     * Creates a new BlockHolder of type T with the specified size and offset, and fills it with the specified value.
      */
     public static <T> BlockHolder<T> of(int xSize, int ySize, int zSize, int xOff, int yOff, int zOff, T value) {
         return new BlockHolder<T>(xSize, ySize, zSize, xOff, yOff, zOff)
@@ -99,7 +104,7 @@ public class BlockHolder<T> {
 
     private void checkBounds(int x, int y, int z) {
         if (isOutOfBounds(x, y, z)) {
-            throw new IndexOutOfBoundsException("Invalid position: (" + x + ", " + y + ", " + z + "), size is (" + xSize + ", " + ySize + ", " + zSize + "), offsets are (" + xOff + ", " + yOff + ", " + zOff + ")");
+            throw new IndexOutOfBoundsException("Invalid position: (" + x + ", " + y + ", " + z + "), size is (" + xSize + ", " + ySize + ", " + zSize + "), offset is (" + xOff + ", " + yOff + ", " + zOff + ")");
         }
     }
 
@@ -129,7 +134,9 @@ public class BlockHolder<T> {
      * Fills this BlockHolder from x1, y1, z1 (inclusive) to x2, y2, z2 (exclusive) with the specified value
      */
     public BlockHolder<T> fill(int x1, int y1, int z1, int x2, int y2, int z2, @NotNull T value) {
-        if (x1 > x2 || y1 > y2 || z1 > z2) return this;
+        if (x1 > x2) return fill(x2, y1, z1, x1, y2, z2, value);
+        if (y1 > y2) return fill(x1, y2, z1, x2, y1, z2, value);
+        if (z1 > z2) return fill(x1, y1, z2, x2, y2, z1, value);
         checkBounds(x1, y1, z1);
         checkBounds(x2 - 1, y2 - 1, z2 - 1);
         for (int x = x1; x < x2; x++) {
@@ -152,7 +159,7 @@ public class BlockHolder<T> {
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
                 for (int z = 0; z < zSize; z++) {
-                    int[] rotated = rotateCoords(x, z, target);
+                    int[] rotated = MathUtil.rotateCoords(x, z, target, xSize, zSize);
                     copy.elements[rotated[0]][y][rotated[1]] = elements[x][y][z];
                 }
             }
@@ -178,22 +185,13 @@ public class BlockHolder<T> {
         for (int x = 0; x < xSize; x++) {
             for (int y = 0; y < ySize; y++) {
                 for (int z = 0; z < zSize; z++) {
-                    int[] rotated = rotateCoords(x, z, target);
+                    int[] rotated = MathUtil.rotateCoords(x, z, target, xSize, zSize);
                     copy.elements[rotated[0]][y][rotated[1]] = rotator.apply((T) elements[x][y][z], target);
                 }
             }
         }
 
         return copy;
-    }
-
-    private int[] rotateCoords(int x, int z, EnumFacing target) {
-        return switch (target) {
-            case SOUTH -> new int[]{xSize - 1 - x, zSize - 1 - z}; // 180°
-            case WEST -> new int[]{z, xSize - 1 - x}; // 270°
-            case EAST -> new int[]{zSize - 1 - z, x}; // 90°
-            default -> new int[]{x, z}; // 0°
-        };
     }
 
     /**
@@ -251,17 +249,17 @@ public class BlockHolder<T> {
     }
 
     /** Towards positive Y */
-    public int up(int i) { return yOff + i; }
+    public int up(int y) { return yOff + y; }
     /** Towards negative Y */
-    public int down(int i) { return yOff + ySize - i; }
+    public int down(int y) { return yOff + ySize - y; }
     /** Towards negative Z */
-    public int north(int i) { return zOff + zSize - i; }
+    public int north(int z) { return zOff + zSize - z; }
     /** Towards positive Z */
-    public int south(int i) { return zOff + i; }
+    public int south(int z) { return zOff + z; }
     /** Towards positive X */
-    public int east(int i) { return xOff + i; }
+    public int east(int x) { return xOff + x; }
     /** Towards negative X */
-    public int west(int i) { return xOff + xSize - i; }
+    public int west(int x) { return xOff + xSize - x; }
 
     public int getXSize() { return xSize; }
     public int getYSize() { return ySize; }

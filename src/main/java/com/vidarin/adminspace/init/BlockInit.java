@@ -33,6 +33,7 @@ public class BlockInit {
     public static final Block musicPlayer;
     public static final Block toggleButton;
     public static final Block voidLever;
+    public static final Block voidLadder;
 
     public static final Block voidGlass;
 
@@ -140,6 +141,7 @@ public class BlockInit {
         musicPlayer = new BlockMusicPlayer().setHardness(5.5f).setResistance(8.0f);
         toggleButton = new BlockToggleButton().setHardness(5.5f).setResistance(8.0f);
         voidLever = new BlockModLever("void_lever", CreativeTabs.REDSTONE);
+        voidLadder = new BlockModLadder("void_ladder");
 
         //Transparent blocks
         voidGlass = new BlockTransparent("void_glass").setHardness(6.0f).setResistance(11.0f);

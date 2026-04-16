@@ -1,0 +1,7 @@
+{
+  "parent": "block/ladder",
+  "textures": {
+    "particle": "adminspace:blocks/void_ladder",
+    "texture": "adminspace:blocks/void_ladder"
+  }
+}
