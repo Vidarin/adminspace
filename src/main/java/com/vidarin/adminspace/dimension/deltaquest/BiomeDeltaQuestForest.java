@@ -8,7 +8,7 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeDeltaQuestForest extends Biome {
     public BiomeDeltaQuestForest() {
-        super(new BiomeProperties("Forest (DQ)").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.8f).setWaterColor(1541575));
+        super(new BiomeProperties("Forest (DQ)").setBaseHeight(1f).setHeightVariation(0f).setTemperature(0.9f).setWaterColor(1541575));
 
         this.spawnableCaveCreatureList.clear();
         this.spawnableCreatureList.clear();

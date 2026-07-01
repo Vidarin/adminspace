@@ -2,6 +2,7 @@ package com.vidarin.adminspace.dimension.beyond;
 
 import com.vidarin.adminspace.data.AdminspaceWorldData;
 import com.vidarin.adminspace.data.PlayerDataHelper;
+import com.vidarin.adminspace.dimension.AdminspaceWorldProvider;
 import com.vidarin.adminspace.init.BiomeInit;
 import com.vidarin.adminspace.init.DimensionInit;
 import com.vidarin.adminspace.init.SoundInit;
@@ -13,8 +14,8 @@ import com.vidarin.adminspace.util.VisibilityUtil;
 import com.vidarin.adminspace.worldgen.WorldGenStructurePlacer;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,22 +24,15 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @MethodsReturnNonnullByDefault
-public class DimensionBeyond extends WorldProvider {
-    private final ArrayList<EntityPlayerMP> players = new ArrayList<>();
-    private final Map<UUID, Integer> ticksInDimension = new HashMap<>();
-
+public class DimensionBeyond extends AdminspaceWorldProvider {
     private boolean spawnExists = false;
     private final BlockHolder<IBlockState> spawnResetHolder = new BlockHolder<>(26, 14, 7);
 
@@ -57,13 +51,6 @@ public class DimensionBeyond extends WorldProvider {
     @Override
     public IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorBeyond(this.world, this.getSeed());
-    }
-
-    @Override
-    public void onPlayerAdded(@Nonnull EntityPlayerMP player) {
-        super.onPlayerAdded(player);
-        players.add(player);
-        ticksInDimension.put(player.getUniqueID(), 0);
     }
 
     public static void onPlayerChangedDimension(@Nonnull EntityPlayerMP player) { // my apologies to whatever server has to run this method in a single tick
@@ -109,24 +96,15 @@ public class DimensionBeyond extends WorldProvider {
     }
 
     @Override
-    public void onPlayerRemoved(@Nonnull EntityPlayerMP player) {
-        super.onPlayerRemoved(player);
-        players.remove(player);
-        ticksInDimension.remove(player.getUniqueID());
-    }
-
-    @Override
     public void onWorldUpdateEntities() {
         super.onWorldUpdateEntities();
 
         for (EntityPlayerMP player : players) {
             int ticks = ticksInDimension.get(player.getUniqueID());
-            if (ticks < -273) { //Tries twice if the players client misses the first packet somehow
+            if (ticks < -273) { // Tries twice just in case
                 BlockPos pos = AdminspaceWorldData.get(world).getBeyondSpawnPos();
                 player.setPositionAndUpdate(pos.getX() + 0.5, pos.getY() + 3.0, pos.getZ() + 0.5);
             }
-            if (ticks >= 0 && ticks % 960 == 0) playDimensionMusic(player);
-            ticksInDimension.replace(player.getUniqueID(), ticks + 1);
         }
 
         if (spawnExists) {
@@ -160,14 +138,9 @@ public class DimensionBeyond extends WorldProvider {
         }
     }
 
-    private void playDimensionMusic(EntityPlayerMP player) {
-        AdminspaceNetworkHandler.INSTANCE.sendTo(new CPacketSinglePlayerSoundEffect(SoundInit.SIMULATION_RUMBLING, 1F, 1F), player);
-    }
-
-    @Nullable
     @Override
-    public MusicTicker.MusicType getMusicType() {
-        return null;
+    public DimensionMusic playDimensionMusic(Random rand, EntityPlayer player) {
+        return new DimensionMusic(SoundInit.SIMULATION_RUMBLING, 1F, 1F, 960);
     }
 
     @Override

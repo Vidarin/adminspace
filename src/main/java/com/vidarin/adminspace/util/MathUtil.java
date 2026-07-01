@@ -4,7 +4,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class MathUtil {
     public static final BlockPos[] SQUARE_OFFSET_DIRECTIONS = {
@@ -13,6 +18,8 @@ public class MathUtil {
             new BlockPos(-1, 0, 0), new BlockPos(-1, 0, -1),
             new BlockPos(0, 0, -1), new BlockPos(1, 0, -1)
     };
+
+    public static final double EPSILON = 1.0E-4D;
 
     public static int spiralIndex(Vec2i vec) {
         int x = vec.x;
@@ -42,12 +49,37 @@ public class MathUtil {
         return layerStart + index;
     }
 
-    // Not to be confused with larp
-    public static Vec3d lerp(Vec3d a, Vec3d b, float t) {
+    public static Vec3d blend(Vec3d a, Vec3d b, float t) {
         double d1 = a.x * (1.0F - t) + b.x * t;
         double d2 = a.y * (1.0F - t) + b.y * t;
         double d3 = a.z * (1.0F - t) + b.z * t;
         return new Vec3d(d1, d2, d3);
+    }
+
+    public static Vec3d lerp(Vec3d a, Vec3d b, float t) {
+        double d1 = a.x + ((b.x - a.x) * t);
+        double d2 = a.y + ((b.y - a.y) * t);
+        double d3 = a.z + ((b.z - a.z) * t);
+        return new Vec3d(d1, d2, d3);
+    }
+
+    public static double wrapAngle(double angle) {
+        angle %= 360.0;
+        if (angle > 180.0)  angle -= 360.0;
+        if (angle < -180.0) angle += 360.0;
+        return angle;
+    }
+
+    public static Vec3d getUnobstructedPoint(Vec3d origin, double maxLength, World world, Vec3d ideal) {
+        RayTraceResult hit = world.rayTraceBlocks(origin, ideal);
+        if (hit == null || hit.typeOfHit == RayTraceResult.Type.MISS) {
+            Vec3d diff = ideal.subtract(origin);
+            double dist = diff.length();
+            if (dist <= maxLength) return ideal;
+            return origin.add(diff.normalize().scale(maxLength));
+        }
+        Vec3d dir = hit.hitVec.subtract(origin).normalize();
+        return hit.hitVec.subtract(dir.scale(0.1));
     }
 
     public static IBlockState rotateBlockState(IBlockState state, EnumFacing target) {
@@ -71,5 +103,9 @@ public class MathUtil {
             case EAST -> new int[]{zSize - 1 - z, x}; // 90°
             default -> new int[]{x, z}; // 0°
         };
+    }
+
+    public static <E> E pick(List<E> list, Random rand) {
+        return list.get(rand.nextInt(list.size()));
     }
 }

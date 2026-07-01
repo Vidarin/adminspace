@@ -148,7 +148,8 @@ public class ItemDismantler extends ItemBase {
             else tooltip.add(Fonts.Blue + "ACTIVATED");
             tooltip.add(Fonts.DarkGray + "Bound to " + compound.getString("Owner"));
         } else
-            tooltip.add(Fonts.Red + "UNBOUND");}
+            tooltip.add(Fonts.Red + "UNBOUND");
+    }
 
     @Override
     @Nullable
