@@ -81,7 +81,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
         boolean outside = rand.nextInt(8) + 3 - MathHelper.clamp(shape.meta()[0], 1, 6) > 5;
         boolean useElevatedWalkways = rand.nextFloat() < 0.125 + (MathHelper.clamp(shape.meta()[0], 1.0, 4.0) / 8.0);
         if (outside && useElevatedWalkways) {
-            globals.compute("elevatedWalkwaySectors", List.class, NBTSerializer.getListSerializer(NBTSerializer.CUBE_AABB), v -> {
+            globals.compute("elevatedWalkwaySectors", List.class, NBTSerializer.CUBE_LIST, v -> {
                 if (v == null) return new ArrayList<>(Collections.singleton(shape.shape()));
                 else {
                     v.add(shape.shape());
@@ -439,7 +439,7 @@ public enum SkySectorGenBlockDefinition implements Rule<Cube, Pair<BlockHolder<I
     /// Called when trying to split a Layer that's too small. Turns the Layer into a SolidWall or PrebuiltLayer.
     public static Iterable<Shape<Pair<BlockHolder<IBlockState>, Cube>>> finalizeLayer(Shape<Cube> shape, WildcardMap<String> globals) {
         Cube cube = shape.shape();
-        globals.compute("finalizedLayerPositions", List.class, NBTSerializer.getListSerializer(NBTSerializer.CUBE_AABB), (v) -> {
+        globals.compute("finalizedLayerPositions", List.class, NBTSerializer.CUBE_LIST, (v) -> {
             if (v == null) return new ArrayList<>(Collections.singleton(cube));
             else {
                 v.add(cube);

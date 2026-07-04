@@ -46,6 +46,28 @@ public abstract class NBTSerializer<T> {
         return new Cube(new CubePos(from[0], from[1], from[2]), new CubePos(to[0], to[1], to[2]));
     });
 
+    public static final NBTSerializer<List<Cube>> CUBE_LIST = create(new ResourceLocation("cube_list"), list -> {
+        NBTTagCompound compound = new NBTTagCompound();
+        NBTTagList nbtList = new NBTTagList();
+        for (Cube cube : list) {
+            NBTTagCompound cubeTag = new NBTTagCompound();
+            cubeTag.setIntArray("from", new int[]{cube.from().getX(), cube.from().getY(), cube.from().getZ()});
+            cubeTag.setIntArray("to", new int[]{cube.to().getX(), cube.to().getY(), cube.to().getZ()});
+            nbtList.appendTag(cubeTag);
+        }
+        compound.setTag("list", nbtList);
+        return compound;
+    }, nbt -> {
+        NBTTagList nbtList = nbt.getTagList("list", Constants.NBT.TAG_COMPOUND);
+        List<Cube> list = new ArrayList<>();
+        for (int i = 0; i < nbtList.tagCount(); i++) {
+            int[] from = nbt.getIntArray("from");
+            int[] to = nbt.getIntArray("to");
+            list.add(new Cube(new CubePos(from[0], from[1], from[2]), new CubePos(to[0], to[1], to[2])));
+        }
+        return list;
+    });
+
     /// The one and only serializer serializer that serializes serializers
     public static final NBTSerializer<NBTSerializer<?>> META_SERIALIZER = create(new ResourceLocation("serializer"), serializer -> {
         NBTTagCompound compound = new NBTTagCompound();
@@ -57,38 +79,9 @@ public abstract class NBTSerializer<T> {
         String namespace = nbt.getString("namespace");
         ResourceLocation location = new ResourceLocation(namespace, path);
         NBTSerializer<?> serializer = ALL_SERIALIZERS.get(location);
-        if (serializer == null) {
-            if (path.endsWith("$list")) {
-                ResourceLocation elementLocation = new ResourceLocation(namespace, path.substring(0, path.length() - 5));
-                NBTSerializer<?> elementSerializer = ALL_SERIALIZERS.get(elementLocation);
-                if (elementSerializer == null) throw new IllegalStateException("Unknown serializer: " + elementLocation);
-                else return getListSerializer(elementSerializer);
-            } else throw new IllegalStateException("Unknown serializer: " + location);
-        }
+        if (serializer == null) throw new IllegalStateException("Unknown serializer: " + location);
         return serializer;
     });
-
-    @SuppressWarnings("unchecked")
-    public static <T> NBTSerializer<List<T>> getListSerializer(NBTSerializer<T> elementSerializer) {
-        ResourceLocation location = new ResourceLocation(elementSerializer.id.getNamespace(), elementSerializer.id.getPath() + "$list");
-        if (ALL_SERIALIZERS.containsKey(location)) return (NBTSerializer<List<T>>) ALL_SERIALIZERS.get(location);
-        else return create(location, list -> {
-            NBTTagCompound compound = new NBTTagCompound();
-            NBTTagList tagList = new NBTTagList();
-            for (T t : list) {
-                tagList.appendTag(elementSerializer.serialize(t));
-            }
-            compound.setTag("list", tagList);
-            return compound;
-        }, nbt -> {
-            NBTTagList tagList = nbt.getTagList("list", Constants.NBT.TAG_COMPOUND);
-            List<T> list = new ArrayList<>(tagList.tagCount());
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                list.add(i, elementSerializer.deserialize(tagList.getCompoundTagAt(i)));
-            }
-            return list;
-        });
-    }
 
     private final ResourceLocation id;
 
